@@ -1,0 +1,1 @@
+qtpyvcp_installer_buildbot
