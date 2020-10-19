@@ -3,10 +3,8 @@
 #
 
 from buildbot.plugins import steps, util
-from buildbot.process.properties import Interpolate
 
 factory_qtpyvcp_dev = util.BuildFactory()
-Interpolate()
 # fetch sources
 factory_qtpyvcp_dev.addStep(steps.GitHub(repourl='git://github.com/kcjengr/qtpyvcp.git',
                                          mode='full',
