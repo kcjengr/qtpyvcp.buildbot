@@ -1,6 +1,6 @@
 from buildbot.plugins import util
 
-from .pass_file import web_password
+from pass_file import web_password
 
 
 class UserAuth(util.CustomAuth):
