@@ -1,11 +1,11 @@
 from buildbot.plugins import util
 
-import passwords
+from .pass_file import web_password
 
 
 class UserAuth(util.CustomAuth):
     def check_credentials(self, user, password):
-        if user == b'admin' and password == passwords.web_password.encode('UTF-8'):
+        if user == b'admin' and password == web_password:
             return True
         else:
             return False
