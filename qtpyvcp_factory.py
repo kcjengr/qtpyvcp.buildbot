@@ -24,7 +24,7 @@ factory_qtpyvcp.addStep(steps.ShellCommand(
 # get version from installed python package
 factory_qtpyvcp.addStep(steps.SetPropertyFromCommand(workdir="build",
                                                      command=["/home/kcjengr/buildbot/venvs/qtpyvcp_venv/bin/python",
-                                                              "installer/check_version.py"],
+                                                              "installer/scripts/check_version.py"],
                                                      property="qtpyvcp_version",
                                                      env={
                                                          "VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/qtpyvcp_venv"}))
@@ -32,7 +32,7 @@ factory_qtpyvcp.addStep(steps.SetPropertyFromCommand(workdir="build",
 # add version and date to installer config file
 factory_qtpyvcp.addStep(steps.ShellCommand(workdir="build",
                                            command=["/home/kcjengr/buildbot/venvs/qtpyvcp_venv/bin/python",
-                                                    "installer/create_config.py",
+                                                    "installer/scripts/create_config.py",
                                                     "installer/templates/config_template.xml",
                                                     "installer/config/config.xml",
                                                     "http://repository.qtpyvcp.com/main/repo/",
@@ -43,7 +43,7 @@ factory_qtpyvcp.addStep(steps.ShellCommand(workdir="build",
 # add version and date to installer package file
 factory_qtpyvcp.addStep(steps.ShellCommand(workdir="build",
                                            command=["/home/kcjengr/buildbot/venvs/qtpyvcp_venv/bin/python",
-                                                    "installer/create_package_config.py",
+                                                    "installer/scripts/create_package_config.py",
                                                     "installer/templates/package_template.xml",
                                                     "installer/packages/com.kcjengr.qtpyvcp/meta/package.xml",
                                                     util.Property("qtpyvcp_version")
