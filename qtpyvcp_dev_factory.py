@@ -59,13 +59,13 @@ factory_qtpyvcp_dev.addStep(steps.RemoveDirectory(dir="build/dist"))
 # configure the installer
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(command=["qmake"],
                                                workdir="build/installer",
-                                               env={"QT_SELECT": "qt5.14-1",
+                                               env={"QT_SELECT": "qt5",
                                                     "QTPYVCP_VERSION": util.Property("qtpyvcp_dev_version")}))
 
 # build the installer
 factory_qtpyvcp_dev.addStep(steps.Compile(command=["make"],
                                           workdir="build/installer",
-                                          env={"QT_SELECT": "qt5.14-1"}))
+                                          env={"QT_SELECT": "qt5"}))
 
 # copy packages to repository
 factory_qtpyvcp_dev.addStep(steps.CopyDirectory(src="build/installer/repo",
