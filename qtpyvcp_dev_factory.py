@@ -17,7 +17,7 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
 
 # build source and wheel for distribution
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
-    command=["/home/kcjengr/buildbot/qtpyvcp_dev_venv/bin/python", "setup.py", "bdist_wheel"],
+    command=["/home/kcjengr/buildbot/venvs/qtpyvcp_dev_venv/bin/python", "setup.py", "bdist_wheel"],
     env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/qtpyvcp_dev_venv"}))
 
 # get version from installed python package
