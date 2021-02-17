@@ -15,10 +15,30 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     command=["/home/kcjengr/buildbot/venvs/qtpyvcp_dev_venv/bin/python", "-m", "pip", "install", "--upgrade", "."],
     env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/qtpyvcp_dev_venv"}))
 
-# build source and wheel for distribution
+# build source, package, and wheel for distribution
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     command=["/home/kcjengr/buildbot/venvs/qtpyvcp_dev_venv/bin/python", "setup.py", "bdist_wheel"],
     env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/qtpyvcp_dev_venv"}))
+
+factory_qtpyvcp_dev.addStep(steps.ShellCommand(
+    command=["/home/kcjengr/buildbot/venvs/qtpyvcp_dev_venv/bin/python", "setup.py", "sdist"],
+    env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/qtpyvcp_dev_venv"}))
+
+# build debian packages
+factory_qtpyvcp_dev.addStep(steps.ShellCommand(
+    command=["/home/kcjengr/buildbot/worker/qtpyvcp-dev/.travis/build_deb.sh"],
+    env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/qtpyvcp_dev_venv"}))
+
+# publish on github
+#factory_qtpyvcp_dev.addStep(steps.ShellCommand(
+#    command=["/home/kcjengr/buildbot/worker/qtpyvcp-dev/.travis/publish_github_release.sh"],
+#    env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/qtpyvcp_dev_venv"}))
+
+# publish on github
+#factory_qtpyvcp_dev.addStep(steps.ShellCommand(
+#    command=["/home/kcjengr/buildbot/worker/qtpyvcp-dev/.travis/publish_pypi_release.sh"],
+#    env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/qtpyvcp_dev_venv"}))
+
 
 # get version from installed python package
 factory_qtpyvcp_dev.addStep(steps.SetPropertyFromCommand(workdir="build",
