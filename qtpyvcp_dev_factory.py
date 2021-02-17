@@ -26,7 +26,7 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
 
 # build debian packages
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
-    command=["fpm", "-t", "deb,", "-p", "debs/", "-s", "python27", "-f", "--license", 'GPLv2',
+    command=["fpm", "-t", "deb,", "-p", "debs", "-s", "python", "-f", "--license", 'GPLv2',
             "--vendor", "KCJ Engineering", "--maintainer",
             "Kurt Jacobson <kcjengr@gmail.com>", "--url",
             "https://qtpyvcp.kcjengr.com" ,"--description",
