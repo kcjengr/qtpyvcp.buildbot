@@ -30,14 +30,14 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/qtpyvcp_dev_venv"}))
 
 # publish on github
-#factory_qtpyvcp_dev.addStep(steps.ShellCommand(
-#    command=["/home/kcjengr/buildbot/worker/qtpyvcp-dev/.travis/publish_github_release.sh"],
-#    env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/qtpyvcp_dev_venv"}))
+factory_qtpyvcp_dev.addStep(steps.ShellCommand(
+    command=["/home/kcjengr/buildbot/worker/qtpyvcp-dev/.travis/publish_github_release.sh"],
+    env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/qtpyvcp_dev_venv"}))
 
 # publish on github
-#factory_qtpyvcp_dev.addStep(steps.ShellCommand(
-#    command=["/home/kcjengr/buildbot/worker/qtpyvcp-dev/.travis/publish_pypi_release.sh"],
-#    env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/qtpyvcp_dev_venv"}))
+factory_qtpyvcp_dev.addStep(steps.ShellCommand(
+    command=["/home/kcjengr/buildbot/worker/qtpyvcp-dev/.travis/publish_pypi_release.sh"],
+    env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/qtpyvcp_dev_venv"}))
 
 
 # get version from installed python package
