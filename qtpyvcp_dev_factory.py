@@ -26,17 +26,17 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
 
 # build debian packages
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
-    command=["/home/kcjengr/buildbot/worker/qtpyvcp-dev/.travis/build_deb.sh"],
+    command=["/home/kcjengr/buildbot/worker/qtpyvcp-dev/build/.travis/build_deb.sh"],
     env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/qtpyvcp_dev_venv"}))
 
 # publish on github
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
-    command=["/home/kcjengr/buildbot/worker/qtpyvcp-dev/.travis/publish_github_release.sh"],
+    command=["/home/kcjengr/buildbot/worker/qtpyvcp-dev/build/.travis/publish_github_release.sh"],
     env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/qtpyvcp_dev_venv"}))
 
 # publish on github
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
-    command=["/home/kcjengr/buildbot/worker/qtpyvcp-dev/.travis/publish_pypi_release.sh"],
+    command=["/home/kcjengr/buildbot/worker/qtpyvcp-dev/build/.travis/publish_pypi_release.sh"],
     env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/qtpyvcp_dev_venv"}))
 
 
