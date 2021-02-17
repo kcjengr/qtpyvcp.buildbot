@@ -8,3 +8,5 @@ passwords.py
 buildbot.tac
 state.sqlite
 /pass_file.py
+/.pydevproject
+/.project
