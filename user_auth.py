@@ -5,7 +5,7 @@ import pass_file
 class UserAuth(util.CustomAuth):
     def check_credentials(self, user, password):
         
-        if user == b"admin" and password == pass_file.web_password.encode("utf-8"):
+        if user == bytes("admin", encoding='utf-8') and password == bytes(pass_file.web_password, encoding='utf-8'):
             return True
         else:
             return False
