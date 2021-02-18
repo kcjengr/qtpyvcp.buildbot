@@ -56,14 +56,14 @@ factory_probe_basic_dev.addStep(
                        env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/probe_basic_dev_venv"}))
 
 # copy files to installer directories
-factory_probe_basic_dev.addStep(steps.CopyDirectory(src="build/dist.linux-x86_64",
-                                                    dest="build/pb-installer/packages/com.probebasic.core/data"))
+factory_probe_basic_dev.addStep(steps.CopyDirectory(src="build/dist/",
+                                                    dest="build/pb-installer/packages/com.probebasic.core/data/"))
 
 # sim files to installer directories
 factory_probe_basic_dev.addStep(steps.CopyDirectory(src="config/",
                                                     dest="build/pb-installer/packages/com.probebasic.sim/data/probe_basic"))
 
-factory_probe_basic_dev.addStep(steps.RemoveDirectory(dir="build/dist.linux-x86_64"))
+factory_probe_basic_dev.addStep(steps.RemoveDirectory(dir="build/dist/"))
 
 factory_probe_basic_dev.addStep(steps.RemoveDirectory(dir="build/pb-installer/repo"))
 
