@@ -1,7 +1,7 @@
 #
 # ProbeBasic Develop Factory
 #
-from pass_file import github_release_auth
+import pass_file
 from buildbot.plugins import steps, util
 
 factory_probe_basic_dev = util.BuildFactory()
@@ -34,7 +34,7 @@ factory_probe_basic_dev.addStep(steps.ShellCommand(
 factory_probe_basic_dev.addStep(steps.ShellCommand(
     command=["/home/kcjengr/buildbot/worker/probe_basic-dev/build/.scripts/publish_github_release.sh",
              "kcjengr/probe_basic",
-             github_release_auth],
+             pass_file.github_release_auth],
     env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/probe_basic_dev_venv"}))
 
 # publish on github
