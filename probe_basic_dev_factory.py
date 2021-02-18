@@ -39,7 +39,7 @@ factory_probe_basic_dev.addStep(steps.ShellCommand(
 
 # publish on github
 factory_probe_basic_dev.addStep(steps.ShellCommand(
-    command=["/home/kcjengr/buildbot/worker/probe_basic-dev/build/.travis/publish_pypi_release.sh"],
+    command=["/home/kcjengr/buildbot/worker/probe_basic-dev/build/.scripts/publish_pypi_release.sh"],
     env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/probe_basic_dev_venv"}))
 
 # get version from installed probe_basic package
