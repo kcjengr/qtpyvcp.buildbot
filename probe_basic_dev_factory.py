@@ -25,6 +25,21 @@ factory_probe_basic_dev.addStep(steps.ShellCommand(
     command=["/home/kcjengr/buildbot/venvs/probe_basic_dev_venv/bin/python", "setup.py", "bdist_wheel"],
     env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/probe_basic_dev_venv"}))
 
+# build source and wheel for distribution
+factory_probe_basic_dev.addStep(steps.ShellCommand(
+    command=["/home/kcjengr/buildbot/venvs/probe_basic_dev_venv/bin/python", "setup.py", "sdist"],
+    env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/probe_basic_dev_venv"}))
+
+# publish on github
+factory_probe_basic_dev.addStep(steps.ShellCommand(
+    command=["/home/kcjengr/buildbot/worker/probe_basic-dev/build/.travis/publish_github_release.sh"],
+    env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/probe_basic_dev_venv"}))
+
+# publish on github
+factory_probe_basic_dev.addStep(steps.ShellCommand(
+    command=["/home/kcjengr/buildbot/worker/probe_basic-dev/build/.travis/publish_pypi_release.sh"],
+    env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/probe_basic_dev_venv"}))
+
 # get version from installed probe_basic package
 factory_probe_basic_dev.addStep(
     steps.SetPropertyFromCommand(
@@ -60,8 +75,8 @@ factory_probe_basic_dev.addStep(steps.CopyDirectory(src="build/dist/",
                                                     dest="build/pb-installer/packages/com.probebasic.core/data/"))
 
 # sim files to installer directories
-# factory_probe_basic_dev.addStep(steps.CopyDirectory(src="config/",
-#                                                     dest="build/pb-installer/packages/com.probebasic.sim/data/probe_basic/config/"))
+factory_probe_basic_dev.addStep(steps.CopyDirectory(src="config/",
+                                                    dest="build/pb-installer/packages/com.probebasic.sim/data/probe_basic/config/"))
 
 factory_probe_basic_dev.addStep(steps.RemoveDirectory(dir="build/dist/"))
 
