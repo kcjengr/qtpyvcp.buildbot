@@ -25,27 +25,26 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/qtpyvcp_dev_venv"}))
 
 # build debian packages
-factory_qtpyvcp_dev.addStep(steps.ShellCommand(
-    command=["fpm", "-t", "deb", "-p", "debs", "-s", "python", "-f", "--license", 'GPLv2',
-            "--vendor", "KCJ Engineering", "--maintainer",
-            "Kurt Jacobson <kcjengr@gmail.com>", "--url",
-            "https://qtpyvcp.kcjengr.com" ,"--description",
-            "QtPyVCP - Qt and Python based Virtual Control Panel framework for LinuxCNC.",
-            "-d", "python-pip",
-            "-d", "python-pyqt5",
-            "-d", "python-dbus.mainloop.pyqt5",
-            "-d", "python-pyqt5.qtopengl",
-            "-d", "python-pyqt5.qsci",
-            "-d", "python-pyqt5.qtmultimedia",
-            "-d", "gstreamer1.0-plugins-bad",
-            "-d", "libqt5multimedia5-plugins",
-            "-d", "pyqt5-dev-tools",
-            "-d", "qttools5-dev-tools",
-            "--after-install", ".travis/after_install.sh",
-            "--after-remove", ".travis/after_remove.sh",
-            "--no-auto-depends",
-            "--verbose", "setup.py"],
-    env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/qtpyvcp_dev_venv"}))
+#factory_qtpyvcp_dev.addStep(steps.ShellCommand(
+#    command=["fpm", "-t", "deb", "-p", "debs", "-s", "python", "-f", "--license", 'GPLv2',
+#            "--vendor", "KCJ Engineering",
+#             "--maintainer", "Kurt Jacobson <kcjengr@gmail.com>", "--url",
+#            "https://qtpyvcp.kcjengr.com" ,"--description",
+#            "QtPyVCP - Qt and Python based Virtual Control Panel framework for LinuxCNC.",
+#            "-d", "python-pip",
+#            "-d", "python-pyqt5",
+#            "-d", "python-dbus.mainloop.pyqt5",
+#            "-d", "python-pyqt5.qtopengl",
+#            "-d", "python-pyqt5.qsci",
+#            "-d", "python-pyqt5.qtmultimedia",
+#            "-d", "gstreamer1.0-plugins-bad",
+#            "-d", "libqt5multimedia5-plugins",
+#            "-d", "pyqt5-dev-tools",
+#            "-d", "qttools5-dev-tools",
+#            "--after-install", ".travis/after_install.sh",
+#            "--after-remove", ".travis/after_remove.sh",
+#            "--no-auto-depends",
+#            "--verbose", "setup.py"],))
 
 # publish on github
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
