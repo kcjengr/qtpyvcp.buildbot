@@ -60,8 +60,8 @@ factory_probe_basic_dev.addStep(steps.CopyDirectory(src="build/dist/",
                                                     dest="build/pb-installer/packages/com.probebasic.core/data/"))
 
 # sim files to installer directories
-factory_probe_basic_dev.addStep(steps.CopyDirectory(src="config/",
-                                                    dest="build/pb-installer/packages/com.probebasic.sim/data/probe_basic/config/"))
+# factory_probe_basic_dev.addStep(steps.CopyDirectory(src="config/",
+#                                                     dest="build/pb-installer/packages/com.probebasic.sim/data/probe_basic/config/"))
 
 factory_probe_basic_dev.addStep(steps.RemoveDirectory(dir="build/dist/"))
 
