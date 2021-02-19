@@ -66,8 +66,6 @@ factory_qtpyvcp.addStep(steps.ShellCommand(workdir="build",
 factory_qtpyvcp.addStep(steps.CopyDirectory(src="build/dist",
                                             dest="build/installer/packages/com.kcjengr.qtpyvcp/data"))
 
-factory_qtpyvcp.addStep(steps.RemoveDirectory(dir="build/dist"))
-# factory_qtpyvcp.addStep(steps.RemoveDirectory(dir="build/installer/repo"))
 
 # configure the installer
 factory_qtpyvcp.addStep(steps.ShellCommand(command=["qmake"], workdir="build/installer",
@@ -102,3 +100,7 @@ factory_qtpyvcp.addStep(steps.ShellCommand(
     command=["/home/kcjengr/buildbot/worker/qtpyvcp/build/.scripts/publish_pypi_release.sh",
              pass_file.pypi_qtpyvcp_token],
     env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/qtpyvcp_venv"}))
+
+
+factory_qtpyvcp.addStep(steps.RemoveDirectory(dir="build/dist"))
+# factory_qtpyvcp.addStep(steps.RemoveDirectory(dir="build/installer/repo"))
