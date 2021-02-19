@@ -29,18 +29,9 @@ factory_qtpyvcp.addStep(steps.ShellCommand(
 
 # build debian packages
 factory_qtpyvcp.addStep(steps.ShellCommand(
-    command=["/home/kcjengr/buildbot/worker/qtpyvcp/.travis/build_deb.sh"],
+    command=["/home/kcjengr/buildbot/worker/qtpyvcp/.scripts/build_deb.sh"],
     env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/qtpyvcp_venv"}))
 
-# publish on github
-factory_qtpyvcp.addStep(steps.ShellCommand(
-    command=["/home/kcjengr/buildbot/worker/qtpyvcp/.travis/publish_github_release.sh"],
-    env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/qtpyvcp_venv"}))
-
-# publish on github
-factory_qtpyvcp.addStep(steps.ShellCommand(
-    command=["/home/kcjengr/buildbot/worker/qtpyvcp/.travis/publish_pypi_release.sh"],
-    env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/qtpyvcp_venv"}))
 
 # get version from installed python package
 factory_qtpyvcp.addStep(steps.SetPropertyFromCommand(workdir="build",
