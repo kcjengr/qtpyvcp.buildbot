@@ -33,13 +33,15 @@ factory_probe_basic_dev.addStep(steps.ShellCommand(
 # publish on github
 factory_probe_basic_dev.addStep(steps.ShellCommand(
     command=["/home/kcjengr/buildbot/worker/probe_basic-dev/build/.scripts/publish_github_release.sh",
+             "",
              "kcjengr/probe_basic",
-             pass_file.github_release_auth],
+             pass_file.github_probe_basic_token],
     env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/probe_basic_dev_venv"}))
 
-# publish on github
+# publish on pypi
 factory_probe_basic_dev.addStep(steps.ShellCommand(
-    command=["/home/kcjengr/buildbot/worker/probe_basic-dev/build/.scripts/publish_pypi_release.sh"],
+    command=["/home/kcjengr/buildbot/worker/probe_basic-dev/build/.scripts/publish_pypi_release.sh",
+             pass_file.pypi_probe_basic_token],
     env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/probe_basic_dev_venv"}))
 
 # get version from installed probe_basic package
