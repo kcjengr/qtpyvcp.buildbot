@@ -2,7 +2,6 @@
 # ProbeBasic Develop Factory
 #
 
-import pass_file
 from buildbot.plugins import steps, util
 
 factory_probe_basic_dev = util.BuildFactory()
