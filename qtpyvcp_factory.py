@@ -29,7 +29,7 @@ factory_qtpyvcp.addStep(steps.ShellCommand(
 
 # build debian packages
 factory_qtpyvcp.addStep(steps.ShellCommand(
-    command=["/home/kcjengr/buildbot/worker/qtpyvcp/.scripts/build_deb.sh"],
+    command=["/home/kcjengr/buildbot/worker/qtpyvcp/build/.scripts/build_deb.sh"],
     env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/qtpyvcp_venv"}))
 
 
