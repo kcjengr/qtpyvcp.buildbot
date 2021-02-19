@@ -2,6 +2,7 @@
 # QtPyVCP Develop Factory
 #
 
+import pass_file
 from buildbot.plugins import steps, util
 
 factory_qtpyvcp_dev = util.BuildFactory()
