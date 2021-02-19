@@ -52,7 +52,7 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     command=["/home/kcjengr/buildbot/worker/qtpyvcp-dev/build/.travis/publish_github_release.sh",
              "kcjengr/qtpyvcp",
              "",
-             pass_file.github_qtpyvcp_token],
+             pass_file.github_kcjengr_token],
     env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/qtpyvcp_dev_venv"}))
 
 # publish on pypi
