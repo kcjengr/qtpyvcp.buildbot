@@ -93,3 +93,19 @@ factory_qtpyvcp.addStep(steps.CopyDirectory(src="build/installer/repo",
 # copy installer to repository
 factory_qtpyvcp.addStep(steps.CopyDirectory(src="build/installer/bin",
                                             dest="/home/kcjengr/repo/main"))
+
+
+
+# publish on github
+factory_qtpyvcp.addStep(steps.ShellCommand(
+    command=["/home/kcjengr/buildbot/worker/qtpyvcp/build/.scripts/publish_github_release.sh",
+             "kcjengr/qtpyvcp",
+             util.Property("qtpyvcp_version"),
+             pass_file.github_kcjengr_token],
+    env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/qtpyvcp_venv"}))
+
+# publish on pypi
+factory_qtpyvcp.addStep(steps.ShellCommand(
+    command=["/home/kcjengr/buildbot/worker/qtpyvcp/build/.scripts/publish_pypi_release.sh",
+             pass_file.pypi_qtpyvcp_token],
+    env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/qtpyvcp_venv"}))
