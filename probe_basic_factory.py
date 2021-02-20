@@ -94,11 +94,11 @@ factory_probe_basic.addStep(steps.ShellCommand(
 
 # publish on pypi
 factory_probe_basic.addStep(steps.ShellCommand(
-    command=["/home/kcjengr/buildbot/worker/probe_basic-dev/build/.scripts/publish_pypi_release.sh",
+    command=["/home/kcjengr/buildbot/worker/probe_basic/build/.scripts/publish_pypi_release.sh",
              pass_file.pypi_probe_basic_token],
-    env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/probe_basic_dev_venv"}))
+    env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/probe_basic_venv"}))
 
 
 
-factory_probe_basic.addStep(steps.RemoveDirectory(dir="build/dist"))
-factory_probe_basic.addStep(steps.RemoveDirectory(dir="build/pb-installer/repo"))
+# factory_probe_basic.addStep(steps.RemoveDirectory(dir="build/dist"))
+# factory_probe_basic.addStep(steps.RemoveDirectory(dir="build/pb-installer/repo"))
