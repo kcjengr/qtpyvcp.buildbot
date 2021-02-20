@@ -66,10 +66,6 @@ factory_probe_basic.addStep(
 factory_probe_basic.addStep(steps.CopyDirectory(src="build/dist",
                                                     dest="build/pb-installer/packages/com.probebasic.core/data"))
 
-factory_probe_basic.addStep(steps.RemoveDirectory(dir="build/dist"))
-
-factory_probe_basic.addStep(steps.RemoveDirectory(dir="build/pb-installer/repo"))
-
 # configure the installer
 factory_probe_basic.addStep(steps.ShellCommand(command=["qmake"],
                                                    workdir="build/pb-installer",
@@ -103,4 +99,6 @@ factory_probe_basic.addStep(steps.ShellCommand(
     env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/probe_basic_dev_venv"}))
 
 
+
 factory_probe_basic.addStep(steps.RemoveDirectory(dir="build/dist"))
+factory_probe_basic.addStep(steps.RemoveDirectory(dir="build/pb-installer/repo"))
