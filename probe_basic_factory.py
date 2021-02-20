@@ -88,7 +88,7 @@ factory_probe_basic.addStep(steps.CopyDirectory(src="build/pb-installer/bin", de
 factory_probe_basic.addStep(steps.ShellCommand(
     command=["/home/kcjengr/buildbot/worker/probe_basic/build/.scripts/publish_github_release.sh",
              "kcjengr/probe_basic",
-             util.Property("probe_basic_version").split("+")[0],
+             str(util.Property("probe_basic_version")).split("+")[0],
              pass_file.github_kcjengr_token],
     env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/probe_basic_venv"}))
 
