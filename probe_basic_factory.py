@@ -100,5 +100,5 @@ factory_probe_basic.addStep(steps.ShellCommand(
 
 
 
-# factory_probe_basic.addStep(steps.RemoveDirectory(dir="build/dist"))
-# factory_probe_basic.addStep(steps.RemoveDirectory(dir="build/pb-installer/repo"))
+factory_probe_basic.addStep(steps.RemoveDirectory(dir="build/dist"))
+factory_probe_basic.addStep(steps.RemoveDirectory(dir="build/pb-installer/repo"))
