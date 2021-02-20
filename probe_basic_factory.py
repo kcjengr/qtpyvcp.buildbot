@@ -102,3 +102,5 @@ factory_probe_basic.addStep(steps.ShellCommand(
              pass_file.pypi_probe_basic_token],
     env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/probe_basic_dev_venv"}))
 
+
+factory_probe_basic.addStep(steps.RemoveDirectory(dir="build/dist"))
