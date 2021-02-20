@@ -95,7 +95,7 @@ factory_probe_basic.addStep(steps.ShellCommand(
 # publish on pypi
 factory_probe_basic.addStep(steps.ShellCommand(
     command=["/home/kcjengr/buildbot/worker/probe_basic/build/.scripts/publish_pypi_release.sh",
-             "'{}'".format(pass_file.pypi_probe_basic_token)],
+             '"{}"'.format(pass_file.pypi_probe_basic_token)],
     env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/probe_basic_venv"}))
 
 
