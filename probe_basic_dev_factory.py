@@ -6,7 +6,7 @@ from buildbot.plugins import steps, util
 
 factory_probe_basic_dev = util.BuildFactory()
 # fetch sources
-factory_probe_basic_dev.addStep(steps.GitHub(repourl='https://github.com/kcjengr/probe_basic.git',
+factory_probe_basic_dev.addStep(steps.GitHub(repourl='git@github.com:kcjengr/probe_basic.git',
                                              mode='full',
                                              submodules=True))
 
@@ -97,6 +97,11 @@ factory_probe_basic_dev.addStep(steps.CopyDirectory(src="build/pb-installer/bin"
 
 
 factory_probe_basic_dev.addStep(steps.RemoveDirectory(dir="build/build/"))
+
+
+# push gh-pages
+factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "reset",
+                                                            "gh-pages"]))
 
 # build sphinx docs
 factory_probe_basic_dev.addStep(
