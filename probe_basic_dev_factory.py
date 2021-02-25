@@ -102,7 +102,7 @@ factory_probe_basic_dev.addStep(steps.RemoveDirectory(dir="build/build/"))
 factory_probe_basic_dev.addStep(
     steps.Sphinx(
         sphinx_builddir="docs",
-        sphinx_sourcedir="docs/source",
+        sphinx_sourcedir="docs_src/source",
         )
     )
 
