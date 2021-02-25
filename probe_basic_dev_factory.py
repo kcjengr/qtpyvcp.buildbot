@@ -43,7 +43,7 @@ factory_probe_basic_dev.addStep(
 factory_probe_basic_dev.addStep(
     steps.Sphinx(
         sphinx_builddir="_build",
-        sphinx_sourcedir="build/docs/source"
+        sphinx_sourcedir="docs/source"
         )
     )
 
