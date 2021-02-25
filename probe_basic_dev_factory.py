@@ -100,8 +100,8 @@ factory_probe_basic_dev.addStep(steps.RemoveDirectory(dir="build/build/"))
 
 
 # push gh-pages
-factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "reset",
-                                                            "gh-pages"]))
+factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "reset", "--hard",
+                                                            "HEAD"]))
 
 # build sphinx docs
 factory_probe_basic_dev.addStep(
@@ -128,4 +128,8 @@ factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "push",
 factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "checkout",
                                                             "master"]))
 
+
+# push gh-pages
+factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "reset", "--hard",
+                                                            "HEAD"]))
                              
