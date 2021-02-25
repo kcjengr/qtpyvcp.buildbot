@@ -44,7 +44,8 @@ factory_probe_basic_dev.addStep(
     steps.Sphinx(
         sphinx_builder="/home/kcjengr/buildbot/venvs/probe_basic_dev_venv/bin/sphinx-build",
         sphinx_builddir="_build",
-        sphinx_sourcedir="docs/source"
+        sphinx_sourcedir="docs/source",
+        env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/probe_basic_dev_venv"}
         )
     )
 
