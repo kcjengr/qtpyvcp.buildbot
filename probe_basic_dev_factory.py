@@ -106,14 +106,13 @@ factory_probe_basic_dev.addStep(
         )
     )
 
-# gh-pages stash changes
-factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "stash"]))
-
 # push gh-pages
 factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "checkout",
                                                             "gh-pages"]))
 # gh-pages pop stash changes
-factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "stash", "pop"]))
+factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "add", "docs"]))
+# gh-pages pop stash changes
+factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "commit", "-m", "'deploy gh-pages'"]))
 
 # push gh-pages
 factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "push",
