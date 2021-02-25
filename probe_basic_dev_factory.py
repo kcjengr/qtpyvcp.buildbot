@@ -102,17 +102,19 @@ factory_probe_basic_dev.addStep(steps.RemoveDirectory(dir="build/build/"))
 factory_probe_basic_dev.addStep(
     steps.Sphinx(
         sphinx_builddir="_build",
-        sphinx_sourcedir="docs/source"
+        sphinx_sourcedir="docs/source",
+        sphinx_outputdir="docs"
         )
     )
+
+# gh-pages stash changes
+factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "stash"]))
 
 # push gh-pages
 factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "checkout",
                                                             "gh-pages"]))
-
-# push gh-pages
-factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "rebase",
-                                                            "gh-pages"]))
+# gh-pages pop stash changes
+factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "stash", "pop"]))
 
 # push gh-pages
 factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "push",
