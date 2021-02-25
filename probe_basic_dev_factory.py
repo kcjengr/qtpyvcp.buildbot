@@ -44,13 +44,6 @@ factory_probe_basic_dev.addStep(
         property="probe_basic_dev_version",
         env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/probe_basic_dev_venv"}))
 
-# build sphinx docs
-factory_probe_basic_dev.addStep(
-    steps.Sphinx(
-        sphinx_builddir="_build",
-        sphinx_sourcedir="docs/source"
-        )
-    )
 
 
 # add version and date to installer package file
@@ -105,26 +98,29 @@ factory_probe_basic_dev.addStep(steps.CopyDirectory(src="build/pb-installer/bin"
 
 factory_probe_basic_dev.addStep(steps.RemoveDirectory(dir="build/build/"))
 
+# build sphinx docs
+factory_probe_basic_dev.addStep(
+    steps.Sphinx(
+        sphinx_builddir="_build",
+        sphinx_sourcedir="docs/source"
+        )
+    )
 
 # push gh-pages
-factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git",
-                                                            "checkout",
+factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "checkout",
                                                             "gh-pages"]))
 
 # push gh-pages
-factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git",
-                                                            "rebase",
+factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "rebase",
                                                             "gh-pages"]))
 
 # push gh-pages
-factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git",
-                                                            "push",
+factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "push",
                                                             "origin",
                                                             "gh-pages"]))
 
 # push gh-pages
-factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git",
-                                                            "checkout",
+factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "checkout",
                                                             "master"]))
 
                              
