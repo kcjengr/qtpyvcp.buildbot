@@ -39,6 +39,14 @@ factory_probe_basic_dev.addStep(
         property="probe_basic_dev_version",
         env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/probe_basic_dev_venv"}))
 
+# build sphinx docs
+factory_probe_basic_dev.addStep(
+    steps.Sphinx(
+        sphinx_builddir="_build",
+        sphinx_sourcedir="build/docs/source"
+        )
+    )
+
 # add version and date to installer package file
 factory_probe_basic_dev.addStep(
     steps.ShellCommand(workdir="build",
