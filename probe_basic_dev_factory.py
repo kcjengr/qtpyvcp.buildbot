@@ -52,6 +52,7 @@ factory_probe_basic_dev.addStep(
         )
     )
 
+
 # add version and date to installer package file
 factory_probe_basic_dev.addStep(
     steps.ShellCommand(workdir="build",
@@ -103,3 +104,27 @@ factory_probe_basic_dev.addStep(steps.CopyDirectory(src="build/pb-installer/bin"
 
 
 factory_probe_basic_dev.addStep(steps.RemoveDirectory(dir="build/build/"))
+
+
+# push gh-pages
+factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git",
+                                                            "checkout",
+                                                            "gh-pages"]))
+
+# push gh-pages
+factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git",
+                                                            "rebase",
+                                                            "gh-pages"]))
+
+# push gh-pages
+factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git",
+                                                            "push",
+                                                            "origin",
+                                                            "gh-pages"]))
+
+# push gh-pages
+factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git",
+                                                            "checkout",
+                                                            "master"]))
+
+                             
