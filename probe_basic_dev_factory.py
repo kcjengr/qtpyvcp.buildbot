@@ -120,20 +120,20 @@ factory_probe_basic_dev.addStep(steps.CopyDirectory(src="build/pb-installer/bin"
 factory_probe_basic_dev.addStep(steps.RemoveDirectory(dir="build/build/"))
 factory_probe_basic_dev.addStep(steps.RemoveDirectory(dir="build/pb-installer/"))
 
-
-
-# fetch sources
+factory_probe_basic_dev.addStep(
+    steps.Sphinx(
+        sphinx_builddir="/home/kcjengr/buildbot/worker/probe_basic-dev/docs",
+        sphinx_sourcedir="docs_src/source",
+        )
+    )
+ 
 factory_probe_basic_dev.addStep(steps.GitHub(repourl='git@github.com:kcjengr/probe_basic.github.io.git',
                                              mode='full'))
+ 
+# copy files to installer directories
+factory_probe_basic_dev.addStep(steps.CopyDirectory(
+    src="/home/kcjengr/buildbot/worker/probe_basic-dev/docs",
+    dest="/home/kcjengr/buildbot/worker/probe_basic-dev/build"))
 
-# 
-# # build sphinx docs
-# factory_probe_basic_dev.addStep(
-#     steps.Sphinx(
-#         sphinx_builddir="docs",
-#         sphinx_sourcedir="docs_src/source",
-#         )
-#     )
-# 
 # # push gh-pages
 # factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "symbolic-ref", "HEAD", "refs/heads/gh-pages"]))
