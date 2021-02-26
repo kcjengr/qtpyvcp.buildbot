@@ -10,34 +10,36 @@ factory_probe_basic_dev.addStep(steps.GitHub(repourl='git@github.com:kcjengr/pro
                                              mode='full',
                                              submodules=True))
 
-
-
-# push gh-pages
 factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "checkout",
                                                             "master"]))
 
 # install qtpyvcp to buildbot virtual env
 factory_probe_basic_dev.addStep(steps.ShellCommand(
+    name="install qtpyvcp into buildbot venv",
     command=["/home/kcjengr/buildbot/venvs/buildbot_venv/bin/python", "-m", "pip", "install", "--upgrade", "qtpyvcp"],
     env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/buildbot_venv"}))
 
 # install qtpyvcp to virtual env
 factory_probe_basic_dev.addStep(steps.ShellCommand(
+    name="install qtpyvcp into build venv",
     command=["/home/kcjengr/buildbot/venvs/probe_basic_dev_venv/bin/python", "-m", "pip", "install", "--upgrade", "qtpyvcp"],
     env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/probe_basic_dev_venv"}))
 
 # install sources to virtual env
 factory_probe_basic_dev.addStep(steps.ShellCommand(
+    name="install probe basic into build venv",
     command=["/home/kcjengr/buildbot/venvs/probe_basic_dev_venv/bin/python", "-m", "pip", "install", "--upgrade", "."],
     env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/probe_basic_dev_venv"}))
 
-# build source and wheel for distribution
+# build binaries and wheel for distribution
 factory_probe_basic_dev.addStep(steps.ShellCommand(
+    name="build binaries and wheel for distribution",
     command=["/home/kcjengr/buildbot/venvs/probe_basic_dev_venv/bin/python", "setup.py", "bdist_wheel"],
     env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/probe_basic_dev_venv"}))
 
-# build source and wheel for distribution
+# build source for distribution
 factory_probe_basic_dev.addStep(steps.ShellCommand(
+    name="build source for distribution",
     command=["/home/kcjengr/buildbot/venvs/probe_basic_dev_venv/bin/python", "setup.py", "sdist"],
     env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/probe_basic_dev_venv"}))
 
@@ -54,7 +56,8 @@ factory_probe_basic_dev.addStep(
 
 # add version and date to installer package file
 factory_probe_basic_dev.addStep(
-    steps.ShellCommand(workdir="build",
+    steps.ShellCommand(name="add version and date to installer package file",
+                       workdir="build",
                        command=["/home/kcjengr/buildbot/venvs/probe_basic_dev_venv/bin/python",
                                 "pb-installer/scripts/create_probe_basic_package_config.py",
                                 "pb-installer/templates/probe_basic_package_template.xml",
@@ -64,7 +67,8 @@ factory_probe_basic_dev.addStep(
 
 # add version and date to installer config file
 factory_probe_basic_dev.addStep(
-    steps.ShellCommand(workdir="build",
+    steps.ShellCommand(name="add version and date to installer config file",
+                       workdir="build",
                        command=["/home/kcjengr/buildbot/venvs/probe_basic_dev_venv/bin/python",
                                 "pb-installer/scripts/create_config.py",
                                 "pb-installer/templates/config_template.xml",
@@ -85,7 +89,8 @@ factory_probe_basic_dev.addStep(steps.CopyDirectory(src="build/config",
 factory_probe_basic_dev.addStep(steps.RemoveDirectory(dir="build/pb-installer/repo"))
 
 # configure the installer
-factory_probe_basic_dev.addStep(steps.ShellCommand(command=["qmake"],
+factory_probe_basic_dev.addStep(steps.ShellCommand(name="configure the installer",
+                                                   command=["qmake"],
                                                    workdir="build/pb-installer",
                                                    env={"QT_SELECT": "qt5",
                                                         "PB_VERSION": util.Property("probe_basic_dev_version")}))
@@ -105,10 +110,6 @@ factory_probe_basic_dev.addStep(steps.CopyDirectory(src="build/pb-installer/bin"
 factory_probe_basic_dev.addStep(steps.RemoveDirectory(dir="build/build/"))
 
 
-# push gh-pages
-factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "reset", "--hard",
-                                                            "HEAD"]))
-
 # build sphinx docs
 factory_probe_basic_dev.addStep(
     steps.Sphinx(
@@ -124,11 +125,10 @@ factory_probe_basic_dev.addStep(steps.ShellCommand(command=["rm", ".git/index"])
 
 factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "clean", "-fdx"]))
 
-
 # copy files
-factory_probe_basic_dev.addStep(steps.CopyDirectory(src="../docst",
-                                                    dest="docs"))
+factory_probe_basic_dev.addStep(steps.CopyDirectory(src="../docs",  dest="docs"))
 # gh-pages pop stash changes
+
 factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "commit", "-a", "-m", "deploy gh-pages"]))
 
 # push gh-pages
