@@ -11,10 +11,8 @@ factory_probe_basic_dev.addStep(steps.GitHub(repourl='git@github.com:kcjengr/pro
                                              submodules=True))
 
 
-factory_probe_basic_dev.addStep(steps.ShellCommand(name="git checkout origin master",
-                                                   command=["git",
-                                                            "checkout",
-                                                            "origin",
+factory_probe_basic_dev.addStep(steps.ShellCommand(name="git checkout master barnch",
+                                                   command=["git", "checkout",
                                                             "master"]))
 
 # install qtpyvcp to buildbot virtual env
