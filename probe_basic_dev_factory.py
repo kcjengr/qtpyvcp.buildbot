@@ -160,3 +160,8 @@ factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "checkout",
 factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "reset", "--hard",
                                                             "HEAD"]))
                              
+# push gh-pages
+factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git",
+                                                            "pull",
+                                                            "origin",
+                                                            "master"]))
