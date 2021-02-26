@@ -124,7 +124,7 @@ factory_probe_basic_dev.addStep(steps.RemoveDirectory(dir="build/pb-installer/")
 # build sphinx docs
 factory_probe_basic_dev.addStep(
     steps.Sphinx(
-        sphinx_builddir="/home/kcjengr/buildbot/worker/probe_basic-dev/docs",
+        sphinx_builddir="/home/kcjengr/buildbot/worker/probe_basic-dev/",
         sphinx_sourcedir="docs_src/source",
         )
     )
@@ -136,10 +136,10 @@ factory_probe_basic_dev.addStep(steps.ShellCommand(command=["rm", ".git/index"])
 
 factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "clean", "-fdx"]))
 
-factory_probe_basic_dev.addStep(steps.CopyDirectory(src="/home/kcjengr/buildbot/worker/probe_basic-dev/docs", dest="/home/kcjengr/buildbot/worker/probe_basic-dev/build/docs"))
+factory_probe_basic_dev.addStep(steps.CopyDirectory(src="/home/kcjengr/buildbot/worker/probe_basic-dev/docs", dest="/home/kcjengr/buildbot/worker/probe_basic-dev/build/"))
 
 
-factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "add", "docs"]))
+factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "add", "."]))
 
 factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "commit", "-a", "-m", "deploy gh-pages"]))
 
