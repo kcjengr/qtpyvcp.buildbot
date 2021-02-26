@@ -10,6 +10,12 @@ factory_probe_basic_dev.addStep(steps.GitHub(repourl='git@github.com:kcjengr/pro
                                              mode='full',
                                              submodules=True))
 
+
+
+# push gh-pages
+factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "checkout",
+                                                            "master"]))
+
 # install qtpyvcp to buildbot virtual env
 factory_probe_basic_dev.addStep(steps.ShellCommand(
     command=["/home/kcjengr/buildbot/venvs/buildbot_venv/bin/python", "-m", "pip", "install", "--upgrade", "qtpyvcp"],
