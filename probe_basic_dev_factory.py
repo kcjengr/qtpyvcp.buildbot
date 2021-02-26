@@ -121,47 +121,19 @@ factory_probe_basic_dev.addStep(steps.RemoveDirectory(dir="build/build/"))
 factory_probe_basic_dev.addStep(steps.RemoveDirectory(dir="build/pb-installer/"))
 
 
-# build sphinx docs
-factory_probe_basic_dev.addStep(
-    steps.Sphinx(
-        sphinx_builddir="/home/kcjengr/buildbot/worker/probe_basic-dev/",
-        sphinx_sourcedir="docs_src/source",
-        )
-    )
 
-# push gh-pages
-factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "symbolic-ref", "HEAD", "refs/heads/gh-pages"]))
+# fetch sources
+factory_probe_basic_dev.addStep(steps.GitHub(repourl='git@github.com:kcjengr/probe_basic.github.io.git',
+                                             mode='full'))
 
-factory_probe_basic_dev.addStep(steps.ShellCommand(command=["rm", ".git/index"]))
-
-factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "clean", "-fdx"]))
-
-factory_probe_basic_dev.addStep(steps.CopyDirectory(src="/home/kcjengr/buildbot/worker/probe_basic-dev/docs", dest="/home/kcjengr/buildbot/worker/probe_basic-dev/build"))
-
-
-factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "add", "."]))
-
-factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "commit", "-m", "deploy gh-pages"]))
-
-# push gh-pages
-factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git",
-                                                            "push",
-                                                            "--force",
-                                                            "origin",
-                                                            "gh-pages"]))
-
-# push gh-pages
-factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "checkout",
-                                                            "master"]))
-
-
-
-# push gh-pages
-factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "reset", "--hard",
-                                                            "HEAD"]))
-                             
-# push gh-pages
-factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git",
-                                                            "pull",
-                                                            "origin",
-                                                            "master"]))
+# 
+# # build sphinx docs
+# factory_probe_basic_dev.addStep(
+#     steps.Sphinx(
+#         sphinx_builddir="docs",
+#         sphinx_sourcedir="docs_src/source",
+#         )
+#     )
+# 
+# # push gh-pages
+# factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "symbolic-ref", "HEAD", "refs/heads/gh-pages"]))

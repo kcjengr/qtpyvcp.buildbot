@@ -58,7 +58,7 @@ factory_probe_basic.addStep(
                                 "pb-installer/scripts/create_config.py",
                                 "pb-installer/templates/config_template.xml",
                                 "pb-installer/config/config.xml",
-                                "http://repository.qtpyvcp.com/pb/repo",
+                                "http://repository.qtpyvcp.com/repo/pb/repo",
                                 util.Property("probe_basic_version")],
                        env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/probe_basic_venv"}))
 
