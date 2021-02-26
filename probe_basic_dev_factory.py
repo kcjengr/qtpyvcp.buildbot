@@ -139,6 +139,11 @@ factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "commit", "-a
 # push gh-pages
 factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "push",
                                                             "origin",
+                                                            "--delete",
+                                                            "gh-pages"]))
+# push gh-pages
+factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "push",
+                                                            "origin",
                                                             "gh-pages"]))
 
 # push gh-pages
