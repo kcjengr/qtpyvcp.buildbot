@@ -10,7 +10,11 @@ factory_probe_basic_dev.addStep(steps.GitHub(repourl='git@github.com:kcjengr/pro
                                              mode='full',
                                              submodules=True))
 
-factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "checkout",
+
+factory_probe_basic_dev.addStep(steps.ShellCommand(name="git checkout origin master",
+                                                   command=["git",
+                                                            "checkout",
+                                                            "origin",
                                                             "master"]))
 
 # install qtpyvcp to buildbot virtual env
@@ -113,7 +117,7 @@ factory_probe_basic_dev.addStep(steps.RemoveDirectory(dir="build/build/"))
 # build sphinx docs
 factory_probe_basic_dev.addStep(
     steps.Sphinx(
-        sphinx_builddir="../docs",
+        sphinx_builddir="/home/kcjengr/buildbot/worker/probe_basic-dev/docs",
         sphinx_sourcedir="docs_src/source",
         )
     )
@@ -126,7 +130,8 @@ factory_probe_basic_dev.addStep(steps.ShellCommand(command=["rm", ".git/index"])
 factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "clean", "-fdx"]))
 
 # copy files
-factory_probe_basic_dev.addStep(steps.CopyDirectory(src="../docs",  dest="docs"))
+factory_probe_basic_dev.addStep(steps.CopyDirectory(src="/home/kcjengr/buildbot/worker/probe_basic-dev/docs",  dest="docs"))
+
 # gh-pages pop stash changes
 
 factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "commit", "-a", "-m", "deploy gh-pages"]))
