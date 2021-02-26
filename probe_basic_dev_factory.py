@@ -15,6 +15,14 @@ factory_probe_basic_dev.addStep(steps.ShellCommand(name="git checkout master bar
                                                    command=["git", "checkout",
                                                             "master"]))
 
+
+# push gh-pages
+factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git",
+                                                            "pull",
+                                                            "origin",
+                                                            "master"]))
+
+
 # install qtpyvcp to buildbot virtual env
 factory_probe_basic_dev.addStep(steps.ShellCommand(
     name="install qtpyvcp into buildbot venv",
@@ -135,20 +143,17 @@ factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "add", "docs"
 
 factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "commit", "-a", "-m", "deploy gh-pages"]))
 
-
 # push gh-pages
-factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "push",
-                                                            "origin",
-                                                            "--delete",
-                                                            "gh-pages"]))
-# push gh-pages
-factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "push",
+factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git",
+                                                            "push",
+                                                            "--force",
                                                             "origin",
                                                             "gh-pages"]))
 
 # push gh-pages
 factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "checkout",
                                                             "master"]))
+
 
 
 # push gh-pages
