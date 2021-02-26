@@ -112,7 +112,7 @@ factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "reset", "--h
 # build sphinx docs
 factory_probe_basic_dev.addStep(
     steps.Sphinx(
-        sphinx_builddir="docs",
+        sphinx_builddir="../docs",
         sphinx_sourcedir="docs_src/source",
         )
     )
@@ -124,9 +124,10 @@ factory_probe_basic_dev.addStep(steps.ShellCommand(command=["rm", ".git/index"])
 
 factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "clean", "-fdx"]))
 
-# gh-pages pop stash changes
-factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "add", "docs"]))
 
+# copy files
+factory_probe_basic_dev.addStep(steps.CopyDirectory(src="../docst",
+                                                    dest="docs"))
 # gh-pages pop stash changes
 factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "commit", "-a", "-m", "deploy gh-pages"]))
 
