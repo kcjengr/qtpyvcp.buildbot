@@ -118,7 +118,7 @@ factory_probe_basic_dev.addStep(
     )
 
 # push gh-pages
-factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "checkout", "--orphan"]))
+factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "symbolic-ref", "HEAD", "refs/heads/gh-pages"]))
 
 factory_probe_basic_dev.addStep(steps.ShellCommand(command=["rm", ".git/index"]))
 
