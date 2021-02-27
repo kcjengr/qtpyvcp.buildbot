@@ -108,30 +108,28 @@ factory_probe_basic_dev.addStep(steps.Compile(command=["make"],
                                               env={"QT_SELECT": "qt5"}))
 
 # copy packages to repository
-factory_probe_basic_dev.addStep(steps.CopyDirectory(src="pb-installer/repo", dest="/home/kcjengr/repo/pb-dev",
-                                                    workdir="sources/"))
+factory_probe_basic_dev.addStep(steps.CopyDirectory(src="sources/pb-installer/repo",
+                                                    dest="/home/kcjengr/repo/pb-dev"))
 
 # copy installer to repository
-factory_probe_basic_dev.addStep(steps.CopyDirectory(src="pb-installer/bin", dest="/home/kcjengr/repo/pb-dev",
-                                                    workdir="sources/"))
+factory_probe_basic_dev.addStep(steps.CopyDirectory(src="sources/pb-installer/bin",
+                                                    dest="/home/kcjengr/repo/pb-dev"))
 
-factory_probe_basic_dev.addStep(steps.RemoveDirectory(dir="pb-installer/repo",
-                                                      workdir="sources/"))
+factory_probe_basic_dev.addStep(steps.RemoveDirectory(dir="sources/pb-installer/repo"))
 
-factory_probe_basic_dev.addStep(steps.RemoveDirectory(dir="build/", workdir="sources/"))
-factory_probe_basic_dev.addStep(steps.RemoveDirectory(dir="dist/", workdir="sources/"))
-factory_probe_basic_dev.addStep(steps.RemoveDirectory(dir="pb-installer/", workdir="sources/"))
+factory_probe_basic_dev.addStep(steps.RemoveDirectory(dir="sources/build/"))
+factory_probe_basic_dev.addStep(steps.RemoveDirectory(dir="sources/dist/"))
 
 
 factory_probe_basic_dev.addStep(steps.GitHub(repourl='git@github.com:kcjengr/probe_basic.github.io.git',
                                              mode='full',
-                                             workdir="docs"))
+                                             workdir="docs/"))
 
 factory_probe_basic_dev.addStep(
     steps.Sphinx(
-        sphinx_builddir="/home/kcjengr/buildbot/worker/probe_basic-dev/docs",
-        sphinx_sourcedir="docs_src/source",
-        workdir="sources/"))
+        sphinx_builddir="docs/",
+        sphinx_sourcedir="/home/kcjengr/buildbot/worker/probe_basic-dev/sources/docs_src",
+        workdir="docs/"))
  
 # # push gh-pages
 # factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "symbolic-ref", "HEAD", "refs/heads/gh-pages"]))
