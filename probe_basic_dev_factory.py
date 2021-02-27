@@ -128,7 +128,7 @@ factory_probe_basic_dev.addStep(steps.GitHub(repourl='git@github.com:kcjengr/pro
 factory_probe_basic_dev.addStep(
     steps.Sphinx(
         sphinx_builddir="docs/",
-        sphinx_sourcedir="/home/kcjengr/buildbot/worker/probe_basic-dev/sources/docs_src",
+        sphinx_sourcedir="/home/kcjengr/buildbot/worker/probe_basic-dev/sources/docs_src/source",
         workdir="docs/"))
  
 # # push gh-pages
