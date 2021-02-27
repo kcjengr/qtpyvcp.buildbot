@@ -16,7 +16,7 @@ factory_probe_basic_dev.addStep(steps.GitHub(name="download probe_basic sources"
 # install qtpyvcp to buildbot virtual env
 factory_probe_basic_dev.addStep(steps.ShellCommand(
     name="install qtpyvcp from pip into buildbot venv",
-    command=["/home/kcjengr/buildbot/venvs/buildbot_venv/bin/python", "-m", "pip", "install", "--upgrade", "qtpyvcp"],
+    command=["/home/kcjengrbot/venvs/buildbot_venv/bin/python", "-m", "pip", "install", "--upgrade", "qtpyvcp"],
     env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/buildbot_venv"},
     workdir="sources"))
 
@@ -39,14 +39,14 @@ factory_probe_basic_dev.addStep(steps.ShellCommand(
     name="build binaries and wheel for distribution",
     command=["/home/kcjengr/buildbot/venvs/probe_basic_dev_venv/bin/python", "setup.py", "bdist_wheel"],
     env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/probe_basic_dev_venv"},
-    workdir="sources"))
+    workdir="sources/"))
 
 # build source for distribution
 factory_probe_basic_dev.addStep(steps.ShellCommand(
     name="build source for distribution",
     command=["/home/kcjengr/buildbot/venvs/probe_basic_dev_venv/bin/python", "setup.py", "sdist"],
     env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/probe_basic_dev_venv"},
-    workdir="sources"))
+    workdir="sources/build"))
 
 # get version from installed probe_basic package
 factory_probe_basic_dev.addStep(
