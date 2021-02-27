@@ -46,7 +46,7 @@ factory_probe_basic_dev.addStep(steps.ShellCommand(
     name="build source for distribution",
     command=["/home/kcjengr/buildbot/venvs/probe_basic_dev_venv/bin/python", "setup.py", "sdist"],
     env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/probe_basic_dev_venv"},
-    workdir="sources/build"))
+    workdir="sources"))
 
 # get version from installed probe_basic package
 factory_probe_basic_dev.addStep(
@@ -84,7 +84,7 @@ factory_probe_basic_dev.addStep(
                        workdir="sources"))
 
 # copy files to installer directories
-factory_probe_basic_dev.addStep(steps.CopyDirectory(src="build/dist",
+factory_probe_basic_dev.addStep(steps.CopyDirectory(src="dist",
                                                     dest="pb-installer/packages/com.probebasic.core/data/",
                                                     workdir="sources"))
 
