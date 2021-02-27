@@ -85,12 +85,12 @@ factory_probe_basic_dev.addStep(
 
 # copy files to installer directories
 factory_probe_basic_dev.addStep(steps.CopyDirectory(src="dist",
-                                                    dest="pb-installer/packages/com.probebasic.core/data/",
+                                                    dest="sources/pb-installer/packages/com.probebasic.core/data/",
                                                     workdir="sources/"))
 
 # sim files to installer directories
 factory_probe_basic_dev.addStep(steps.CopyDirectory(src="config",
-                                                    dest="pb-installer/packages/com.probebasic.sim/data/probe_basic/",
+                                                    dest="sources/pb-installer/packages/com.probebasic.sim/data/probe_basic/",
                                                     workdir="sources/"))
 
 
@@ -108,7 +108,7 @@ factory_probe_basic_dev.addStep(steps.Compile(command=["make"],
                                               env={"QT_SELECT": "qt5"}))
 
 # copy packages to repository
-factory_probe_basic_dev.addStep(steps.CopyDirectory(src="b-installer/repo", dest="/home/kcjengr/repo/pb-dev",
+factory_probe_basic_dev.addStep(steps.CopyDirectory(src="pb-installer/repo", dest="/home/kcjengr/repo/pb-dev",
                                                     workdir="sources/"))
 
 # copy installer to repository
@@ -119,6 +119,7 @@ factory_probe_basic_dev.addStep(steps.RemoveDirectory(dir="pb-installer/repo",
                                                       workdir="sources/"))
 
 factory_probe_basic_dev.addStep(steps.RemoveDirectory(dir="build/", workdir="sources/"))
+factory_probe_basic_dev.addStep(steps.RemoveDirectory(dir="dist/", workdir="sources/"))
 factory_probe_basic_dev.addStep(steps.RemoveDirectory(dir="pb-installer/", workdir="sources/"))
 
 
