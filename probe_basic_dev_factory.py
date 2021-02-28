@@ -122,6 +122,8 @@ factory_probe_basic_dev.addStep(steps.RemoveDirectory(dir="sources/dist/"))
 
 
 factory_probe_basic_dev.addStep(steps.GitHub(repourl='git@github.com:kcjengr/probe_basic.github.io.git',
+                                             origin="origin",
+                                             branch="gh-pages",
                                              mode='full',
                                              workdir="docs/"))
 
