@@ -85,14 +85,14 @@ factory_probe_basic_dev.addStep(
                        workdir="sources/"))
 
 # copy files to installer directories
-factory_probe_basic_dev.addStep(steps.CopyDirectory(src="sources/dist",
-                                                    dest="sources/pb-installer/packages/com.probebasic.core/data/",
-                                                    ))
+factory_probe_basic_dev.addStep(steps.CopyDirectory(name="copy probebasic builds to the installer core package",
+                                                    src="sources/dist",
+                                                    dest="sources/pb-installer/packages/com.probebasic.core/data/"))
 
 # sim files to installer directories
-factory_probe_basic_dev.addStep(steps.CopyDirectory(src="sources/config",
-                                                    dest="sources/pb-installer/packages/com.probebasic.sim/data/probe_basic/",
-                                                    workdir="sources/"))
+factory_probe_basic_dev.addStep(steps.CopyDirectory(name="copy probebasic configs to the installer sim package",
+                                                    src="sources/config",
+                                                    dest="sources/pb-installer/packages/com.probebasic.sim/data/probe_basic/"))
 
 
 
@@ -104,45 +104,53 @@ factory_probe_basic_dev.addStep(steps.ShellCommand(name="configure the installer
                                                         "PB_VERSION": util.Property("probe_basic_dev_version")}))
 
 # build the installer
-factory_probe_basic_dev.addStep(steps.Compile(command=["make"],
+factory_probe_basic_dev.addStep(steps.Compile(name="compile the installer",
+                                              command=["make"],
                                               workdir="sources/pb-installer",
                                               env={"QT_SELECT": "qt5"}))
 
-# copy packages to repository
-factory_probe_basic_dev.addStep(steps.CopyDirectory(src="sources/pb-installer/repo",
+# copy the packages to repository
+factory_probe_basic_dev.addStep(steps.CopyDirectory(name="copy the packages to repository",
+                                                    src="sources/pb-installer/repo",
                                                     dest="/home/kcjengr/repo/pb-dev"))
 
-# copy installer to repository
-factory_probe_basic_dev.addStep(steps.CopyDirectory(src="sources/pb-installer/bin",
+# copy the installer to repository
+factory_probe_basic_dev.addStep(steps.CopyDirectory(name="copy the installer to repository",
+                                                    src="sources/pb-installer/bin",
                                                     dest="/home/kcjengr/repo/pb-dev"))
 
-factory_probe_basic_dev.addStep(steps.RemoveDirectory(dir="sources/pb-installer/repo"))
 
-factory_probe_basic_dev.addStep(steps.RemoveDirectory(dir="sources/build/"))
-factory_probe_basic_dev.addStep(steps.RemoveDirectory(dir="sources/dist/"))
+factory_probe_basic_dev.addStep(steps.RemoveDirectory(name="delete copy of the local repo", dir="sources/pb-installer/repo"))
+factory_probe_basic_dev.addStep(steps.RemoveDirectory(name="delete build directory", dir="sources/build/"))
+factory_probe_basic_dev.addStep(steps.RemoveDirectory(name="delete dist directory", dir="sources/dist/"))
 
 
-factory_probe_basic_dev.addStep(steps.GitHub(repourl='git@github.com:kcjengr/probe_basic.git',
+factory_probe_basic_dev.addStep(steps.GitHub(name="downlaod static docs",
+                                             repourl='git@github.com:kcjengr/probe_basic.git',
                                              origin="origin",
                                              branch="gh-pages",
                                              mode='full',
                                              workdir="docs/"))
 
-factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "symbolic-ref", "HEAD", "refs/heads/gh-pages"],
+factory_probe_basic_dev.addStep(steps.ShellCommand(name="reset gh-pages",
+                                                   command=["git", "symbolic-ref", "HEAD", "refs/heads/gh-pages"],
                                                    workdir="docs/"))
                                                    
-factory_probe_basic_dev.addStep(steps.ShellCommand(command=["rm", ".git/index"],
+factory_probe_basic_dev.addStep(steps.ShellCommand(name="delete git index",
+                                                   command=["rm", ".git/index"],
                                                    workdir="docs/"))
                                                    
-factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "clean", "-fdx"],
+factory_probe_basic_dev.addStep(steps.ShellCommand(name="clean gh-pages",
+                                                   command=["git", "clean", "-fdx"],
                                                    workdir="docs/"))
 
 factory_probe_basic_dev.addStep(
     steps.Sphinx(
+        name="compile sphinx docs",
         sphinx_builddir="/home/kcjengr/buildbot/worker/probe_basic-dev/docs/",
         sphinx_sourcedir="/home/kcjengr/buildbot/worker/probe_basic-dev/sources/docs_src/source/",
         workdir="docs/"))
  
-factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "add", "."], workdir="docs/"))
-factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "commit", "-a", "-m", "deploy gh-pages"], workdir="docs/"))
-factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "push", "--force", "origin", "gh-pages"], workdir="docs/"))
+factory_probe_basic_dev.addStep(steps.ShellCommand(name="add doc files", command=["git", "add", "."], workdir="docs/"))
+factory_probe_basic_dev.addStep(steps.ShellCommand(name="commit doc files", command=["git", "commit", "-a", "-m", "deploy gh-pages"], workdir="docs/"))
+factory_probe_basic_dev.addStep(steps.ShellCommand(name="push docs", command=["git", "push", "--force", "origin", "gh-pages"], workdir="docs/"))
