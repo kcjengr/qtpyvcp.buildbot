@@ -125,11 +125,21 @@ factory_probe_basic_dev.addStep(steps.GitHub(repourl='git@github.com:kcjengr/pro
                                              mode='full',
                                              workdir="docs/"))
 
+factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "symbolic-ref", "HEAD", "refs/heads/gh-pages"],
+                                                   workdir="docs/"))
+                                                   
+factory_probe_basic_dev.addStep(steps.ShellCommand(command=["rm", ".git/index"],
+                                                   workdir="docs/"))
+                                                   
+factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "clean", "-fdx"],
+                                                   workdir="docs/"))
+
 factory_probe_basic_dev.addStep(
     steps.Sphinx(
-        sphinx_builddir="docs/",
+        sphinx_builddir="",
         sphinx_sourcedir="/home/kcjengr/buildbot/worker/probe_basic-dev/sources/docs_src/source",
         workdir="docs/"))
  
-# # push gh-pages
-# factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "symbolic-ref", "HEAD", "refs/heads/gh-pages"]))
+factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "add", "."], workdir="docs/"))
+factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "commit", "-a ", "-m", "deploy gh-pages"], workdir="docs/"))
+# factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "push", "."], workdir="docs/"))
