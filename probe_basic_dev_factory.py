@@ -138,8 +138,8 @@ factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "clean", "-fd
 
 factory_probe_basic_dev.addStep(
     steps.Sphinx(
-        sphinx_builddir=".",
-        sphinx_sourcedir="/home/kcjengr/buildbot/worker/probe_basic-dev/sources/docs_src/source",
+        sphinx_builddir="/home/kcjengr/buildbot/worker/probe_basic-dev/docs/",
+        sphinx_sourcedir="/home/kcjengr/buildbot/worker/probe_basic-dev/sources/docs_src/source/",
         workdir="docs/"))
  
 factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "add", "."], workdir="docs/"))
