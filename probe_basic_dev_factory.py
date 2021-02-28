@@ -145,4 +145,4 @@ factory_probe_basic_dev.addStep(
  
 factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "add", "."], workdir="docs/"))
 factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "commit", "-a", "-m", "deploy gh-pages"], workdir="docs/"))
-factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "push", "origin", "gh-pages"], workdir="docs/"))
+factory_probe_basic_dev.addStep(steps.ShellCommand(command=["git", "push", "--force", "origin", "gh-pages"], workdir="docs/"))
