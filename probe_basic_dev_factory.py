@@ -121,7 +121,7 @@ factory_probe_basic_dev.addStep(steps.RemoveDirectory(dir="sources/build/"))
 factory_probe_basic_dev.addStep(steps.RemoveDirectory(dir="sources/dist/"))
 
 
-factory_probe_basic_dev.addStep(steps.GitHub(repourl='git@github.com:kcjengr/probe_basic.github.io.git',
+factory_probe_basic_dev.addStep(steps.GitHub(repourl='git@github.com:kcjengr/probe_basic.git',
                                              origin="origin",
                                              branch="gh-pages",
                                              mode='full',
