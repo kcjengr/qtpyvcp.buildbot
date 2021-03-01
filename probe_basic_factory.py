@@ -64,7 +64,7 @@ factory_probe_basic.addStep(
 
 # add version and date to installer package file
 factory_probe_basic.addStep(
-    steps.ShellCommand(workdir="build",
+    steps.ShellCommand(workdir="sources/",
                        command=["/home/kcjengr/buildbot/venvs/probe_basic_venv/bin/python",
                                 "pb-installer/scripts/create_probe_basic_package_config.py",
                                 "pb-installer/templates/probe_basic_package_template.xml",
@@ -74,7 +74,7 @@ factory_probe_basic.addStep(
 
 # add version and date to installer config file
 factory_probe_basic.addStep(
-    steps.ShellCommand(workdir="build",
+    steps.ShellCommand(workdir="sources/",
                        command=["/home/kcjengr/buildbot/venvs/probe_basic_venv/bin/python",
                                 "pb-installer/scripts/create_config.py",
                                 "pb-installer/templates/config_template.xml",
