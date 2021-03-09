@@ -67,7 +67,7 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
 
 
 # get version from installed qtpyvcp package
-factory_probe_basic_dev.addStep(
+factory_qtpyvcp_dev.addStep(
     steps.SetPropertyFromCommand(
         name="obtain qtpyvcp version number",
         command=["/home/kcjengr/buildbot/venvs/qtpyvcp_dev_venv/bin/python",
