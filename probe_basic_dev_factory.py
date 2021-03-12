@@ -93,9 +93,7 @@ factory_probe_basic_dev.addStep(steps.CopyDirectory(name="copy probebasic builds
 # sim files to installer directories
 factory_probe_basic_dev.addStep(steps.CopyDirectory(name="copy probebasic configs to the installer sim package",
                                                     src="sources/config",
-                                                    dest="sources/pb-installer/packages/com.probebasic.sim/data/probe_basic/"))
-
-
+                                                    dest="sources/pb-installer/packages/com.probebasic.sim/data/"))
 
 # configure the installer
 factory_probe_basic_dev.addStep(steps.ShellCommand(name="configure the installer",

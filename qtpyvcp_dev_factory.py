@@ -139,7 +139,6 @@ factory_qtpyvcp_dev.addStep(steps.RemoveDirectory(name="delete dist directory", 
 
 
 
-
 factory_qtpyvcp_dev.addStep(steps.GitHub(name="downlaod static docs",
                                              repourl='git@github.com:kcjengr/qtpyvcp.git',
                                              origin="origin",
