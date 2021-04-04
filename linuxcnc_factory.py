@@ -14,7 +14,7 @@ factory_linuxcnc.addStep(
         branch='master',
         mode='full',
         submodules=True,
-        workdir="sources/src"
+        workdir="sources"
     )
 )
 
