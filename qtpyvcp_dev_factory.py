@@ -162,7 +162,7 @@ factory_qtpyvcp_dev.addStep(
     steps.Sphinx(
         name="compile sphinx docs",
         sphinx_builddir="/home/kcjengr/buildbot/worker/qtpyvcp-dev/docs/",
-        sphinx_sourcedir="/home/kcjengr/buildbot/worker/qtpyvcp-dev/sources/docs_src/source/",
+        sphinx_sourcedir="/home/kcjengr/buildbot/worker/qtpyvcp-dev/sources/docs/source/",
         workdir="docs/"))
  
 # factory_qtpyvcp_dev.addStep(steps.ShellCommand(name="add doc files", command=["git", "add", "."], workdir="docs/"))
