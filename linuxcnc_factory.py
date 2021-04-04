@@ -14,7 +14,7 @@ factory_linuxcnc.addStep(
         branch='master',
         mode='full',
         submodules=True,
-        workdir="sources/"
+        workdir="sources/src"
     )
 )
 
@@ -22,7 +22,7 @@ factory_linuxcnc.addStep(
     steps.ShellCommand(
         name="source autogen.sh",
         command=["./autogen.sh"],
-        workdir="sources/"
+        workdir="sources/src"
     )
 )
 
@@ -30,7 +30,7 @@ factory_linuxcnc.addStep(
     steps.ShellCommand(
         name="configure",
         command=["./configure", "--with-python=python3.7"],
-        workdir="sources/"
+        workdir="sources/src"
     )
 )
 
@@ -38,7 +38,6 @@ factory_linuxcnc.addStep(
     steps.Compile(
         name="compile",
         command=["make"],
-        workdir="sources/pb-installer",
-        env={"QT_SELECT": "qt5"}
+        workdir="sources/src"
     )
 )
