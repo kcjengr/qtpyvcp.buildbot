@@ -125,12 +125,12 @@ factory_qtpyvcp_dev.addStep(steps.Compile(name="compile the installer",
 
 # copy packages to repository
 factory_qtpyvcp_dev.addStep(steps.CopyDirectory(name="copy the packages to repository",
-                                                src="build/installer/repo",
+                                                src="sources/installer/repo",
                                                 dest="/home/kcjengr/repo/dev"))
 
 # copy installer to repository
 factory_qtpyvcp_dev.addStep(steps.CopyDirectory(name="copy the installer to repository",
-                                                src="build/installer/bin",
+                                                src="sources/installer/bin",
                                                 dest="/home/kcjengr/repo/dev"))
 
 factory_qtpyvcp_dev.addStep(steps.RemoveDirectory(name="delete copy of the local repo", dir="sources/installer/repo"))
