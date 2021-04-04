@@ -28,16 +28,35 @@ factory_linuxcnc.addStep(
 
 factory_linuxcnc.addStep(
     steps.ShellCommand(
-        name="configure",
-        command=["./configure", "--with-python=python3.7"],
-        workdir="sources/src"
+        name="configure for debian",
+        command=["./configure", "--with-python=python3.7", "uspace"],
+        workdir="sources/debian"
     )
 )
 
 factory_linuxcnc.addStep(
-    steps.Compile(
-        name="compile",
-        command=["make"],
-        workdir="sources/src"
+    steps.ShellCommand(
+        name="build debian package",
+        command=["dpkg-checkbuilddeps"],
+        workdir="sources"
     )
 )
+
+factory_linuxcnc.addStep(
+    steps.ShellCommand(
+        name="build debian package",
+        command=["dpkg-buildpackage", "-b", "-uc"],
+        workdir="sources"
+    )
+)
+
+
+
+# factory_linuxcnc.addStep(
+#     steps.Compile(
+#         name="compile",
+#         command=["make"],
+#         workdir="sources/src"
+#     )
+# )
+
