@@ -21,7 +21,7 @@ factory_linuxcnc.addStep(
 factory_linuxcnc.addStep(
     steps.ShellCommand(
         name="source autogen.sh",
-        command=["source autogen.sh"],
+        command=["./autogen.sh"],
         workdir="sources/"
     )
 )
@@ -29,7 +29,7 @@ factory_linuxcnc.addStep(
 factory_linuxcnc.addStep(
     steps.ShellCommand(
         name="configure",
-        command=["bash configure"],
+        command=["./configure", "--with-python=python3.7"],
         workdir="sources/"
     )
 )
