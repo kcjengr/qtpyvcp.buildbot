@@ -10,8 +10,8 @@ factory_linuxcnc = util.BuildFactory()
 factory_linuxcnc.addStep(
     steps.GitHub(
         name="download linuxcnc sources",
-        repourl='https://github.com/linuxcnc/linuxcnc.git',
-        branch='master',
+        repourl='https://github.com/turboss/linuxcnc.git',
+        branch='python_debs',
         mode='full',
         submodules=True,
         workdir="sources"
