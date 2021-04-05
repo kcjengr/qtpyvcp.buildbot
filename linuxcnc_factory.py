@@ -29,7 +29,7 @@ factory_linuxcnc.addStep(
 factory_linuxcnc.addStep(
     steps.ShellCommand(
         name="configure for debian",
-        command=["./configure", "--with-python=python3.7", "uspace"],
+        command=["./configure", "uspace"],
         workdir="sources/debian"
     )
 )
