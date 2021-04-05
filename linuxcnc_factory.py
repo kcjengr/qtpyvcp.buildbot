@@ -36,7 +36,7 @@ factory_linuxcnc.addStep(
 
 factory_linuxcnc.addStep(
     steps.ShellCommand(
-        name="build debian package",
+        name="check build deps",
         command=["dpkg-checkbuilddeps"],
         workdir="sources"
     )
@@ -49,14 +49,3 @@ factory_linuxcnc.addStep(
         workdir="sources"
     )
 )
-
-
-
-# factory_linuxcnc.addStep(
-#     steps.Compile(
-#         name="compile",
-#         command=["make"],
-#         workdir="sources/src"
-#     )
-# )
-
