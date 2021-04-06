@@ -60,8 +60,6 @@ factory_probe_basic_dev.addStep(
         env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/probe_basic_dev_venv"},
         workdir="sources/"))
 
-
-
 # add version and date to installer package file
 factory_probe_basic_dev.addStep(
     steps.ShellCommand(name="add version and date to installer package file",

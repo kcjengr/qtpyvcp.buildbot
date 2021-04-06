@@ -17,7 +17,7 @@ factory_qtpyvcp_dev.addStep(steps.GitHub(name="download qtpyvcp sources",
 # install qtpyvcp to buildbot virtual env
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     name="install qtpyvcp from pip into buildbot venv",
-    command=["/home/kcjengr/buildbot/venvs/buildbot_venv/bin/python", "-m", "pip", "install", "--upgrade", "qtpyvcp"],
+    command=["/home/kcjengr/buildbot/venvs/buildbot_venv/bin/python", "-m", "pip", "install", "--upgrade", "-e", "."],
     env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/buildbot_venv"},
     workdir="sources/"))
 
