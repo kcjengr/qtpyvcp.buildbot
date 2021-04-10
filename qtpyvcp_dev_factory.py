@@ -138,7 +138,6 @@ factory_qtpyvcp_dev.addStep(steps.RemoveDirectory(name="delete build directory",
 factory_qtpyvcp_dev.addStep(steps.RemoveDirectory(name="delete dist directory", dir="sources/dist/"))
 
 
-
 factory_qtpyvcp_dev.addStep(steps.GitHub(name="downlaod static docs",
                                              repourl='git@github.com:kcjengr/qtpyvcp.git',
                                              origin="origin",
@@ -163,6 +162,7 @@ factory_qtpyvcp_dev.addStep(
         name="compile sphinx docs",
         sphinx_builddir="/home/kcjengr/buildbot/worker/qtpyvcp-dev/docs/",
         sphinx_sourcedir="/home/kcjengr/buildbot/worker/qtpyvcp-dev/sources/docs/source/",
+        env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/qtpyvcp_dev_venv"},
         workdir="docs/"))
  
 # factory_qtpyvcp_dev.addStep(steps.ShellCommand(name="add doc files", command=["git", "add", "."], workdir="docs/"))
