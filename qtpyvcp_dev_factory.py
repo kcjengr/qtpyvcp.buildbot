@@ -143,7 +143,7 @@ factory_qtpyvcp_dev.addStep(
         sphinx_builddir="/home/kcjengr/buildbot/worker/qtpyvcp-dev/docs/",
         sphinx_sourcedir="/home/kcjengr/buildbot/worker/qtpyvcp-dev/sources/docs/source/",
         env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/qtpyvcp_dev_venv/",
-             "PATH": "/home/kcjengr/buildbot/worker/qtpyvcp-dev/sources"},
+             "PATH": ["/home/kcjengr/buildbot/worker/qtpyvcp-dev/sources", "S{PATH}"]},
         workdir="sources/"))
 
 
