@@ -160,6 +160,7 @@ factory_qtpyvcp_dev.addStep(steps.RemoveDirectory(name="delete dist directory", 
 #                                                workdir="docs/"))
 #
 
+factory_qtpyvcp_dev.addStep(steps.RemoveDirectory(name="delete docs directory", dir="docs/"))
 
 factory_qtpyvcp_dev.addStep(
     steps.Sphinx(
