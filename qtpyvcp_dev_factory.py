@@ -179,7 +179,7 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(name="Initialize docs repository"
                                                workdir="docs/"))
 
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(name="add remote repository",
-                                               command=["git", "remote", "add", "git@github.com:kcjengr/qtpyvcp.git"],
+                                               command=["git", "remote", "add", "origin", "git@github.com:kcjengr/qtpyvcp.git"],
                                                workdir="docs/"))
 
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(name="switch branch",
