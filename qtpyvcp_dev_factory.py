@@ -142,7 +142,7 @@ factory_qtpyvcp_dev.addStep(
         name="compile sphinx docs",
         sphinx_builddir="/home/kcjengr/buildbot/worker/qtpyvcp-dev/docs",
         sphinx_sourcedir="/home/kcjengr/buildbot/worker/qtpyvcp-dev/sources/docs/source/",
-        strict_warnings=True,
+        strict_warnings=False,
         env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/qtpyvcp_dev_venv/",
              "PATH": ["/home/kcjengr/buildbot/venvs/qtpyvcp_dev_venv/bin/",
                       "/home/kcjengr/buildbot/worker/qtpyvcp-dev/sources",
