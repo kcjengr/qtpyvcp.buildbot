@@ -136,34 +136,38 @@ factory_qtpyvcp_dev.addStep(steps.RemoveDirectory(name="delete copy of the local
 factory_qtpyvcp_dev.addStep(steps.RemoveDirectory(name="delete build directory", dir="sources/build/"))
 factory_qtpyvcp_dev.addStep(steps.RemoveDirectory(name="delete dist directory", dir="sources/dist/"))
 
-factory_qtpyvcp_dev.addStep(steps.GitHub(name="downlaod static docs",
-                                         repourl='git@github.com:kcjengr/qtpyvcp.git',
-                                         origin="origin",
-                                         branch="gh-pages",
-                                         mode='full',
-                                         workdir="docs/"))
-
-factory_qtpyvcp_dev.addStep(steps.ShellCommand(name="reset gh-pages",
-                                               command=["git", "symbolic-ref", "HEAD", "refs/heads/gh-pages"],
-                                               workdir="docs/"))
-
-factory_qtpyvcp_dev.addStep(steps.ShellCommand(name="delete git index",
-                                               command=["rm", ".git/index"],
-                                               workdir="docs/"))
-
-factory_qtpyvcp_dev.addStep(steps.ShellCommand(name="clean gh-pages",
-                                               command=["git", "clean", "-fdx"],
-                                               workdir="docs/"))
 
 factory_qtpyvcp_dev.addStep(
     steps.Sphinx(
         name="compile sphinx docs",
         sphinx_builddir="/home/kcjengr/buildbot/worker/qtpyvcp-dev/docs/",
         sphinx_sourcedir="/home/kcjengr/buildbot/worker/qtpyvcp-dev/sources/docs/source/",
-        env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/qtpyvcp_dev_venv"},
-        workdir="/home/kcjengr/buildbot/worker/qtpyvcp-dev/sources/docs/source/"))
+        env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/qtpyvcp_dev_venv/"},
+        workdir="sources/"))
 
 
-# factory_qtpyvcp_dev.addStep(steps.ShellCommand(name="add doc files", command=["git", "add", "."], workdir="docs/"))
-# factory_qtpyvcp_dev.addStep(steps.ShellCommand(name="commit doc files", command=["git", "commit", "-a", "-m", "deploy gh-pages"], workdir="docs/"))
-# factory_qtpyvcp_dev.addStep(steps.ShellCommand(name="push docs", command=["git", "push", "--force", "origin", "gh-pages"], workdir="docs/"))
+# factory_qtpyvcp_dev.addStep(steps.GitHub(name="downlaod static docs",
+#                                          repourl='git@github.com:kcjengr/qtpyvcp.git',
+#                                          origin="origin",
+#                                          branch="gh-pages",
+#                                          mode='full',
+#                                          workdir="docs/"))
+#
+# factory_qtpyvcp_dev.addStep(steps.ShellCommand(name="reset gh-pages",
+#                                                command=["git", "symbolic-ref", "HEAD", "refs/heads/gh-pages"],
+#                                                workdir="docs/"))
+#
+# factory_qtpyvcp_dev.addStep(steps.ShellCommand(name="delete git index",
+#                                                command=["rm", ".git/index"],
+#                                                workdir="docs/"))
+#
+# factory_qtpyvcp_dev.addStep(steps.ShellCommand(name="clean gh-pages",
+#                                                command=["git", "clean", "-fdx"],
+#                                                workdir="docs/"))
+#
+
+#
+#
+# # factory_qtpyvcp_dev.addStep(steps.ShellCommand(name="add doc files", command=["git", "add", "."], workdir="docs/"))
+# # factory_qtpyvcp_dev.addStep(steps.ShellCommand(name="commit doc files", command=["git", "commit", "-a", "-m", "deploy gh-pages"], workdir="docs/"))
+# # factory_qtpyvcp_dev.addStep(steps.ShellCommand(name="push docs", command=["git", "push", "--force", "origin", "gh-pages"], workdir="docs/"))
