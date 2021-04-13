@@ -187,6 +187,10 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(name="switch branch",
                                                command=["git", "checkout", "-b", "gh-pages"],
                                                workdir="docs/"))
 
+factory_qtpyvcp_dev.addStep(steps.ShellCommand(name="add docs",
+                                               command=["git", "add", "."],
+                                               workdir="docs/"))
+
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(name="commit docs",
                                                command=["git", "commit", "-m", "Deploy docs"],
                                                workdir="docs/"))
