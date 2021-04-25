@@ -17,29 +17,29 @@ factory_qtpyvcp_dev.addStep(steps.GitHub(name="download qtpyvcp sources",
 # install qtpyvcp to buildbot virtual env
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     name="install qtpyvcp from pip into buildbot venv",
-    command=["/home/kcjengr/buildbot/venvs/buildbot_venv/bin/python", "-m", "pip", "install", "--upgrade", "-e", "."],
-    env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/buildbot_venv"},
+    command=["/home/buildbot/buildbot/venvs/buildbot/bin/python", "-m", "pip", "install", "--upgrade", "-e", "."],
+    env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/buildbot"},
     workdir="sources/"))
 
 # install qtpyvcp to virtual env
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     name="install qtpyvcp from sources into build venv",
-    command=["/home/kcjengr/buildbot/venvs/qtpyvcp_dev_venv/bin/python", "-m", "pip", "install", "-e", "."],
-    env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/qtpyvcp_dev_venv"},
+    command=["/hone/buildbot/buildbot/venvs/qtpyvcp-dev/bin/python", "-m", "pip", "install", "-e", "."],
+    env={"VIRTUAL_ENV": "/hone/buildbot/buildbot/venvs/qtpyvcp-dev"},
     workdir="sources/"))
 
 # build binaries and wheel for distribution
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     name="build binaries and wheel for distribution",
-    command=["/home/kcjengr/buildbot/venvs/qtpyvcp_dev_venv/bin/python", "setup.py", "bdist_wheel"],
-    env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/qtpyvcp_dev_venv"},
+    command=["/hone/buildbot/buildbot/venvs/qtpyvcp-dev/bin/python", "setup.py", "bdist_wheel"],
+    env={"VIRTUAL_ENV": "/hone/buildbot/buildbot/venvs/qtpyvcp-dev"},
     workdir="sources/"))
 
 # build source for distribution
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     name="build source for distribution",
-    command=["/home/kcjengr/buildbot/venvs/qtpyvcp_dev_venv/bin/python", "setup.py", "sdist"],
-    env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/qtpyvcp_dev_venv"},
+    command=["/hone/buildbot/buildbot/venvs/qtpyvcp-dev/bin/python", "setup.py", "sdist"],
+    env={"VIRTUAL_ENV": "/hone/buildbot/buildbot/venvs/qtpyvcp-dev"},
     workdir="sources/"))
 
 # build debian packages
@@ -69,35 +69,35 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
 factory_qtpyvcp_dev.addStep(
     steps.SetPropertyFromCommand(
         name="obtain qtpyvcp version number",
-        command=["/home/kcjengr/buildbot/venvs/qtpyvcp_dev_venv/bin/python",
+        command=["/hone/buildbot/buildbot/venvs/qtpyvcp-dev/bin/python",
                  "installer/scripts/check_version.py"],
         property="qtpyvcp_dev_version",
-        env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/qtpyvcp_dev_venv"},
+        env={"VIRTUAL_ENV": "/hone/buildbot/buildbot/venvs/qtpyvcp-dev"},
         workdir="sources/"))
 
 # add version and date to installer config file
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     name="add version and date to installer package file",
-    command=["/home/kcjengr/buildbot/venvs/qtpyvcp_dev_venv/bin/python",
+    command=["/hone/buildbot/buildbot/venvs/qtpyvcp-dev/bin/python",
              "installer/scripts/create_config.py",
              "installer/templates/config_template.xml",
              "installer/config/config.xml",
              "http://repository.qtpyvcp.com/dev/repo/",
              util.Property("qtpyvcp_dev_version")
              ],
-    env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/qtpyvcp_dev_venv"},
+    env={"VIRTUAL_ENV": "/hone/buildbot/buildbot/venvs/qtpyvcp-dev"},
     workdir="sources/"))
 
 # add version and date to installer package file
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     name="add version and date to installer package file",
-    command=["/home/kcjengr/buildbot/venvs/qtpyvcp_dev_venv/bin/python",
+    command=["/hone/buildbot/buildbot/venvs/qtpyvcp-dev/bin/python",
              "installer/scripts/create_package_config.py",
              "installer/templates/package_template.xml",
              "installer/packages/com.kcjengr.qtpyvcp/meta/package.xml",
              util.Property("qtpyvcp_dev_version")
              ],
-    env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/qtpyvcp_dev_venv"},
+    env={"VIRTUAL_ENV": "/hone/buildbot/buildbot/venvs/qtpyvcp-dev"},
     workdir="sources/"))
 
 # copy files to installer directories
@@ -125,12 +125,12 @@ factory_qtpyvcp_dev.addStep(steps.Compile(name="compile the installer",
 # copy packages to repository
 factory_qtpyvcp_dev.addStep(steps.CopyDirectory(name="copy the packages to repository",
                                                 src="sources/installer/repo",
-                                                dest="/home/kcjengr/repo/dev"))
+                                                dest="/hone/buildbot/repo/dev"))
 
 # copy installer to repository
 factory_qtpyvcp_dev.addStep(steps.CopyDirectory(name="copy the installer to repository",
                                                 src="sources/installer/bin",
-                                                dest="/home/kcjengr/repo/dev"))
+                                                dest="/hone/buildbot/repo/dev"))
 
 factory_qtpyvcp_dev.addStep(steps.RemoveDirectory(name="delete copy of the local repo", dir="sources/installer/repo"))
 factory_qtpyvcp_dev.addStep(steps.RemoveDirectory(name="delete build directory", dir="sources/build/"))
@@ -142,12 +142,12 @@ factory_qtpyvcp_dev.addStep(steps.RemoveDirectory(name="delete docs directory", 
 factory_qtpyvcp_dev.addStep(
     steps.Sphinx(
         name="compile sphinx docs",
-        sphinx_builddir="/home/kcjengr/buildbot/worker/qtpyvcp-dev/docs",
-        sphinx_sourcedir="/home/kcjengr/buildbot/worker/qtpyvcp-dev/sources/docs/source/",
+        sphinx_builddir="/hone/buildbot/buildbot/worker/qtpyvcp-dev/docs",
+        sphinx_sourcedir="/hone/buildbot/buildbot/worker/qtpyvcp-dev/sources/docs/source/",
         strict_warnings=False,
-        env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/qtpyvcp_dev_venv/",
-             "PATH": ["/home/kcjengr/buildbot/venvs/qtpyvcp_dev_venv/bin/",
-                      "/home/kcjengr/buildbot/worker/qtpyvcp-dev/sources",
+        env={"VIRTUAL_ENV": "/hone/buildbot/buildbot/venvs/qtpyvcp-dev/",
+             "PATH": ["/hone/buildbot/buildbot/venvs/qtpyvcp-dev/bin/",
+                      "/hone/buildbot/buildbot/worker/qtpyvcp-dev/sources",
                       "${PATH}"
                       ]},
         workdir="sources/docs/source/"))
