@@ -14,6 +14,12 @@ factory_qtpyvcp_dev.addStep(steps.GitHub(name="download qtpyvcp sources",
                                          submodules=True,
                                          workdir="sources/"))
 
+# install qtpyvcp to buildbot python
+factory_qtpyvcp_dev.addStep(steps.ShellCommand(
+    name="install qtpyvcp from sources into buildbot python",
+    command=["python", "-m", "pip", "install", "--upgrade", "-e", "."],
+    workdir="sources/"))
+
 # install qtpyvcp to buildbot virtual env
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     name="install qtpyvcp from pip into buildbot venv",
@@ -145,11 +151,6 @@ factory_qtpyvcp_dev.addStep(
         sphinx_builddir="/home/buildbot/buildbot/worker/qtpyvcp-dev/docs",
         sphinx_sourcedir="/home/buildbot/buildbot/worker/qtpyvcp-dev/sources/docs/source/",
         strict_warnings=False,
-        env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/qtpyvcp-dev/",
-             "PATH": ["/home/buildbot/buildbot/venvs/qtpyvcp-dev/bin/",
-                      "/home/buildbot/buildbot/worker/qtpyvcp-dev/sources",
-                      "${PATH}"
-                      ]},
         workdir="sources/docs/source/"))
 
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(name="Initialize docs repository",
