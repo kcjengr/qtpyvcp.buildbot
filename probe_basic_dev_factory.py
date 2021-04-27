@@ -18,69 +18,69 @@ factory_probe_basic_dev.addStep(steps.GitHub(name="download probe_basic sources"
 # install qtpyvcp to buildbot virtual env
 factory_probe_basic_dev.addStep(steps.ShellCommand(
     name="install qtpyvcp from pip into buildbot venv",
-    command=["/home/kcjengr/buildbot/venvs/buildbot_venv/bin/python", "-m", "pip", "install", "--upgrade", "qtpyvcp"],
-    env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/buildbot_venv"},
+    command=["/home/buildbot/buildbot/venvs/buildbot/bin/python", "-m", "pip", "install", "--upgrade", "qtpyvcp"],
+    env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/buildbot"},
     workdir="sources/"))
 
 # install qtpyvcp to virtual env
 factory_probe_basic_dev.addStep(steps.ShellCommand(
     name="install qtpyvcp from pip into build venv",
-    command=["/home/kcjengr/buildbot/venvs/probe_basic_dev_venv/bin/python", "-m", "pip", "install", "--upgrade", "qtpyvcp"],
-    env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/probe_basic_dev_venv"},
+    command=["/home/buildbot/buildbot/venvs/probe_basic-dev/bin/python", "-m", "pip", "install", "--upgrade", "qtpyvcp"],
+    env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/probe_basic-dev"},
     workdir="sources/"))
 
 # install sources to virtual env
 factory_probe_basic_dev.addStep(steps.ShellCommand(
     name="install probe basic from sources into build venv",
-    command=["/home/kcjengr/buildbot/venvs/probe_basic_dev_venv/bin/python", "-m", "pip", "install", "--upgrade", "."],
-    env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/probe_basic_dev_venv"},
+    command=["/home/buildbot/buildbot/venvs/probe_basic-dev/bin/python", "-m", "pip", "install", "--upgrade", "."],
+    env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/probe_basic-dev"},
     workdir="sources/"))
 
 # build binaries and wheel for distribution
 factory_probe_basic_dev.addStep(steps.ShellCommand(
     name="build binaries and wheel for distribution",
-    command=["/home/kcjengr/buildbot/venvs/probe_basic_dev_venv/bin/python", "setup.py", "bdist_wheel"],
-    env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/probe_basic_dev_venv"},
+    command=["/home/buildbot/buildbot/venvs/probe_basic-dev/bin/python", "setup.py", "bdist_wheel"],
+    env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/probe_basic-dev"},
     workdir="sources/"))
 
 # build source for distribution
 factory_probe_basic_dev.addStep(steps.ShellCommand(
     name="build source for distribution",
-    command=["/home/kcjengr/buildbot/venvs/probe_basic_dev_venv/bin/python", "setup.py", "sdist"],
-    env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/probe_basic_dev_venv"},
+    command=["/home/buildbot/buildbot/venvs/probe_basic-dev/bin/python", "setup.py", "sdist"],
+    env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/probe_basic-dev"},
     workdir="sources/"))
 
 # get version from installed probe_basic package
 factory_probe_basic_dev.addStep(
     steps.SetPropertyFromCommand(
         name="obtain probe_basic version number",
-        command=["/home/kcjengr/buildbot/venvs/probe_basic_dev_venv/bin/python",
+        command=["/home/buildbot/buildbot/venvs/probe_basic-dev/bin/python",
                  "pb-installer/scripts/check_probe_basic_version.py"],
         property="probe_basic_dev_version",
-        env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/probe_basic_dev_venv"},
+        env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/probe_basic-dev"},
         workdir="sources/"))
 
 # add version and date to installer package file
 factory_probe_basic_dev.addStep(
     steps.ShellCommand(name="add version and date to installer package file",
-                       command=["/home/kcjengr/buildbot/venvs/probe_basic_dev_venv/bin/python",
+                       command=["/home/buildbot/buildbot/venvs/probe_basic-dev/bin/python",
                                 "pb-installer/scripts/create_probe_basic_package_config.py",
                                 "pb-installer/templates/probe_basic_package_template.xml",
                                 "pb-installer/packages/com.probebasic.core/meta/package.xml",
                                 util.Property("probe_basic_dev_version")],
-                       env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/probe_basic_dev_venv"},
+                       env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/probe_basic-dev"},
                        workdir="sources/"))
 
 # add version and date to installer config file
 factory_probe_basic_dev.addStep(
     steps.ShellCommand(name="add version, date and repo to installer config file",
-                       command=["/home/kcjengr/buildbot/venvs/probe_basic_dev_venv/bin/python",
+                       command=["/home/buildbot/buildbot/venvs/probe_basic-dev/bin/python",
                                 "pb-installer/scripts/create_config.py",
                                 "pb-installer/templates/config_template.xml",
                                 "pb-installer/config/config.xml",
                                 "http://repository.qtpyvcp.com/repo/pb-dev/repo",
                                 util.Property("probe_basic_dev_version")],
-                       env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/probe_basic_dev_venv"},
+                       env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/probe_basic-dev"},
                        workdir="sources/"))
 
 # copy files to installer directories
@@ -109,12 +109,12 @@ factory_probe_basic_dev.addStep(steps.Compile(name="compile the installer",
 # copy the packages to repository
 factory_probe_basic_dev.addStep(steps.CopyDirectory(name="copy the packages to repository",
                                                     src="sources/pb-installer/repo",
-                                                    dest="/home/kcjengr/repo/pb-dev"))
+                                                    dest="/home/buildbot/repo/pb-dev"))
 
 # copy the installer to repository
 factory_probe_basic_dev.addStep(steps.CopyDirectory(name="copy the installer to repository",
                                                     src="sources/pb-installer/bin",
-                                                    dest="/home/kcjengr/repo/pb-dev"))
+                                                    dest="/home/buildbot/repo/pb-dev"))
 
 
 factory_probe_basic_dev.addStep(steps.RemoveDirectory(name="delete copy of the local repo", dir="sources/pb-installer/repo"))
@@ -144,8 +144,8 @@ factory_probe_basic_dev.addStep(steps.ShellCommand(name="clean gh-pages",
 factory_probe_basic_dev.addStep(
     steps.Sphinx(
         name="compile sphinx docs",
-        sphinx_builddir="/home/kcjengr/buildbot/worker/probe_basic-dev/docs/",
-        sphinx_sourcedir="/home/kcjengr/buildbot/worker/probe_basic-dev/sources/docs_src/source/",
+        sphinx_builddir="/home/buildbot/buildbot/worker/probe_basic-dev/docs/",
+        sphinx_sourcedir="/home/buildbot/buildbot/worker/probe_basic-dev/sources/docs_src/source/",
         workdir="docs/"))
  
 factory_probe_basic_dev.addStep(steps.ShellCommand(name="add doc files", command=["git", "add", "."], workdir="docs/"))
