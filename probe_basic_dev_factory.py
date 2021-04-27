@@ -144,8 +144,8 @@ factory_probe_basic_dev.addStep(steps.ShellCommand(name="clean gh-pages",
 factory_probe_basic_dev.addStep(
     steps.Sphinx(
         name="compile sphinx docs",
-        sphinx_builddir="/home/buildbot/buildbot/worker/probebasic-dev/docs/",
-        sphinx_sourcedir="/home/buildbot/buildbot/worker/probebasic-dev/sources/docs_src/source/",
+        sphinx_builddir="/home/buildbot/buildbot/worker/probe_basic-dev/docs/",
+        sphinx_sourcedir="/home/buildbot/buildbot/worker/probe_basic-dev/sources/docs_src/source/",
         workdir="docs/"))
  
 factory_probe_basic_dev.addStep(steps.ShellCommand(name="add doc files", command=["git", "add", "."], workdir="docs/"))
