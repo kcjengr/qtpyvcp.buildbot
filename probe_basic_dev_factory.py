@@ -25,62 +25,62 @@ factory_probe_basic_dev.addStep(steps.ShellCommand(
 # install qtpyvcp to virtual env
 factory_probe_basic_dev.addStep(steps.ShellCommand(
     name="install qtpyvcp from pip into build venv",
-    command=["/home/buildbot/buildbot/venvs/probe_basic-dev/bin/python", "-m", "pip", "install", "--upgrade", "qtpyvcp"],
-    env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/probe_basic-dev"},
+    command=["/home/buildbot/buildbot/venvs/probebasic-dev/bin/python", "-m", "pip", "install", "--upgrade", "qtpyvcp"],
+    env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/probebasic-dev"},
     workdir="sources/"))
 
 # install sources to virtual env
 factory_probe_basic_dev.addStep(steps.ShellCommand(
     name="install probe basic from sources into build venv",
-    command=["/home/buildbot/buildbot/venvs/probe_basic-dev/bin/python", "-m", "pip", "install", "--upgrade", "."],
-    env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/probe_basic-dev"},
+    command=["/home/buildbot/buildbot/venvs/probebasic-dev/bin/python", "-m", "pip", "install", "--upgrade", "."],
+    env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/probebasic-dev"},
     workdir="sources/"))
 
 # build binaries and wheel for distribution
 factory_probe_basic_dev.addStep(steps.ShellCommand(
     name="build binaries and wheel for distribution",
-    command=["/home/buildbot/buildbot/venvs/probe_basic-dev/bin/python", "setup.py", "bdist_wheel"],
-    env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/probe_basic-dev"},
+    command=["/home/buildbot/buildbot/venvs/probebasic-dev/bin/python", "setup.py", "bdist_wheel"],
+    env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/probebasic-dev"},
     workdir="sources/"))
 
 # build source for distribution
 factory_probe_basic_dev.addStep(steps.ShellCommand(
     name="build source for distribution",
-    command=["/home/buildbot/buildbot/venvs/probe_basic-dev/bin/python", "setup.py", "sdist"],
-    env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/probe_basic-dev"},
+    command=["/home/buildbot/buildbot/venvs/probebasic-dev/bin/python", "setup.py", "sdist"],
+    env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/probebasic-dev"},
     workdir="sources/"))
 
 # get version from installed probe_basic package
 factory_probe_basic_dev.addStep(
     steps.SetPropertyFromCommand(
         name="obtain probe_basic version number",
-        command=["/home/buildbot/buildbot/venvs/probe_basic-dev/bin/python",
+        command=["/home/buildbot/buildbot/venvs/probebasic-dev/bin/python",
                  "pb-installer/scripts/check_probe_basic_version.py"],
         property="probe_basic_dev_version",
-        env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/probe_basic-dev"},
+        env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/probebasic-dev"},
         workdir="sources/"))
 
 # add version and date to installer package file
 factory_probe_basic_dev.addStep(
     steps.ShellCommand(name="add version and date to installer package file",
-                       command=["/home/buildbot/buildbot/venvs/probe_basic-dev/bin/python",
+                       command=["/home/buildbot/buildbot/venvs/probebasic-dev/bin/python",
                                 "pb-installer/scripts/create_probe_basic_package_config.py",
                                 "pb-installer/templates/probe_basic_package_template.xml",
                                 "pb-installer/packages/com.probebasic.core/meta/package.xml",
                                 util.Property("probe_basic_dev_version")],
-                       env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/probe_basic-dev"},
+                       env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/probebasic-dev"},
                        workdir="sources/"))
 
 # add version and date to installer config file
 factory_probe_basic_dev.addStep(
     steps.ShellCommand(name="add version, date and repo to installer config file",
-                       command=["/home/buildbot/buildbot/venvs/probe_basic-dev/bin/python",
+                       command=["/home/buildbot/buildbot/venvs/probebasic-dev/bin/python",
                                 "pb-installer/scripts/create_config.py",
                                 "pb-installer/templates/config_template.xml",
                                 "pb-installer/config/config.xml",
                                 "http://repository.qtpyvcp.com/repo/pb-dev/repo",
                                 util.Property("probe_basic_dev_version")],
-                       env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/probe_basic-dev"},
+                       env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/probebasic-dev"},
                        workdir="sources/"))
 
 # copy files to installer directories
@@ -144,8 +144,8 @@ factory_probe_basic_dev.addStep(steps.ShellCommand(name="clean gh-pages",
 factory_probe_basic_dev.addStep(
     steps.Sphinx(
         name="compile sphinx docs",
-        sphinx_builddir="/home/buildbot/buildbot/worker/probe_basic-dev/docs/",
-        sphinx_sourcedir="/home/buildbot/buildbot/worker/probe_basic-dev/sources/docs_src/source/",
+        sphinx_builddir="/home/buildbot/buildbot/worker/probebasic-dev/docs/",
+        sphinx_sourcedir="/home/buildbot/buildbot/worker/probebasic-dev/sources/docs_src/source/",
         workdir="docs/"))
  
 factory_probe_basic_dev.addStep(steps.ShellCommand(name="add doc files", command=["git", "add", "."], workdir="docs/"))
