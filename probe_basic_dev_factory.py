@@ -146,6 +146,8 @@ factory_probe_basic_dev.addStep(
         name="compile sphinx docs",
         sphinx_builddir="/home/buildbot/buildbot/worker/probe_basic-dev/docs/",
         sphinx_sourcedir="/home/buildbot/buildbot/worker/probe_basic-dev/sources/docs_src/source/",
+        strict_warnings=False,
+        env={"LANG": "en_EN.UTF-8"},
         workdir="docs/"))
  
 factory_probe_basic_dev.addStep(steps.ShellCommand(name="add doc files", command=["git", "add", "."], workdir="docs/"))
