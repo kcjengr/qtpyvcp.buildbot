@@ -133,19 +133,19 @@ factory_qtpyvcp.addStep(steps.CopyDirectory(name="copy the installer to reposito
                                             src="sources/installer/bin",
                                             dest="/home/kcjengr/repo/main"))
 
-# publish on github
-factory_qtpyvcp.addStep(steps.ShellCommand(
-    command=["/home/kcjengr/buildbot/worker/qtpyvcp/sources/.scripts/publish_github_release.sh",
-             "kcjengr/qtpyvcp",
-             util.Property("qtpyvcp_version"),
-             pass_file.github_kcjengr_token],
-    env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/qtpyvcp_venv"}))
-
-# publish on pypi
-factory_qtpyvcp.addStep(steps.ShellCommand(
-    command=["/home/kcjengr/buildbot/worker/qtpyvcp/sources/.scripts/publish_pypi_release.sh",
-             pass_file.pypi_qtpyvcp_token],
-    env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/qtpyvcp_venv"}))
+# # publish on github
+# factory_qtpyvcp.addStep(steps.ShellCommand(
+#     command=["/home/kcjengr/buildbot/worker/qtpyvcp/sources/.scripts/publish_github_release.sh",
+#              "kcjengr/qtpyvcp",
+#              util.Property("qtpyvcp_version"),
+#              pass_file.github_kcjengr_token],
+#     env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/qtpyvcp_venv"}))
+#
+# # publish on pypi
+# factory_qtpyvcp.addStep(steps.ShellCommand(
+#     command=["/home/kcjengr/buildbot/worker/qtpyvcp/sources/.scripts/publish_pypi_release.sh",
+#              pass_file.pypi_qtpyvcp_token],
+#     env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/qtpyvcp_venv"}))
 
 
 factory_qtpyvcp.addStep(steps.RemoveDirectory(name="delete copy of the local repo", dir="sources/installer/repo"))
@@ -160,11 +160,7 @@ factory_qtpyvcp.addStep(
         sphinx_builddir="/home/kcjengr/buildbot/worker/qtpyvcp/docs",
         sphinx_sourcedir="/home/kcjengr/buildbot/worker/qtpyvcp/sources/docs/source/",
         strict_warnings=False,
-        env={"VIRTUAL_ENV": "/home/kcjengr/buildbot/venvs/qtpyvcp_venv/",
-             "PATH": ["/home/kcjengr/buildbot/venvs/qtpyvcp_venv/bin/",
-                      "/home/kcjengr/buildbot/worker/qtpyvcp/sources",
-                      "${PATH}"
-                      ]},
+        env={"LANG": "en_EN.UTF-8"},
         workdir="sources/docs/source/"))
 
 factory_qtpyvcp.addStep(steps.ShellCommand(name="Initialize docs repository",
