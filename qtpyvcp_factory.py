@@ -139,12 +139,14 @@ factory_qtpyvcp.addStep(steps.ShellCommand(
              "kcjengr/qtpyvcp",
              util.Property("qtpyvcp_version"),
              pass_file.github_kcjengr_token],
-    env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/qtpyvcp"}))
+    env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/qtpyvcp"},
+        workdir="sources/"))
 # # publish on pypi
 factory_qtpyvcp.addStep(steps.ShellCommand(
     command=["/home/buildbot/buildbot/worker/qtpyvcp/sources/.scripts/publish_pypi_release.sh",
              pass_file.pypi_qtpyvcp_token],
-    env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/qtpyvcp"}))
+    env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/qtpyvcp"},
+    workdir="sources/"))
 
 
 factory_qtpyvcp.addStep(steps.RemoveDirectory(name="delete copy of the local repo", dir="sources/installer/repo"))
