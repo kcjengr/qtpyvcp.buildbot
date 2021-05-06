@@ -113,7 +113,7 @@ factory_qtpyvcp_dev.addStep(steps.CopyDirectory(
     dest="sources/installer/packages/com.kcjengr.qtpyvcp/data"))
 
 factory_qtpyvcp_dev.addStep(steps.RemoveDirectory(dir="sources/dist"))
-# factory_dev.addStep(steps.RemoveDirectory(dir="sources/installer/repo"))
+factory_qtpyvcp_dev.addStep(steps.RemoveDirectory(dir="sources/installer/repo"))
 
 # configure the installer
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(name="configure the installer",

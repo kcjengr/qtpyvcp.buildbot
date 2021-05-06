@@ -108,7 +108,7 @@ factory_qtpyvcp.addStep(steps.CopyDirectory(
     dest="sources/installer/packages/com.kcjengr.qtpyvcp/data"))
 
 factory_qtpyvcp.addStep(steps.RemoveDirectory(dir="sources/dist"))
-# factory_dev.addStep(steps.RemoveDirectory(dir="sources/installer/repo"))
+factory_qtpyvcp.addStep(steps.RemoveDirectory(dir="sources/installer/repo"))
 
 # configure the installer
 factory_qtpyvcp.addStep(steps.ShellCommand(
@@ -133,19 +133,18 @@ factory_qtpyvcp.addStep(steps.CopyDirectory(name="copy the installer to reposito
                                             src="sources/installer/bin",
                                             dest="/home/buildbot/repo/main"))
 
-# # publish on github
-# factory_qtpyvcp.addStep(steps.ShellCommand(
-#     command=["/home/buildbot/buildbot/worker/qtpyvcp/sources/.scripts/publish_github_release.sh",
-#              "kcjengr/qtpyvcp",
-#              util.Property("qtpyvcp_version"),
-#              pass_file.github_kcjengr_token],
-#     env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/qtpyvcp"}))
-#
+# publish on github
+factory_qtpyvcp.addStep(steps.ShellCommand(
+    command=["/home/buildbot/buildbot/worker/qtpyvcp/sources/.scripts/publish_github_release.sh",
+             "kcjengr/qtpyvcp",
+             util.Property("qtpyvcp_version"),
+             pass_file.github_kcjengr_token],
+    env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/qtpyvcp"}))
 # # publish on pypi
-# factory_qtpyvcp.addStep(steps.ShellCommand(
-#     command=["/home/buildbot/buildbot/worker/qtpyvcp/sources/.scripts/publish_pypi_release.sh",
-#              pass_file.pypi_qtpyvcp_token],
-#     env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/qtpyvcp"}))
+factory_qtpyvcp.addStep(steps.ShellCommand(
+    command=["/home/buildbot/buildbot/worker/qtpyvcp/sources/.scripts/publish_pypi_release.sh",
+             pass_file.pypi_qtpyvcp_token],
+    env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/qtpyvcp"}))
 
 
 factory_qtpyvcp.addStep(steps.RemoveDirectory(name="delete copy of the local repo", dir="sources/installer/repo"))
