@@ -134,17 +134,22 @@ factory_qtpyvcp.addStep(steps.CopyDirectory(name="copy the installer to reposito
                                             dest="/home/buildbot/repo/main"))
 
 # publish on github
+# factory_qtpyvcp.addStep(steps.ShellCommand(
+#     command=["/home/buildbot/buildbot/worker/qtpyvcp/sources/.scripts/publish_github_release.sh",
+#              "kcjengr/qtpyvcp",
+#              util.Property("qtpyvcp_version"),
+#              pass_file.github_kcjengr_token],
+#     env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/qtpyvcp"},
+#         workdir="sources/"))
+
+# publish on pypi
 factory_qtpyvcp.addStep(steps.ShellCommand(
-    command=["/home/buildbot/buildbot/worker/qtpyvcp/sources/.scripts/publish_github_release.sh",
-             "kcjengr/qtpyvcp",
-             util.Property("qtpyvcp_version"),
-             pass_file.github_kcjengr_token],
+    command=["pip", "install", "-upgrade", "twine"],
     env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/qtpyvcp"},
-        workdir="sources/"))
-# # publish on pypi
+    workdir="sources/"))
+
 factory_qtpyvcp.addStep(steps.ShellCommand(
-    command=["/home/buildbot/buildbot/worker/qtpyvcp/sources/.scripts/publish_pypi_release.sh",
-             pass_file.pypi_qtpyvcp_token],
+    command=["twine", "upload", "dist/qtpyvcp*.tar.gz"],
     env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/qtpyvcp"},
     workdir="sources/"))
 
