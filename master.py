@@ -1,6 +1,4 @@
-# -*- python -*-
-# ex: set syntax=python:
-# vim: set syntax=python:
+
 
 import pass_file
 
