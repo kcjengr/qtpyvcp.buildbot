@@ -16,12 +16,12 @@ factory_qtpyvcp.addStep(steps.GitHub(name="download qtpyvcp sources",
                                      submodules=True,
                                      workdir="sources/"))
 
-# install qtpyvcp to buildbot virtual env
-factory_qtpyvcp.addStep(steps.ShellCommand(
-    name="install qtpyvcp from pip into buildbot venv",
-    command=["/home/buildbot/buildbot/venvs/buildbot/bin/python", "-m", "pip", "install", "--upgrade", "."],
-    env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/buildbot"},
-    workdir="sources/"))
+# # install qtpyvcp to buildbot virtual env
+# factory_qtpyvcp.addStep(steps.ShellCommand(
+#     name="install qtpyvcp from pip into buildbot venv",
+#     command=["/home/buildbot/buildbot/venvs/buildbot/bin/python", "-m", "pip", "install", "--upgrade", "."],
+#     env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/buildbot"},
+#     workdir="sources/"))
 
 # install qtpyvcp to virtual env
 factory_qtpyvcp.addStep(steps.ShellCommand(
@@ -74,7 +74,7 @@ factory_qtpyvcp.addStep(steps.SetPropertyFromCommand(
              "installer/scripts/check_version.py"],
     property="qtpyvcp_version",
     env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/qtpyvcp"},
-    workdir="sources/", ))
+    workdir="sources/"))
 
 # add version and date to installer config file
 factory_qtpyvcp.addStep(steps.ShellCommand(
