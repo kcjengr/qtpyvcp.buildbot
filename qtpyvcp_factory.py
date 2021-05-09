@@ -144,7 +144,7 @@ factory_qtpyvcp.addStep(steps.CopyDirectory(name="copy the installer to reposito
 
 # publish on pypi
 factory_qtpyvcp.addStep(steps.ShellCommand(
-    command=["pip", "install", "-upgrade", "twine"],
+    command=["pip", "install", "--upgrade", "twine"],
     env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/qtpyvcp"},
     workdir="sources/"))
 
