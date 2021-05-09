@@ -166,8 +166,8 @@ factory_qtpyvcp.addStep(
         sphinx_builddir="/home/buildbot/buildbot/worker/qtpyvcp/docs",
         sphinx_sourcedir="/home/buildbot/buildbot/worker/qtpyvcp/sources/docs/source/",
         strict_warnings=False,
-        env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/qtpyvcp-dev"
-            ,"LANG": "en_EN.UTF-8"},
+        env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/qtpyvcp-dev",
+             "LANG": "en_EN.UTF-8"},
         workdir="sources/docs/source/"))
 
 factory_qtpyvcp.addStep(steps.ShellCommand(name="Initialize docs repository",
