@@ -45,11 +45,11 @@ class CustomGitHubEventHandler(GitHubEventHandler):
 
         return change
 
-    def handle_push(self, payload):
+    def handle_push(self, payload, event):
         changes = []
         refname = payload['ref']
 
-        log.msg(f"Processing GitHub Push {refname}")
+        log.msg(f"Processing GitHub Push {refname}, {event}")
 
         # We only care about regular heads, i.e. branches
         match = re.match(r"^refs\/heads\/(.+)$", refname)
