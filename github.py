@@ -4,12 +4,11 @@
 import logging
 from pprint import pprint
 
-import urllib2
 import json
 import string
 import re
 
-from buildbot.status.web.hooks.github import GitHubEventHandler
+from buildbot.www.hooks.github import GitHubEventHandler
 from dateutil.parser import parse as dateparse
 from twisted.python import log
 
