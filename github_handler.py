@@ -1,11 +1,8 @@
 # -*- python -*-
 # ex: set syntax=python:
 
-import logging
 from pprint import pprint
 
-import json
-import string
 import re
 
 from buildbot.www.hooks.github import GitHubEventHandler
@@ -19,14 +16,14 @@ from twisted.python import log
 
 class CustomGitHubEventHandler(GitHubEventHandler):
 
-    def handle_push_commit(self, payload, commit, branch):
+    def handle_push_commit(self, payload, commit, tag):
         created_at = dateparse(commit['timestamp'])
         comments = commit['message']
 
         change = {
             'revision': commit['id'],
             'when_timestamp': created_at,
-            'branch': branch,
+            'tag': tag,
             'revlink': commit['url'],
             'repository': payload['repository']['url'],
             'project': payload['repository']['full_name'],
