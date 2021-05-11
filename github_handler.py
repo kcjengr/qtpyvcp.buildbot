@@ -52,14 +52,14 @@ class CustomGitHubEventHandler(GitHubEventHandler):
         log.msg(f"Processing GitHub Push {refname}, {event}")
 
         # We only care about regular heads, i.e. branches
-        match = re.match(r"^refs\/heads\/(.+)$", refname)
+        match = re.match(r"^refs\/tags\/(.+)$", refname)
         if not match:
-            log.msg(f"Ignoring refname {refname}: Not a branch")
+            log.msg(f"Ignoring refname {refname}: Not a tag")
             return changes, 'git'
 
-        branch = match.group(1)
+        tag = match.group(1)
         if payload.get('deleted'):
-            log.msg(f"Branch {branch} deleted, ignoring")
+            log.msg(f"Tag {tag} deleted, ignoring")
             return changes, 'git'
 
         nr = 0
@@ -74,7 +74,7 @@ class CustomGitHubEventHandler(GitHubEventHandler):
                 log.msg(f"Commit {(commit['id'], nr)} exceeds push limit (%d > 5), ignoring...")
                 continue
 
-            change = self.handle_push_commit(payload, commit, branch)
+            change = self.handle_push_commit(payload, commit, tag)
             changes.append(change)
 
         log.msg(f"Received {len(changes)} changes pushed from github")
