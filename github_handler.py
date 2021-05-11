@@ -35,4 +35,4 @@ class CustomGitHubEventHandler(GitHubEventHandler):
             log.msg(f"Tag {tag} deleted, ignoring")
             return [], 'git'
 
-        return super().handle_pull_request(payload, event)
+        return super().handle_push(payload, event)
