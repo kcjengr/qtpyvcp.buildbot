@@ -38,8 +38,6 @@ class CustomGitHubEventHandler(GitHubEventHandler):
         elif self._codebase is not None:
             change['codebase'] = self._codebase
 
-        pprint(change)
-
         return change
 
     def handle_push(self, payload, event):
@@ -53,8 +51,6 @@ class CustomGitHubEventHandler(GitHubEventHandler):
         if not match:
             log.msg(f"Ignoring refname {refname}: Not a tag")
             return changes, 'git'
-
-
 
         tag = match.group(1)
 
