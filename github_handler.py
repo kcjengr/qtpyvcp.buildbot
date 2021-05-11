@@ -57,7 +57,12 @@ class CustomGitHubEventHandler(GitHubEventHandler):
             log.msg(f"Ignoring refname {refname}: Not a tag")
             return changes, 'git'
 
+
+
         tag = match.group(1)
+
+        log.msg(f"Got tag: {tag}")
+
         if payload.get('deleted'):
             log.msg(f"Tag {tag} deleted, ignoring")
             return changes, 'git'
@@ -76,6 +81,12 @@ class CustomGitHubEventHandler(GitHubEventHandler):
 
             change = self.handle_push_commit(payload, commit, tag)
             changes.append(change)
+
+        head_commit = payload['head_commit']
+        if head_commit:
+            change = self.handle_push_commit(payload, head_commit, tag)
+            changes.append(change)
+            nr += 1
 
         log.msg(f"Received {len(changes)} changes pushed from github")
 
