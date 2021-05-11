@@ -17,22 +17,20 @@ from twisted.python import log
 class CustomGitHubEventHandler(GitHubEventHandler):
 
     def handle_push(self, payload, event):
-        refname = payload['ref']
+        # This field is unused:
+        user = None
+        # user = payload['pusher']['name']
+        repo = payload['repository']['name']
+        repo_url = payload['repository']['html_url']
+        # NOTE: what would be a reasonable value for project?
+        # project = request.args.get('project', [''])[0]
+        project = payload['repository']['full_name']
 
-        log.msg(f"Processing GitHub Push {refname}, {event}")
+        # Inject some additional white-listed event payload properties
+        properties = self.extractProperties(payload)
+        changes = self._process_change(payload, user, repo, repo_url, project,
+                                       event, properties)
 
-        # We only care about regular heads, i.e. branches
-        match = re.match(r"^refs\/tags\/(.+)$", refname)
-        if not match:
-            log.msg(f"Ignoring refname {refname}: Not a tag")
-            return [], 'git'
+        log.msg("Received {} changes from github".format(len(changes)))
 
-        tag = match.group(1)
-
-        log.msg(f"Got tag: {tag}")
-
-        if payload.get('deleted'):
-            log.msg(f"Tag {tag} deleted, ignoring")
-            return [], 'git'
-
-        return super().handle_push(payload, event)
+        return changes, 'git'
