@@ -18,7 +18,7 @@ class CustomGitHubEventHandler(GitHubEventHandler):
 
     def handle_push(self, payload, event):
         ref = payload['ref']
-        if re.match(r"^refs/(heads|tags)/(master|v/\d+\.x)$", ref):
+        if re.match(r"^refs/(heads|tags)/(master|\bv?[0-99]+\.?[0-99]?\b)$", ref):
             return super().handle_push(payload, event)
         else:
             print(f'SafeGitHubEventHandler: ignoring push event for ref: {ref}')
