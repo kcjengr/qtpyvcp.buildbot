@@ -1,7 +1,5 @@
 # -*- python -*-
 # ex: set syntax=python:
-import json
-from pprint import pprint
 
 import re
 
@@ -18,12 +16,16 @@ class CustomGitHubEventHandler(GitHubEventHandler):
 
     def handle_push(self, payload, event):
         ref = payload['ref']
-        if re.match(r"^refs/(heads|tags)/(master|v?[0-9]+\.?[0-99]+\.?[0-99]?.)$", ref):
+        if re.match(r"^refs/(heads)/(master)$", ref):
+
+            log.msg("Got Push to master")
+
+            return super().handle_push(payload, event)
+        elif re.match(r"^refs/(tags)/(v?[0-9]+\.?[0-99]+\.?[0-99]?.)$", ref):
+
+            log.msg("Got Push to tags")
+
             return super().handle_push(payload, event)
         else:
-            print(f'SafeGitHubEventHandler: ignoring push event for ref: {ref}')
-            return self.skip()
-
-    @staticmethod
-    def skip():
-        return [], 'git'
+            print(f'CustomGitHubEventHandler: ignoring push event for ref: {ref}')
+            return [], 'git'
