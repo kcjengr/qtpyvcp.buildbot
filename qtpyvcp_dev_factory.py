@@ -147,16 +147,24 @@ factory_qtpyvcp_dev.addStep(steps.RemoveDirectory(name="delete dist directory", 
 factory_qtpyvcp_dev.addStep(steps.RemoveDirectory(name="delete docs directory", dir="docs/"))
 
 factory_qtpyvcp_dev.addStep(
-    steps.Sphinx(
+    steps.ShellCommand(
         name="compile sphinx docs",
-        sphinx="/usr/bin/sphinx-build",
-        sphinx_builddir="/home/buildbot/buildbot/worker/qtpyvcp-dev/docs",
-        sphinx_sourcedir="/home/buildbot/buildbot/worker/qtpyvcp-dev/sources/docs/source/",
-        strict_warnings=False,
-        env={"LANG": "en_EN.UTF-8"},
-        workdir="sources/docs/source/"
+        command=["make"],
+        workdir="sources/docs"
     )
 )
+
+# factory_qtpyvcp_dev.addStep(
+#     steps.Sphinx(
+#         name="compile sphinx docs",
+#         sphinx="/usr/bin/sphinx-build",
+#         sphinx_builddir="/home/buildbot/buildbot/worker/qtpyvcp-dev/docs",
+#         sphinx_sourcedir="/home/buildbot/buildbot/worker/qtpyvcp-dev/sources/docs/source/",
+#         strict_warnings=False,
+#         env={"LANG": "en_EN.UTF-8"},
+#         workdir="sources/docs/source/"
+#     )
+# )
 
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(name="Initialize docs repository",
                                                command=["git", "init"],
