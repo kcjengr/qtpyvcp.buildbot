@@ -1,6 +1,7 @@
 #
 # QtPyVCP Develop Factory
 #
+import os
 
 from buildbot.plugins import steps, util
 
@@ -148,12 +149,11 @@ factory_qtpyvcp_dev.addStep(steps.RemoveDirectory(name="delete docs directory", 
 factory_qtpyvcp_dev.addStep(
     steps.Sphinx(
         name="compile sphinx docs",
+        sphinx_builder="/home/buildbot/buildbot/worker/qtpyvcp-dev/bin/sphinx-build",
         sphinx_builddir="/home/buildbot/buildbot/worker/qtpyvcp-dev/docs",
         sphinx_sourcedir="/home/buildbot/buildbot/worker/qtpyvcp-dev/sources/docs/source/",
         strict_warnings=False,
-        env={"PATH": "/home/buildbot/buildbot/venvs/qtpyvcp/bin",
-             "VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/qtpyvcp-dev",
-             "LANG": "en_EN.UTF-8"},
+        env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/qtpyvcp-dev", "LANG": "en_EN.UTF-8"},
         workdir="sources/docs/source/"))
 
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(name="Initialize docs repository",
