@@ -149,7 +149,7 @@ factory_qtpyvcp_dev.addStep(steps.RemoveDirectory(name="delete docs directory", 
 factory_qtpyvcp_dev.addStep(
     steps.Sphinx(
         name="compile sphinx docs",
-        sphinx_builder="/home/buildbot/buildbot/worker/qtpyvcp-dev/bin/sphinx-build",
+        sphinx_builder="/home/buildbot/buildbot/venvs/qtpyvcp-dev/bin/sphinx-build",
         sphinx_builddir="/home/buildbot/buildbot/worker/qtpyvcp-dev/docs",
         sphinx_sourcedir="/home/buildbot/buildbot/worker/qtpyvcp-dev/sources/docs/source/",
         strict_warnings=False,
