@@ -22,11 +22,11 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     workdir="sources/"))
 
 # install qtpyvcp to buildbot virtual env
-factory_qtpyvcp_dev.addStep(steps.ShellCommand(
-    name="install qtpyvcp from pip into buildbot venv",
-    command=["/home/buildbot/buildbot/venvs/buildbot/bin/python", "-m", "pip", "install", "--upgrade", "-e", "."],
-    env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/buildbot"},
-    workdir="sources/"))
+# factory_qtpyvcp_dev.addStep(steps.ShellCommand(
+#     name="install qtpyvcp from pip into buildbot venv",
+#     command=["/home/buildbot/buildbot/venvs/buildbot/bin/python", "-m", "pip", "install", "--upgrade", "-e", "."],
+#     env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/buildbot"},
+#     workdir="sources/"))
 
 # install qtpyvcp to virtual env
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
@@ -150,13 +150,12 @@ factory_qtpyvcp_dev.addStep(
     steps.Sphinx(
         name="compile sphinx docs",
         haltOnFailure=True,
-        sphinx="/home/buildbot/buildbot/venvs/qtpyvcp-dev/bin/sphinx-build",
+        sphinx="/usr/bin/sphinx-build",
         sphinx_builddir="/home/buildbot/buildbot/worker/qtpyvcp-dev/docs",
         sphinx_sourcedir="/home/buildbot/buildbot/worker/qtpyvcp-dev/sources/docs/source/",
         strict_warnings=False,
         env={"QT_SELECT": "qt5",
-             "LANG": "en_EN.UTF-8",
-             "VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/qtpyvcp-dev"
+             "LANG": "en_EN.UTF-8"
              },
         workdir="sources/docs/source/"
     )
