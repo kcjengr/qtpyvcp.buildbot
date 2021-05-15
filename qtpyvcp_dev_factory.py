@@ -149,7 +149,9 @@ factory_qtpyvcp_dev.addStep(steps.RemoveDirectory(name="delete docs directory", 
 factory_qtpyvcp_dev.addStep(
     steps.ShellCommand(
         name="compile sphinx docs",
+        sphinx="/usr/bin/sphinx-build",
         command=["make", "html"],
+        env=["LANG", "en_EN.UTF-8"],
         workdir="sources/docs"
     )
 )
