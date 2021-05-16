@@ -154,9 +154,8 @@ factory_qtpyvcp_dev.addStep(
         sphinx_builddir="/home/buildbot/buildbot/worker/qtpyvcp-dev/docs",
         sphinx_sourcedir="/home/buildbot/buildbot/worker/qtpyvcp-dev/sources/docs/source/",
         strict_warnings=False,
-        env={"QT_SELECT": "qt5",
-             "LANG": "en_EN.UTF-8"
-             },
+        env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/qtpyvcp-dev",
+             "LANG": "en_EN.UTF-8"},
         workdir="sources/docs/source/"
     )
 )
