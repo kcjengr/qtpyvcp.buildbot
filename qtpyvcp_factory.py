@@ -34,6 +34,15 @@ factory_qtpyvcp.addStep(steps.ShellCommand(
     command=["python", "setup.py", "sdist"],
     workdir="sources/"))
 
+# publish on pypi
+factory_qtpyvcp.addStep(steps.ShellCommand(
+    command=["pip", "install", "--upgrade", "twine"],
+    workdir="sources/"))
+
+factory_qtpyvcp.addStep(steps.ShellCommand(
+    command=["/home/buildbot/.local/bin/twine", "upload", "dist/qtpyvcp*.tar.gz"],
+    workdir="sources/"))
+
 # build debian packages
 # factory_qtpyvcp_dev.addStep(steps.ShellCommand(
 #    command=["fpm", "-t", "deb", "-p", "debs", "-s", "python", "-f", "--license", 'GPLv2',
@@ -128,15 +137,6 @@ factory_qtpyvcp.addStep(steps.CopyDirectory(name="copy the installer to reposito
 #              pass_file.github_kcjengr_token],
 #     env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/qtpyvcp"},
 #         workdir="sources/"))
-
-# publish on pypi
-factory_qtpyvcp.addStep(steps.ShellCommand(
-    command=["pip", "install", "--upgrade", "twine"],
-    workdir="sources/"))
-
-factory_qtpyvcp.addStep(steps.ShellCommand(
-    command=["/home/buildbot/.local/bin/twine", "upload", "dist/qtpyvcp*.tar.gz"],
-    workdir="sources/"))
 
 
 factory_qtpyvcp.addStep(steps.RemoveDirectory(name="delete copy of the local repo", dir="sources/installer/repo"))
