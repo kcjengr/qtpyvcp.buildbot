@@ -132,11 +132,12 @@ factory_qtpyvcp_dev.addStep(
     steps.Sphinx(
         name="compile sphinx docs",
         haltOnFailure=True,
-        sphinx="sphinx-build",
+        sphinx="/home/buildbot/.local/bin/sphinx-build",
         sphinx_builddir="/home/buildbot/buildbot/worker/qtpyvcp-dev/docs",
         sphinx_sourcedir="/home/buildbot/buildbot/worker/qtpyvcp-dev/sources/docs/source/",
         strict_warnings=False,
-        env={"LANG": "en_EN.UTF-8"},
+        env={""
+             "LANG": "en_EN.UTF-8"},
         workdir="sources/docs/source/"
     )
 )
