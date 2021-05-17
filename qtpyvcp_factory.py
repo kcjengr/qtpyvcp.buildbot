@@ -134,10 +134,9 @@ factory_qtpyvcp.addStep(steps.ShellCommand(
     command=["pip", "install", "--upgrade", "twine"],
     workdir="sources/"))
 
-# factory_qtpyvcp.addStep(steps.ShellCommand(
-#     command=["twine", "upload", "dist/qtpyvcp*.tar.gz"],
-#     env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/qtpyvcp"},
-#     workdir="sources/"))
+factory_qtpyvcp.addStep(steps.ShellCommand(
+    command=["twine", "upload", "dist/qtpyvcp*.tar.gz"],
+    workdir="sources/"))
 
 
 factory_qtpyvcp.addStep(steps.RemoveDirectory(name="delete copy of the local repo", dir="sources/installer/repo"))
