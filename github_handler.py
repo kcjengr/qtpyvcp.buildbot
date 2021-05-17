@@ -21,7 +21,8 @@ class CustomGitHubEventHandler(GitHubEventHandler):
 
             return super().handle_push(payload, event)
         elif re.match(r"^refs/(tags)/(v?[0-9]+\.?[0-99]+\.?[0-99]?.)$", ref):
-            payload["commits"] = payload.head_commit
+
+            payload["commits"] = payload.get("head_commit")
             log.msg("Got Push to tags")
 
             return super().handle_push(payload, event)
