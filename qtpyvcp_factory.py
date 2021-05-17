@@ -135,7 +135,7 @@ factory_qtpyvcp.addStep(steps.ShellCommand(
     workdir="sources/"))
 
 factory_qtpyvcp.addStep(steps.ShellCommand(
-    command=["twine", "upload", "dist/qtpyvcp*.tar.gz"],
+    command=["/home/buildbot/.local/bin/twine", "upload", "dist/qtpyvcp*.tar.gz"],
     workdir="sources/"))
 
 
