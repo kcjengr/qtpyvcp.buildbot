@@ -130,13 +130,10 @@ factory_qtpyvcp.addStep(steps.CopyDirectory(name="copy the installer to reposito
                                             dest="/home/buildbot/repo/main"))
 
 # publish on github
-# factory_qtpyvcp.addStep(steps.ShellCommand(
-#     command=["/home/buildbot/buildbot/worker/qtpyvcp/sources/.scripts/publish_github_release.sh",
-#              "kcjengr/qtpyvcp",
-#              util.Property("qtpyvcp_version"),
-#              pass_file.github_kcjengr_token],
-#     env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/qtpyvcp"},
-#         workdir="sources/"))
+factory_qtpyvcp.addStep(steps.ShellCommand(
+    command=["/home/buildbot/buildbot/worker/qtpyvcp/sources/.scripts/publish_github_release.sh",
+             "kcjengr/qtpyvcp", util.Property("qtpyvcp_version")],
+    workdir="sources/"))
 
 
 factory_qtpyvcp.addStep(steps.RemoveDirectory(name="delete copy of the local repo", dir="sources/installer/repo"))
