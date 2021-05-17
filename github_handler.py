@@ -30,7 +30,7 @@ class CustomGitHubEventHandler(GitHubEventHandler):
     def handle_release(self, payload, event):
         if 'release' not in payload:
             payload = json.loads(payload['payload'][0])
-        
+
         change = {
             'author': payload['release']['author']['login'],
             'repository': payload['repository']['clone_url'],
@@ -42,6 +42,5 @@ class CustomGitHubEventHandler(GitHubEventHandler):
             'comments': payload['release']['body'],
             'branch': payload['release']['tag_name'],
         }
-
         # Do some magic here
         return [change], 'git'
