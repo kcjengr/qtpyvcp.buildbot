@@ -2,6 +2,7 @@
 # ex: set syntax=python:
 
 import re
+from pprint import pprint
 
 from buildbot.www.hooks.github import GitHubEventHandler
 from twisted.python import log
@@ -22,7 +23,9 @@ class CustomGitHubEventHandler(GitHubEventHandler):
             return super().handle_push(payload, event)
         elif re.match(r"^refs/(tags)/(v?[0-9]+\.?[0-99]+\.?[0-99]?.)$", ref):
 
+            pprint(payload.get("head_commit"))
             payload["commits"] = payload.get("head_commit")
+            pprint(payload.get("commits"))
             log.msg("Got Push to tags")
 
             return super().handle_push(payload, event)
