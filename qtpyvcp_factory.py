@@ -16,32 +16,22 @@ factory_qtpyvcp.addStep(steps.GitHub(name="download qtpyvcp sources",
                                      submodules=True,
                                      workdir="sources/"))
 
-# # install qtpyvcp to buildbot virtual env
-# factory_qtpyvcp.addStep(steps.ShellCommand(
-#     name="install qtpyvcp from pip into buildbot venv",
-#     command=["/home/buildbot/buildbot/venvs/buildbot/bin/python", "-m", "pip", "install", "--upgrade", "."],
-#     env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/buildbot"},
-#     workdir="sources/"))
-
 # install qtpyvcp to virtual env
 factory_qtpyvcp.addStep(steps.ShellCommand(
-    name="install qtpyvcp from sources into build venv",
-    command=["/home/buildbot/buildbot/venvs/qtpyvcp/bin/python", "-m", "pip", "install", "--upgrade", "."],
-    env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/qtpyvcp"},
+    name="install qtpyvcp from sources",
+    command=["python", "-m", "pip", "install", "--upgrade", "."],
     workdir="sources/"))
 
 # build binaries and wheel for distribution
 factory_qtpyvcp.addStep(steps.ShellCommand(
     name="build binaries and wheel for distribution",
-    command=["/home/buildbot/buildbot/venvs/qtpyvcp/bin/python", "setup.py", "bdist_wheel"],
-    env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/qtpyvcp"},
+    command=["python", "setup.py", "bdist_wheel"],
     workdir="sources/"))
 
 # build source for distribution
 factory_qtpyvcp.addStep(steps.ShellCommand(
     name="build source for distribution",
-    command=["/home/buildbot/buildbot/venvs/qtpyvcp/bin/python", "setup.py", "sdist"],
-    env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/qtpyvcp"},
+    command=["python", "setup.py", "sdist"],
     workdir="sources/"))
 
 # build debian packages
@@ -70,36 +60,33 @@ factory_qtpyvcp.addStep(steps.ShellCommand(
 # get version from installed python package
 factory_qtpyvcp.addStep(steps.SetPropertyFromCommand(
     name="obtain qtpyvcp version number",
-    command=["/home/buildbot/buildbot/venvs/qtpyvcp/bin/python",
+    command=["python",
              "installer/scripts/check_version.py"],
     property="qtpyvcp_version",
-    env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/qtpyvcp"},
     workdir="sources/"))
 
 # add version and date to installer config file
 factory_qtpyvcp.addStep(steps.ShellCommand(
     name="add version and date to installer package file",
-    command=["/home/buildbot/buildbot/venvs/qtpyvcp/bin/python",
+    command=["python",
              "installer/scripts/create_config.py",
              "installer/templates/config_template.xml",
              "installer/config/config.xml",
              "http://repository.qtpyvcp.com/main/repo/",
              util.Property("qtpyvcp_version")
              ],
-    env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/qtpyvcp"},
     workdir="sources/"))
 
 # add version and date to installer package file
 factory_qtpyvcp.addStep(steps.ShellCommand(
     name="add version and date to installer package file",
-    command=["/home/buildbot/buildbot/venvs/qtpyvcp/bin/python",
+    command=["python",
              "installer/scripts/create_package_config.py",
              "installer/templates/package_template.xml",
              "installer/packages/com.kcjengr.qtpyvcp/meta/package.xml",
              util.Property("qtpyvcp_version")
              ],
-    env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/qtpyvcp"},
-    workdir="sources/",))
+    workdir="sources/", ))
 
 # copy files to installer directories
 factory_qtpyvcp.addStep(steps.CopyDirectory(
@@ -145,7 +132,6 @@ factory_qtpyvcp.addStep(steps.CopyDirectory(name="copy the installer to reposito
 # publish on pypi
 factory_qtpyvcp.addStep(steps.ShellCommand(
     command=["pip", "install", "--upgrade", "twine"],
-    env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/qtpyvcp"},
     workdir="sources/"))
 
 # factory_qtpyvcp.addStep(steps.ShellCommand(
@@ -163,33 +149,35 @@ factory_qtpyvcp.addStep(steps.RemoveDirectory(name="delete docs directory", dir=
 factory_qtpyvcp.addStep(
     steps.Sphinx(
         name="compile sphinx docs",
+        haltOnFailure=True,
+        sphinx="/home/buildbot/.local/bin/sphinx-build",
         sphinx_builddir="/home/buildbot/buildbot/worker/qtpyvcp/docs",
         sphinx_sourcedir="/home/buildbot/buildbot/worker/qtpyvcp/sources/docs/source/",
         strict_warnings=False,
-        env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/qtpyvcp",
-             "LANG": "en_EN.UTF-8"},
+        env={"LANG": "en_EN.UTF-8"},
         workdir="sources/docs/source/"))
 
 factory_qtpyvcp.addStep(steps.ShellCommand(name="Initialize docs repository",
-                                               command=["git", "init"],
-                                               workdir="docs/"))
+                                           command=["git", "init"],
+                                           workdir="docs/"))
 
 factory_qtpyvcp.addStep(steps.ShellCommand(name="add remote repository",
-                                               command=["git", "remote", "add", "origin", "git@github.com:kcjengr/qtpyvcp.git"],
-                                               workdir="docs/"))
+                                           command=["git", "remote", "add", "origin",
+                                                    "git@github.com:kcjengr/qtpyvcp.git"],
+                                           workdir="docs/"))
 
 factory_qtpyvcp.addStep(steps.ShellCommand(name="switch branch",
-                                               command=["git", "checkout", "-b", "gh-pages"],
-                                               workdir="docs/"))
+                                           command=["git", "checkout", "-b", "gh-pages"],
+                                           workdir="docs/"))
 
 factory_qtpyvcp.addStep(steps.ShellCommand(name="add docs",
-                                               command=["git", "add", "."],
-                                               workdir="docs/"))
+                                           command=["git", "add", "."],
+                                           workdir="docs/"))
 
 factory_qtpyvcp.addStep(steps.ShellCommand(name="commit docs",
-                                               command=["git", "commit", "-m", "Deploy docs"],
-                                               workdir="docs/"))
+                                           command=["git", "commit", "-m", "Deploy docs"],
+                                           workdir="docs/"))
 
 factory_qtpyvcp.addStep(steps.ShellCommand(name="push docs",
-                                               command=["git", "push", "--force", "origin", "gh-pages"],
-                                               workdir="docs/"))
+                                           command=["git", "push", "--force", "origin", "gh-pages"],
+                                           workdir="docs/"))
