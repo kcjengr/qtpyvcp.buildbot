@@ -24,9 +24,10 @@ class CustomGitHubEventHandler(GitHubEventHandler):
 
             return super().handle_push(payload, event)
         elif re.match(r"^refs/(tags)/(v?[0-9]+\.?[0-99]+\.?[0-99]?.)$", ref):
+            version = ref.split('/').pop()
+            log.msg(f"Got new tag RELEASE : {version}")
 
-            log.msg("Got Push to branch")
-
+            payload["release"] = version
             return super().handle_push(payload, event)
         else:
             print(f'CustomGitHubEventHandler: ignoring push event for ref: {ref}')
