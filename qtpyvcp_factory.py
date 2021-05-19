@@ -8,10 +8,18 @@ from buildbot.plugins import steps, util
 
 factory_qtpyvcp = util.BuildFactory()
 
+
+# get version from installed python package
+factory_qtpyvcp.addStep(steps.SetPropertyFromCommand(
+    name="obtain qtpyvcp version number",
+    command=["git", "branch"],
+    property="qtpyvcp_version",
+    workdir="sources/"))
+
 # fetch sources
 factory_qtpyvcp.addStep(steps.GitHub(name="download qtpyvcp sources",
                                      repourl='git@github.com:kcjengr/qtpyvcp.git',
-                                     branch='master',
+                                     branch=util.Property("qtpyvcp_version"),
                                      mode='full',
                                      submodules=True,
                                      workdir="sources/"))
@@ -65,14 +73,6 @@ factory_qtpyvcp.addStep(steps.ShellCommand(
 #            "--no-auto-depends",
 #            "--verbose", "setup.py"],))
 
-
-# get version from installed python package
-factory_qtpyvcp.addStep(steps.SetPropertyFromCommand(
-    name="obtain qtpyvcp version number",
-    command=["python",
-             "installer/scripts/check_version.py"],
-    property="qtpyvcp_version",
-    workdir="sources/"))
 
 # add version and date to installer config file
 factory_qtpyvcp.addStep(steps.ShellCommand(
