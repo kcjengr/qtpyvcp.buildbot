@@ -16,6 +16,16 @@ factory_qtpyvcp.addStep(steps.GitHub(name="download qtpyvcp sources",
                                      submodules=True,
                                      workdir="sources/"))
 
+factory_qtpyvcp.addStep(steps.ShellCommand(
+    name="deinit submodules",
+    command=["git", "submodule", "deinit", "-f", "."],
+    workdir="sources",))
+
+factory_qtpyvcp.addStep(steps.ShellCommand(
+    name="init submodules",
+    command=["git", "submodule", "update", "--init", "--recusive"],
+    workdir="sources",))
+
 # install qtpyvcp to virtual env
 factory_qtpyvcp.addStep(steps.ShellCommand(
     name="install qtpyvcp from sources",
