@@ -8,21 +8,19 @@ from buildbot.plugins import steps, util
 
 factory_qtpyvcp = util.BuildFactory()
 
-
-# get version from installed python package
-factory_qtpyvcp.addStep(steps.SetPropertyFromCommand(
-    name="obtain qtpyvcp version number",
-    command=["git", "branch"],
-    property="qtpyvcp_version",
-    workdir="sources/"))
-
 # fetch sources
 factory_qtpyvcp.addStep(steps.GitHub(name="download qtpyvcp sources",
                                      repourl='git@github.com:kcjengr/qtpyvcp.git',
-                                     branch=util.Property("qtpyvcp_version"),
                                      mode='full',
                                      submodules=True,
                                      workdir="sources/"))
+
+# get version from tag name
+factory_qtpyvcp.addStep(steps.SetPropertyFromCommand(
+    name="obtain qtpyvcp version number",
+    command=["git", "rev-parse", "--abbrev-rev", "HEAD"],
+    property="qtpyvcp_version",
+    workdir="sources/"))
 
 # install qtpyvcp to virtual env
 factory_qtpyvcp.addStep(steps.ShellCommand(
@@ -134,7 +132,6 @@ factory_qtpyvcp.addStep(steps.ShellCommand(
     command=["/home/buildbot/buildbot/worker/qtpyvcp/sources/.scripts/publish_github_release.sh",
              "kcjengr/qtpyvcp", util.Property("qtpyvcp_version")],
     workdir="sources/"))
-
 
 factory_qtpyvcp.addStep(steps.RemoveDirectory(name="delete copy of the local repo", dir="sources/installer/repo"))
 factory_qtpyvcp.addStep(steps.RemoveDirectory(name="delete build directory", dir="sources/build/"))
