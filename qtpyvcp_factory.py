@@ -75,7 +75,7 @@ factory_qtpyvcp.addStep(steps.ShellCommand(
              "installer/templates/config_template.xml",
              "installer/config/config.xml",
              "http://repository.qtpyvcp.com/main/repo/",
-             util.Property("got_revision")
+             util.Property("ref").split("/").pop()
              ],
     workdir="sources/"))
 
@@ -86,7 +86,7 @@ factory_qtpyvcp.addStep(steps.ShellCommand(
              "installer/scripts/create_package_config.py",
              "installer/templates/package_template.xml",
              "installer/packages/com.kcjengr.qtpyvcp/meta/package.xml",
-             util.Property("got_revision")
+             util.Property("ref").split("/").pop()
              ],
     workdir="sources/", ))
 
