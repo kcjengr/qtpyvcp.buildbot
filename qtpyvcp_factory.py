@@ -23,7 +23,7 @@ factory_qtpyvcp.addStep(steps.ShellCommand(
 
 factory_qtpyvcp.addStep(steps.ShellCommand(
     name="init submodules",
-    command=["git", "submodule", "update", "--init", "--recusive"],
+    command=["git", "submodule", "update", "--recursive", "--remote"],
     workdir="sources",))
 
 # install qtpyvcp to virtual env
