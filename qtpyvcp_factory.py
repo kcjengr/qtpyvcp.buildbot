@@ -12,7 +12,7 @@ factory_qtpyvcp = util.BuildFactory()
 factory_qtpyvcp.addStep(steps.GitHub(name="download qtpyvcp sources",
                                      repourl='git@github.com:kcjengr/qtpyvcp.git',
                                      mode='full',
-                                     branch=util.Property("revision"),
+                                     branch=util.Property("got_revision"),
                                      submodules=True,
                                      method='clobber',
                                      workdir="sources/"))
@@ -75,7 +75,7 @@ factory_qtpyvcp.addStep(steps.ShellCommand(
              "installer/templates/config_template.xml",
              "installer/config/config.xml",
              "http://repository.qtpyvcp.com/main/repo/",
-             util.Property("revision")
+             util.Property("got_revision")
              ],
     workdir="sources/"))
 
@@ -86,7 +86,7 @@ factory_qtpyvcp.addStep(steps.ShellCommand(
              "installer/scripts/create_package_config.py",
              "installer/templates/package_template.xml",
              "installer/packages/com.kcjengr.qtpyvcp/meta/package.xml",
-             util.Property("qtpyvcp_version")
+             util.Property("got_revision")
              ],
     workdir="sources/", ))
 
@@ -104,7 +104,7 @@ factory_qtpyvcp.addStep(steps.ShellCommand(
     name="configure the installer",
     command=["qmake"],
     workdir="sources/installer",
-    env={"QT_SELECT": "qt5", "QTPYVCP_VERSION": util.Property("qtpyvcp_version")}))
+    env={"QT_SELECT": "qt5", "QTPYVCP_VERSION": util.Property("got_revision")}))
 
 # build the installer
 factory_qtpyvcp.addStep(steps.Compile(name="compile the installer",
@@ -125,7 +125,7 @@ factory_qtpyvcp.addStep(steps.CopyDirectory(name="copy the installer to reposito
 # publish on github
 factory_qtpyvcp.addStep(steps.ShellCommand(
     command=["/home/buildbot/buildbot/worker/qtpyvcp/sources/.scripts/publish_github_release.sh",
-             "kcjengr/qtpyvcp", util.Property("qtpyvcp_version")],
+             "kcjengr/qtpyvcp", util.Property("got_revision")],
     workdir="sources/"))
 
 factory_qtpyvcp.addStep(steps.RemoveDirectory(name="delete copy of the local repo", dir="sources/installer/repo"))
