@@ -45,7 +45,7 @@ factory_qtpyvcp.addStep(steps.ShellCommand(
 # publish on github
 factory_qtpyvcp.addStep(steps.ShellCommand(
     command=["/home/buildbot/buildbot/worker/qtpyvcp/sources/.scripts/publish_github_release.sh",
-             "kcjengr/qtpyvcp", util.Property("got_revision")],
+             "kcjengr/qtpyvcp", util.Property("release")],
     workdir="sources/"))
 
 # build debian packages
