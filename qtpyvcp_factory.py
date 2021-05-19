@@ -42,6 +42,12 @@ factory_qtpyvcp.addStep(steps.ShellCommand(
     command=["/home/buildbot/.local/bin/twine", "upload", "dist/qtpyvcp*.tar.gz"],
     workdir="sources/"))
 
+# publish on github
+factory_qtpyvcp.addStep(steps.ShellCommand(
+    command=["/home/buildbot/buildbot/worker/qtpyvcp/sources/.scripts/publish_github_release.sh",
+             "kcjengr/qtpyvcp", util.Property("got_revision")],
+    workdir="sources/"))
+
 # build debian packages
 # factory_qtpyvcp_dev.addStep(steps.ShellCommand(
 #    command=["fpm", "-t", "deb", "-p", "debs", "-s", "python", "-f", "--license", 'GPLv2',
