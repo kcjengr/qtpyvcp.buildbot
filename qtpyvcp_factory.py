@@ -14,7 +14,6 @@ factory_qtpyvcp.addStep(steps.GitHub(name="download qtpyvcp sources",
                                      mode='full',
                                      branch=util.Property("ref"),
                                      submodules=True,
-                                     method='clobber',
                                      workdir="sources/"))
 
 # install qtpyvcp to virtual env
