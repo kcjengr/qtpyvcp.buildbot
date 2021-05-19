@@ -12,7 +12,7 @@ factory_qtpyvcp = util.BuildFactory()
 factory_qtpyvcp.addStep(steps.GitHub(name="download qtpyvcp sources",
                                      repourl='git@github.com:kcjengr/qtpyvcp.git',
                                      mode='full',
-                                     branch=util.Property("ref"),
+                                     branch=util.Property("release"),
                                      submodules=True,
                                      workdir="sources/"))
 
