@@ -12,17 +12,10 @@ factory_qtpyvcp = util.BuildFactory()
 factory_qtpyvcp.addStep(steps.GitHub(name="download qtpyvcp sources",
                                      repourl='git@github.com:kcjengr/qtpyvcp.git',
                                      mode='full',
-                                     branch='v0.3.17',
+                                     branch=util.Property("revision"),
                                      submodules=True,
                                      method='clobber',
                                      workdir="sources/"))
-
-# get version from tag name
-factory_qtpyvcp.addStep(steps.SetPropertyFromCommand(
-    name="obtain qtpyvcp version number",
-    command=["git", "rev-parse", "--abbrev-rev", "HEAD"],
-    property="qtpyvcp_version",
-    workdir="sources/"))
 
 # install qtpyvcp to virtual env
 factory_qtpyvcp.addStep(steps.ShellCommand(
@@ -82,7 +75,7 @@ factory_qtpyvcp.addStep(steps.ShellCommand(
              "installer/templates/config_template.xml",
              "installer/config/config.xml",
              "http://repository.qtpyvcp.com/main/repo/",
-             util.Property("qtpyvcp_version")
+             util.Property("revision")
              ],
     workdir="sources/"))
 
