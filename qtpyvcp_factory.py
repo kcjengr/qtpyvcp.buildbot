@@ -45,7 +45,7 @@ factory_qtpyvcp.addStep(steps.ShellCommand(
 # publish on github
 factory_qtpyvcp.addStep(steps.ShellCommand(
     command=["/home/buildbot/buildbot/worker/qtpyvcp/sources/.scripts/publish_github_release.sh",
-             "kcjengr/qtpyvcp", util.Property("release")],
+             "kcjengr/qtpyvcp", util.Property("branch")],
     workdir="sources/"))
 
 # build debian packages
@@ -79,7 +79,7 @@ factory_qtpyvcp.addStep(steps.ShellCommand(
              "installer/templates/config_template.xml",
              "installer/config/config.xml",
              "http://repository.qtpyvcp.com/main/repo/",
-             util.Property("release")
+             util.Property("branch")
              ],
     workdir="sources/"))
 
@@ -90,7 +90,7 @@ factory_qtpyvcp.addStep(steps.ShellCommand(
              "installer/scripts/create_package_config.py",
              "installer/templates/package_template.xml",
              "installer/packages/com.kcjengr.qtpyvcp/meta/package.xml",
-             util.Property("release")
+             util.Property("branch")
              ],
     workdir="sources/", ))
 
