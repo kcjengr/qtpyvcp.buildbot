@@ -36,7 +36,11 @@ factory_qtpyvcp.addStep(steps.ShellCommand(
     workdir="sources/"))
 
 factory_qtpyvcp.addStep(steps.ShellCommand(
-    command=["/home/buildbot/.local/bin/twine", "upload", "dist/qtpyvcp*.tar.gz"],
+    command=["/home/buildbot/.local/bin/twine",
+             "upload",
+             "--repository",
+             "qtpyvcp_pypi"
+             "dist/qtpyvcp*.tar.gz"],
     workdir="sources/"))
 
 # publish on github

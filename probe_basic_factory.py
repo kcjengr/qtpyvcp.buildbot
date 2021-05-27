@@ -45,7 +45,11 @@ factory_probe_basic.addStep(steps.ShellCommand(
     workdir="sources/"))
 
 factory_probe_basic.addStep(steps.ShellCommand(
-    command=["/home/buildbot/.local/bin/twine", "upload", "dist/probe_basic*.tar.gz"],
+    command=["/home/buildbot/.local/bin/twine",
+             "upload",
+             "--repository",
+             "probebasic_pypi",
+             "dist/probe_basic*.tar.gz"],
     workdir="sources/"))
 
 # publish on github
