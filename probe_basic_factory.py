@@ -3,7 +3,7 @@
 #
 
 from buildbot.plugins import steps, util
-from distutils.version import Version
+from packaging.version import Version, parse
 
 factory_probe_basic = util.BuildFactory()
 # fetch sources
@@ -67,7 +67,7 @@ factory_probe_basic.addStep(
                                 "pb-installer/scripts/create_probe_basic_package_config.py",
                                 "pb-installer/templates/probe_basic_package_template.xml",
                                 "pb-installer/packages/com.probebasic.core/meta/package.xml",
-                                str(Version(util.Property("branch")))]
+                                str(packaging.version.parse(Version(util.Property("branch"))))]
                        ))
 
 # add version and date to installer config file
@@ -78,7 +78,7 @@ factory_probe_basic.addStep(
                                 "pb-installer/templates/config_template.xml",
                                 "pb-installer/config/config.xml",
                                 "http://repository.qtpyvcp.com/repo/pb/repo",
-                                str(Version(util.Property("branch")))]
+                                str(packaging.version.parse(Version(util.Property("branch"))))]
                        ))
 
 # copy files to installer directories
