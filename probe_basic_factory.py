@@ -9,57 +9,51 @@ factory_probe_basic = util.BuildFactory()
 # fetch sources
 factory_probe_basic.addStep(steps.GitHub(name="download probe_basic sources",
                                          repourl='git@github.com:kcjengr/probe_basic.git',
-                                         branch='master',
                                          mode='full',
                                          submodules=True,
                                          workdir="sources/"))
 
 
-# install qtpyvcp to buildbot virtual env
+# install qtpyvcp
 factory_probe_basic.addStep(steps.ShellCommand(
-    name="install qtpyvcp from pip into buildbot venv",
-    command=["/home/buildbot/buildbot/venvs/buildbot/bin/python", "-m", "pip", "install", "--upgrade", "qtpyvcp"],
-    env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/buildbot"},
+    name="install qtpyvcp from pip",
+    command=["python", "-m", "pip", "install", "--upgrade", "qtpyvcp"],
     workdir="sources/"))
 
-# install qtpyvcp to virtual env
-factory_probe_basic.addStep(steps.ShellCommand(
-    name="install qtpyvcp from pip into build venv",
-    command=["/home/buildbot/buildbot/venvs/probe_basic/bin/python", "-m", "pip", "install", "--upgrade", "qtpyvcp"],
-    env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/probe_basic"},
-    workdir="sources/"))
 
-# install sources to virtual env
+# install sources
 factory_probe_basic.addStep(steps.ShellCommand(
-    name="install probe basic from sources into build venv",
-    command=["/home/buildbot/buildbot/venvs/probe_basic/bin/python", "-m", "pip", "install", "--upgrade", "."],
-    env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/probe_basic"},
+    name="install probe basic from sources",
+    command=["python", "-m", "pip", "install", "--upgrade", "."],
     workdir="sources/"))
 
 # build binaries and wheel for distribution
 factory_probe_basic.addStep(steps.ShellCommand(
     name="build binaries and wheel for distribution",
-    command=["/home/buildbot/buildbot/venvs/probe_basic/bin/python", "setup.py", "bdist_wheel"],
-    env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/probe_basic"},
+    command=["python", "setup.py", "bdist_wheel"],
     workdir="sources/"))
 
 # build source for distribution
 factory_probe_basic.addStep(steps.ShellCommand(
     name="build source for distribution",
-    command=["/home/buildbot/buildbot/venvs/probe_basic/bin/python", "setup.py", "sdist"],
-    env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/probe_basic"},
+    command=["python", "setup.py", "sdist"],
     workdir="sources/"))
 
-# get version from installed probe_basic package
-factory_probe_basic.addStep(
-    steps.SetPropertyFromCommand(
-        name="obtain probe_basic version number",
-        command=["/home/buildbot/buildbot/venvs/probe_basic/bin/python",
-                 "pb-installer/scripts/check_probe_basic_version.py"],
-        property="probe_basic_version",
-        env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/probe_basic"},
-        workdir="sources/"))
 
+# publish on pypi
+factory_probe_basic.addStep(steps.ShellCommand(
+    command=["pip", "install", "--upgrade", "twine"],
+    workdir="sources/"))
+
+factory_probe_basic.addStep(steps.ShellCommand(
+    command=["/home/buildbot/.local/bin/twine", "upload", "dist/probe_basic*.tar.gz"],
+    workdir="sources/"))
+
+# publish on github
+factory_probe_basic.addStep(steps.ShellCommand(
+    command=["/home/buildbot/buildbot/worker/probe_basic/sources/.scripts/publish_github_release.sh",
+             "kcjengr/probe_basic", util.Property("branch")],
+    workdir="sources/"))
 
 
 # add version and date to installer package file
@@ -69,7 +63,7 @@ factory_probe_basic.addStep(
                                 "pb-installer/scripts/create_probe_basic_package_config.py",
                                 "pb-installer/templates/probe_basic_package_template.xml",
                                 "pb-installer/packages/com.probebasic.core/meta/package.xml",
-                                util.Property("probe_basic_version")],
+                                util.Property("branch")],
                        env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/probe_basic"}))
 
 # add version and date to installer config file
@@ -80,7 +74,7 @@ factory_probe_basic.addStep(
                                 "pb-installer/templates/config_template.xml",
                                 "pb-installer/config/config.xml",
                                 "http://repository.qtpyvcp.com/repo/pb/repo",
-                                util.Property("probe_basic_version")],
+                                util.Property("branch")],
                        env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/probe_basic"}))
 
 # copy files to installer directories
@@ -100,7 +94,7 @@ factory_probe_basic.addStep(steps.ShellCommand(name="configure the installer",
                                                command=["qmake"],
                                                workdir="sources/pb-installer",
                                                env={"QT_SELECT": "qt5",
-                                                    "PB_VERSION": util.Property("probe_basic_version")}))
+                                                    "PB_VERSION": util.Property("branch")}))
 
 # build the installer
 factory_probe_basic.addStep(steps.Compile(name="compile the installer",

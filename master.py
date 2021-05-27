@@ -1,13 +1,11 @@
-from pprint import pprint
-
 import pass_file
 
 from buildbot.plugins import *
+
 from buildbot.process.properties import Interpolate
 from buildbot.reporters.generators.buildset import BuildSetStatusGenerator
 from buildbot.reporters.generators.build import BuildStatusGenerator
 from buildbot.reporters.message import MessageFormatterBase
-from buildbot.www.hooks.github import GitHubEventHandler
 
 from twisted.python import log
 
