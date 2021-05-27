@@ -55,7 +55,7 @@ factory_probe_basic_dev.addStep(
                                 "pb-installer/scripts/create_probe_basic_package_config.py",
                                 "pb-installer/templates/probe_basic_package_template.xml",
                                 "pb-installer/packages/com.probebasic.core/meta/package.xml",
-                                str(parse(util.Property("probe_basic_dev_version")))],
+                                parse(str(util.Property("probe_basic_dev_version")))],
                        workdir="sources/"))
 
 # add version and date to installer config file
@@ -66,7 +66,7 @@ factory_probe_basic_dev.addStep(
                                 "pb-installer/templates/config_template.xml",
                                 "pb-installer/config/config.xml",
                                 "http://repository.qtpyvcp.com/repo/pb-dev/repo",
-                                str(parse(util.Property("probe_basic_dev_version")))],
+                                parse(str(util.Property("probe_basic_dev_version")))],
                        workdir="sources/"))
 
 # copy files to installer directories
