@@ -58,23 +58,23 @@ factory_probe_basic.addStep(steps.ShellCommand(
 # add version and date to installer package file
 factory_probe_basic.addStep(
     steps.ShellCommand(workdir="sources/",
-                       command=["/home/buildbot/buildbot/venvs/probe_basic/bin/python",
+                       command=["python",
                                 "pb-installer/scripts/create_probe_basic_package_config.py",
                                 "pb-installer/templates/probe_basic_package_template.xml",
                                 "pb-installer/packages/com.probebasic.core/meta/package.xml",
-                                util.Property("branch")],
-                       env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/probe_basic"}))
+                                util.Property("branch")]
+                       ))
 
 # add version and date to installer config file
 factory_probe_basic.addStep(
     steps.ShellCommand(workdir="sources/",
-                       command=["/home/buildbot/buildbot/venvs/probe_basic/bin/python",
+                       command=["python",
                                 "pb-installer/scripts/create_config.py",
                                 "pb-installer/templates/config_template.xml",
                                 "pb-installer/config/config.xml",
                                 "http://repository.qtpyvcp.com/repo/pb/repo",
-                                util.Property("branch")],
-                       env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/probe_basic"}))
+                                util.Property("branch")]
+                       ))
 
 # copy files to installer directories
 factory_probe_basic.addStep(steps.CopyDirectory(name="copy probebasic builds to the installer core package",
@@ -139,6 +139,8 @@ factory_probe_basic.addStep(steps.ShellCommand(name="clean gh-pages",
 factory_probe_basic.addStep(
     steps.Sphinx(
         name="compile sphinx docs",
+        haltOnFailure=True,
+        sphinx="/home/buildbot/.local/bin/sphinx-build",
         sphinx_builddir="/home/buildbot/buildbot/worker/probe_basic/docs/",
         sphinx_sourcedir="/home/buildbot/buildbot/worker/probe_basic/sources/docs_src/source/",
         strict_warnings=False,

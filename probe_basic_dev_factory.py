@@ -16,13 +16,13 @@ factory_probe_basic_dev.addStep(steps.GitHub(name="download probe_basic sources"
 
 # install qtpyvcp
 factory_probe_basic_dev.addStep(steps.ShellCommand(
-    name="install qtpyvcp from pip into build venv",
+    name="install qtpyvcp from pip",
     command=["python", "-m", "pip", "install", "--upgrade", "qtpyvcp"],
     workdir="sources/"))
 
 # install sources
 factory_probe_basic_dev.addStep(steps.ShellCommand(
-    name="install probe basic from sources into build venv",
+    name="install probe basic from sources",
     command=["python", "-m", "pip", "install", "--upgrade", "."],
     workdir="sources/"))
 
@@ -55,7 +55,6 @@ factory_probe_basic_dev.addStep(
                                 "pb-installer/templates/probe_basic_package_template.xml",
                                 "pb-installer/packages/com.probebasic.core/meta/package.xml",
                                 util.Property("probe_basic_dev_version")],
-                       env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/probebasic-dev"},
                        workdir="sources/"))
 
 # add version and date to installer config file
@@ -67,7 +66,6 @@ factory_probe_basic_dev.addStep(
                                 "pb-installer/config/config.xml",
                                 "http://repository.qtpyvcp.com/repo/pb-dev/repo",
                                 util.Property("probe_basic_dev_version")],
-                       env={"VIRTUAL_ENV": "/home/buildbot/buildbot/venvs/probebasic-dev"},
                        workdir="sources/"))
 
 # copy files to installer directories
@@ -131,6 +129,8 @@ factory_probe_basic_dev.addStep(steps.ShellCommand(name="clean gh-pages",
 factory_probe_basic_dev.addStep(
     steps.Sphinx(
         name="compile sphinx docs",
+        haltOnFailure=True,
+        sphinx="/home/buildbot/.local/bin/sphinx-build",
         sphinx_builddir="/home/buildbot/buildbot/worker/probe_basic-dev/docs/",
         sphinx_sourcedir="/home/buildbot/buildbot/worker/probe_basic-dev/sources/docs_src/source/",
         strict_warnings=False,
