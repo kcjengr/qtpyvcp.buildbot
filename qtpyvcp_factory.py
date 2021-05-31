@@ -39,7 +39,7 @@ factory_qtpyvcp.addStep(steps.ShellCommand(
     command=["/home/buildbot/.local/bin/twine",
              "upload",
              "--repository",
-             "qtpyvcppypi"
+             "qtpyvcppypi",
              "dist/qtpyvcp*.tar.gz"],
     workdir="sources/"))
 
