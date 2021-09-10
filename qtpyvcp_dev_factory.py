@@ -20,7 +20,7 @@ factory_qtpyvcp_dev.addStep(steps.GitHub(name="download qtpyvcp sources",
 # install qtpyvcp to buildbot python
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     name="install qtpyvcp from sources into buildbot python",
-    command=["python3", "-m", "pip3", "install", "--upgrade", "-e", "."],
+    command=["python3", "-m", "pip", "install", "--upgrade", "-e", "."],
     workdir="sources/"))
 
 
