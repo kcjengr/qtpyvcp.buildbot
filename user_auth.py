@@ -1,4 +1,4 @@
-# -*- python -*-
+# -*- python3 -*-
 # ex: set syntax=python:
 
 from buildbot.plugins import util

@@ -1,5 +1,5 @@
-# -*- python -*-
-# ex: set syntax=python:
+# -*- pytho3n -*-
+# ex: set syntax=python3:
 import datetime
 import json
 import re

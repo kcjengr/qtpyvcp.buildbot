@@ -1,5 +1,5 @@
-# -*- python -*-
-# ex: set syntax=python:
+# -*- python3 -*-
+# ex: set syntax=python3:
 #
 # QtPyVCP Develop Factory
 #
