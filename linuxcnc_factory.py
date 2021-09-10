@@ -1,3 +1,5 @@
+# -*- python -*-
+# ex: set syntax=python:
 #
 # ProbeBasic Develop Factory
 #

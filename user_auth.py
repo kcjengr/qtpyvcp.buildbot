@@ -1,3 +1,6 @@
+# -*- python -*-
+# ex: set syntax=python:
+
 from buildbot.plugins import util
 import pass_file
 

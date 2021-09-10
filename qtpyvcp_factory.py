@@ -1,3 +1,5 @@
+# -*- python -*-
+# ex: set syntax=python:
 #
 # QtPyVCP Factory
 #
