@@ -134,7 +134,7 @@ factory_qtpyvcp_dev.addStep(
     steps.Sphinx(
         name="compile sphinx docs",
         haltOnFailure=True,
-        sphinx="/home/buildbot/.local/bin/sphinx-build",
+        sphinx="/usr/bin/sphinx-build",
         sphinx_builddir="/home/buildbot/buildbot/worker/qtpyvcp-dev/docs",
         sphinx_sourcedir="/home/buildbot/buildbot/worker/qtpyvcp-dev/sources/docs/source/",
         strict_warnings=False,

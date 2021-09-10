@@ -1,5 +1,5 @@
 # -*- python3 -*-
-# ex: set syntax=python:
+# ex: set syntax=python3:
 
 from buildbot.plugins import util
 import pass_file
