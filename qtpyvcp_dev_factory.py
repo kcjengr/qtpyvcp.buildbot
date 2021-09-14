@@ -86,7 +86,7 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     command=["python3",
              "installer/scripts/create_package_config.py",
              "installer/templates/package_template.xml",
-             "installer/packages/com.kcjengr.qtpyvcp/meta/package.xml",
+             "installer/packages/com.qtpyvcp.core/meta/package.xml",
              util.Property("qtpyvcp_dev_version")
              ],
     workdir="sources/"))
@@ -95,7 +95,7 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
 factory_qtpyvcp_dev.addStep(steps.CopyDirectory(
     name="copy qtpyvcp builds to the installer core package",
     src="sources/dist",
-    dest="sources/installer/packages/com.kcjengr.qtpyvcp/data"))
+    dest="sources/installer/packages/com.qtpyvcp.core/data"))
 
 factory_qtpyvcp_dev.addStep(steps.RemoveDirectory(dir="sources/dist"))
 factory_qtpyvcp_dev.addStep(steps.RemoveDirectory(dir="sources/installer/repo"))
