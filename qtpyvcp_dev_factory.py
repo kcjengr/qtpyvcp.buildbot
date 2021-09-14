@@ -75,7 +75,7 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
              "installer/scripts/create_config.py",
              "installer/templates/config_template.xml",
              "installer/config/config.xml",
-             "http://repository.qtpyvcp.com/dev/repo/",
+             "https://repository.qtpyvcp.com/repo/dev/repo/",
              util.Property("qtpyvcp_dev_version")
              ],
     workdir="sources/"))
