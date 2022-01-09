@@ -12,7 +12,7 @@ factory_probe_basic_dev = util.BuildFactory()
 # fetch sources
 factory_probe_basic_dev.addStep(steps.GitHub(name="download probe_basic sources",
                                              repourl='git@github.com:kcjengr/probe_basic.git',
-                                             branch='master',
+                                             branch='python3',
                                              mode='full',
                                              submodules=True,
                                              workdir="sources/"))
