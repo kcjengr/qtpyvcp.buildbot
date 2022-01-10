@@ -97,7 +97,7 @@ factory_probe_basic_dev.addStep(steps.Compile(name="compile the installer",
 # copy the packages to repository
 factory_probe_basic_dev.addStep(steps.CopyDirectory(name="copy the packages to repository",
                                                     src="sources/pb-installer/repo",
-                                                    dest="/home/buildbot/repo/pb-dev/repo"))
+                                                    dest="/home/buildbot/repo/pb-dev"))
 
 factory_probe_basic_dev.addStep(
     steps.ShellCommand(
@@ -110,7 +110,7 @@ factory_probe_basic_dev.addStep(
 # copy the installer to repository
 factory_probe_basic_dev.addStep(steps.CopyDirectory(name="copy the installer to repository",
                                                     src="sources/pb-installer/bin",
-                                                    dest="/home/buildbot/repo/pb-dev/bin"))
+                                                    dest="/home/buildbot/repo/pb-dev"))
 
 
 factory_probe_basic_dev.addStep(
