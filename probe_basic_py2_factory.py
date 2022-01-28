@@ -99,27 +99,12 @@ factory_probe_basic_py2.addStep(steps.CopyDirectory(name="copy the packages to r
                                                     src="sources/pb-installer/repo",
                                                     dest="/home/buildbot/repo/pb-py2"))
 
-factory_probe_basic_py2.addStep(
-    steps.ShellCommand(
-        name="chmod repo directory",
-        command=["sh", "-c", "chmod u+rx repo"],
-        workdir="/home/buildbot/repo/pb-py2"
-    )
-)
 
 # copy the installer to repository
 factory_probe_basic_py2.addStep(steps.CopyDirectory(name="copy the installer to repository",
                                                     src="sources/pb-installer/bin",
                                                     dest="/home/buildbot/repo/pb-py2"))
 
-
-factory_probe_basic_py2.addStep(
-    steps.ShellCommand(
-        name="chmod bin directory",
-        command=["sh", "-c", "chmod u+rx bin"],
-        workdir="/home/buildbot/repo/pb-py2"
-    )
-)
 
 factory_probe_basic_py2.addStep(steps.RemoveDirectory(name="delete copy of the local repo", dir="sources/pb-installer/repo"))
 factory_probe_basic_py2.addStep(steps.RemoveDirectory(name="delete build directory", dir="sources/build/"))
