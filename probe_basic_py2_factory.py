@@ -20,7 +20,7 @@ factory_probe_basic_py2.addStep(steps.GitHub(name="download probe_basic sources"
 # install qtpyvcp
 factory_probe_basic_py2.addStep(steps.ShellCommand(
     name="install qtpyvcp from pip",
-    command=["python2.7", "-m", "pip", "install", "--upgrade", "qtpyvcp"],
+    command=["python2.7", "-m", "pip", "install", "--upgrade", "git+https://github.com/kcjengr/qtpyvcp@python2_maintenance"],
     workdir="sources/"))
 
 # install sources
