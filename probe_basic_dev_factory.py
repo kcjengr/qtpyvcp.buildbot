@@ -20,32 +20,32 @@ factory_probe_basic_dev.addStep(steps.GitHub(name="download probe_basic sources"
 # install qtpyvcp
 factory_probe_basic_dev.addStep(steps.ShellCommand(
     name="install qtpyvcp from pip",
-    command=["python", "-m", "pip", "install", "--upgrade", "qtpyvcp"],
+    command=["python3", "-m", "pip", "install", "--upgrade", "qtpyvcp"],
     workdir="sources/"))
 
 # install sources
 factory_probe_basic_dev.addStep(steps.ShellCommand(
     name="install probe basic from sources",
-    command=["python", "-m", "pip", "install", "--upgrade", "."],
+    command=["python3", "-m", "pip", "install", "--upgrade", "."],
     workdir="sources/"))
 
 # build binaries and wheel for distribution
 factory_probe_basic_dev.addStep(steps.ShellCommand(
     name="build binaries and wheel for distribution",
-    command=["python", "setup.py", "bdist_wheel"],
+    command=["python3", "setup.py", "bdist_wheel"],
     workdir="sources/"))
 
 # build source for distribution
 factory_probe_basic_dev.addStep(steps.ShellCommand(
     name="build source for distribution",
-    command=["python", "setup.py", "sdist"],
+    command=["python3", "setup.py", "sdist"],
     workdir="sources/"))
 
 # get version from installed probe_basic package
 factory_probe_basic_dev.addStep(
     steps.SetPropertyFromCommand(
         name="obtain probe_basic version number",
-        command=["python",
+        command=["python3",
                  "pb-installer/scripts/check_probe_basic_version.py"],
         property="probe_basic_dev_version",
         workdir="sources/"))
@@ -53,7 +53,7 @@ factory_probe_basic_dev.addStep(
 # add version and date to installer package file
 factory_probe_basic_dev.addStep(
     steps.ShellCommand(name="add version and date to installer package file",
-                       command=["python",
+                       command=["python3",
                                 "pb-installer/scripts/create_probe_basic_package_config.py",
                                 "pb-installer/templates/probe_basic_package_template.xml",
                                 "pb-installer/packages/com.probebasic.core/meta/package.xml",
@@ -63,7 +63,7 @@ factory_probe_basic_dev.addStep(
 # add version and date to installer config file
 factory_probe_basic_dev.addStep(
     steps.ShellCommand(name="add version, date and repo to installer config file",
-                       command=["python",
+                       command=["python3",
                                 "pb-installer/scripts/create_config.py",
                                 "pb-installer/templates/config_template.xml",
                                 "pb-installer/config/config.xml",
