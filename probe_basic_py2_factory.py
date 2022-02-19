@@ -23,6 +23,18 @@ factory_probe_basic_py2.addStep(steps.ShellCommand(
     command=["python2.7", "-m", "pip", "install", "--upgrade", "git+https://github.com/kcjengr/qtpyvcp@python2_maintenance"],
     workdir="sources/"))
 
+# git pull just in case
+factory_probe_basic_py2.addStep(steps.ShellCommand(
+    name="git pull probe basic",
+    command=["git", "pull"],
+    workdir="sources/"))
+
+# git pull submodules
+factory_probe_basic_py2.addStep(steps.ShellCommand(
+    name="git pull probe basic",
+    command=["git", "git" "submodule" "update" "--init" "--recursive"],
+    workdir="sources/"))
+
 # install sources
 factory_probe_basic_py2.addStep(steps.ShellCommand(
     name="install probe basic from sources",
