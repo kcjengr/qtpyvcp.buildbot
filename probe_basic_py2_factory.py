@@ -32,7 +32,7 @@ factory_probe_basic_py2.addStep(steps.ShellCommand(
 # git pull submodules
 factory_probe_basic_py2.addStep(steps.ShellCommand(
     name="git pull probe basic",
-    command=["git", "git" "submodule" "update" "--init" "--recursive"],
+    command=["git", "git", "submodule", "update", "--init", "--recursive"],
     workdir="sources/"))
 
 # install sources
