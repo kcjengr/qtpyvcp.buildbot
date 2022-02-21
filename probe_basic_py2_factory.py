@@ -108,14 +108,15 @@ factory_probe_basic_py2.addStep(steps.Compile(name="compile the installer",
 
 
 # transfer installer to master
-factory_probe_basic_py2.addStep(steps.FileUpload(workersrc=f'/home/turboss/buildbot/probe_basic-py2/sources/pb-installer/bin/*',
-                                                 masterdest=f'/home/buildbot/repo/pb-py2/bin/',
-                                                 url=f'https://repository.qtpyvcp.com/repo/pb-py2/bin/'))
+factory_probe_basic_py2.addStep(steps.DirectoryUpload(workersrc=f'/home/turboss/buildbot/probe_basic-py2/sources/pb-installer/bin',
+                                                      masterdest=f'/home/buildbot/repo/pb-py2/bin/',
+                                                      url=f'https://repository.qtpyvcp.com/repo/pb-py2/bin/'))
 
 
 # transfer installer repo to master
-factory_probe_basic_py2.addStep(steps.FileUpload(workersrc="/home/turboss/buildbot/probe_basic-py2/sources/pb-installer/repo",
-                                                 masterdest="/home/buildbot/repo/pb-py2/repo"))
+factory_probe_basic_py2.addStep(steps.DirectoryUpload(workersrc="/home/turboss/buildbot/probe_basic-py2/sources/pb-installer/repo",
+                                                      masterdest="/home/buildbot/repo/pb-py2/repo",
+                                                      url=f'https://repository.qtpyvcp.com/repo/pb-py2/repo/'))
                            
                            
 # # copy the packages to repository
