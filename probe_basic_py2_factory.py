@@ -108,12 +108,12 @@ factory_probe_basic_py2.addStep(steps.Compile(name="compile the installer",
 
 
 # transfer installer to master
-factory_probe_basic_py2.addStep(steps.FileUpload(workersrc="home/turboss/buildbot/probe_basic-py2/sources/pb-installer/bin",
+factory_probe_basic_py2.addStep(steps.FileUpload(workersrc="/home/turboss/buildbot/probe_basic-py2/sources/pb-installer/bin",
                                                  masterdest="/home/buildbot/repo/pb-py2/bin"))
 
 
 # transfer installer repo to master
-factory_probe_basic_py2.addStep(steps.FileUpload(workersrc="home/turboss/buildbot/probe_basic-py2/sources/pb-installer/repo",
+factory_probe_basic_py2.addStep(steps.FileUpload(workersrc="/home/turboss/buildbot/probe_basic-py2/sources/pb-installer/repo",
                                                  masterdest="/home/buildbot/repo/pb-py2/repo"))
                            
                            
