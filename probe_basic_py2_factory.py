@@ -159,7 +159,7 @@ factory_probe_basic_py2.addStep(
     steps.Sphinx(
         name="compile sphinx docs",
         haltOnFailure=True,
-        sphinx="/usr/bin/sphinx-build",
+        sphinx="/home/turboss/.local/bin/sphinx-build",
         sphinx_builddir="/home/turboss/buildbot/probe_basic-py2/docs/",
         sphinx_sourcedir="/home/turboss/buildbot/probe_basic-py2/sources/docs_src/source/",
         strict_warnings=False,
