@@ -108,7 +108,7 @@ factory_probe_basic_py2.addStep(steps.Compile(name="compile the installer",
 
 
 # transfer installer to master
-factory_probe_basic_py2.addStep(steps.FileUpload(workersrc=f'/home/turboss/buildbot/probe_basic-py2/sources/pb-installer/bin/',
+factory_probe_basic_py2.addStep(steps.FileUpload(workersrc=f'/home/turboss/buildbot/probe_basic-py2/sources/pb-installer/bin/*',
                                                  masterdest=f'/home/buildbot/repo/pb-py2/bin/',
                                                  url=f'https://repository.qtpyvcp.com/repo/pb-py2/bin/'))
 
