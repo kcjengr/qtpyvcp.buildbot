@@ -106,16 +106,27 @@ factory_probe_basic_py2.addStep(steps.Compile(name="compile the installer",
                                               workdir="sources/pb-installer",
                                               env={"QT_SELECT": "qt5"}))
 
-# copy the packages to repository
-factory_probe_basic_py2.addStep(steps.CopyDirectory(name="copy the packages to repository",
-                                                    src="sources/pb-installer/repo",
-                                                    dest="/home/turboss/repo/pb-py2"))
+
+# transfer installer to master
+factory_probe_basic_py2.addStep(steps.FileUpload(workersrc="sources/pb-installer/bin",
+                                                 masterdest="/home/buildbot/repo/pb-py2/bin"))
 
 
-# copy the installer to repository
-factory_probe_basic_py2.addStep(steps.CopyDirectory(name="copy the installer to repository",
-                                                    src="sources/pb-installer/bin",
-                                                    dest="/home/turboss/repo/pb-py2"))
+# transfer installer repo to master
+factory_probe_basic_py2.addStep(steps.FileUpload(workersrc="sources/pb-installer/repo",
+                                                 masterdest="/home/buildbot/repo/pb-py2/repo"))
+                           
+                           
+# # copy the packages to repository
+# factory_probe_basic_py2.addStep(steps.CopyDirectory(name="copy the packages to repository",
+#                                                     src="sources/pb-installer/repo",
+#                                                     dest="/home/turboss/repo/pb-py2"))
+
+
+# # copy the installer to repository
+# factory_probe_basic_py2.addStep(steps.CopyDirectory(name="copy the installer to repository",
+#                                                     src="sources/pb-installer/bin",
+#                                                     dest="/home/turboss/repo/pb-py2"))
 
 
 factory_probe_basic_py2.addStep(steps.RemoveDirectory(name="delete copy of the local repo", dir="sources/pb-installer/repo"))
