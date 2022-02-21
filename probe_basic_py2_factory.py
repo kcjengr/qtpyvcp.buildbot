@@ -134,38 +134,38 @@ factory_probe_basic_py2.addStep(steps.DirectoryUpload(workersrc="/home/turboss/b
 factory_probe_basic_py2.addStep(steps.RemoveDirectory(name="delete copy of the local repo", dir="sources/pb-installer/repo"))
 factory_probe_basic_py2.addStep(steps.RemoveDirectory(name="delete build directory", dir="sources/build/"))
 factory_probe_basic_py2.addStep(steps.RemoveDirectory(name="delete dist directory", dir="sources/dist/"))
-#
-#
-# factory_probe_basic_py2.addStep(steps.GitHub(name="downlaod static docs",
-#                                              repourl='git@github.com:kcjengr/probe_basic.git',
-#                                              origin="origin",
-#                                              branch="gh-pages",
-#                                              mode='full',
-#                                              workdir="docs/"))
-#
-# factory_probe_basic_py2.addStep(steps.ShellCommand(name="reset gh-pages",
-#                                                    command=["git", "symbolic-ref", "HEAD", "refs/heads/gh-pages"],
-#                                                    workdir="docs/"))
-#
-# factory_probe_basic_py2.addStep(steps.ShellCommand(name="delete git index",
-#                                                    command=["rm", ".git/index"],
-#                                                    workdir="docs/"))
-#
-# factory_probe_basic_py2.addStep(steps.ShellCommand(name="clean gh-pages",
-#                                                    command=["git", "clean", "-fdx"],
-#                                                    workdir="docs/"))
-#
-# factory_probe_basic_py2.addStep(
-#     steps.Sphinx(
-#         name="compile sphinx docs",
-#         haltOnFailure=True,
-#         sphinx="/usr/bin/sphinx-build",
-#         sphinx_builddir="/home/buildbot/buildbot/worker/probe_basic-dev/docs/",
-#         sphinx_sourcedir="/home/buildbot/buildbot/worker/probe_basic-dev/sources/docs_src/source/",
-#         strict_warnings=False,
-#         env={"LANG": "en_EN.UTF-8"},
-#         workdir="docs/"))
-#
-# factory_probe_basic_py2.addStep(steps.ShellCommand(name="add doc files", command=["git", "add", "."], workdir="docs/"))
-# factory_probe_basic_py2.addStep(steps.ShellCommand(name="commit doc files", command=["git", "commit", "-a", "-m", "deploy gh-pages"], workdir="docs/"))
-# factory_probe_basic_py2.addStep(steps.ShellCommand(name="push docs", command=["git", "push", "--force", "origin", "gh-pages"], workdir="docs/"))
+
+
+factory_probe_basic_py2.addStep(steps.GitHub(name="downlaod static docs",
+                                             repourl='git@github.com:kcjengr/probe_basic.git',
+                                             origin="origin",
+                                             branch="gh-pages",
+                                             mode='full',
+                                             workdir="docs/"))
+
+factory_probe_basic_py2.addStep(steps.ShellCommand(name="reset gh-pages",
+                                                   command=["git", "symbolic-ref", "HEAD", "refs/heads/gh-pages"],
+                                                   workdir="docs/"))
+
+factory_probe_basic_py2.addStep(steps.ShellCommand(name="delete git index",
+                                                   command=["rm", ".git/index"],
+                                                   workdir="docs/"))
+
+factory_probe_basic_py2.addStep(steps.ShellCommand(name="clean gh-pages",
+                                                   command=["git", "clean", "-fdx"],
+                                                   workdir="docs/"))
+
+factory_probe_basic_py2.addStep(
+    steps.Sphinx(
+        name="compile sphinx docs",
+        haltOnFailure=True,
+        sphinx="/usr/bin/sphinx-build",
+        sphinx_builddir="/home/buildbot/buildbot/worker/probe_basic-py2/docs/",
+        sphinx_sourcedir="/home/buildbot/buildbot/worker/probe_basic-py2/sources/docs_src/source/",
+        strict_warnings=False,
+        env={"LANG": "en_EN.UTF-8"},
+        workdir="docs/"))
+
+factory_probe_basic_py2.addStep(steps.ShellCommand(name="add doc files", command=["git", "add", "."], workdir="docs/"))
+factory_probe_basic_py2.addStep(steps.ShellCommand(name="commit doc files", command=["git", "commit", "-a", "-m", "deploy gh-pages"], workdir="docs/"))
+factory_probe_basic_py2.addStep(steps.ShellCommand(name="push docs", command=["git", "push", "--force", "origin", "gh-pages"], workdir="docs/"))
