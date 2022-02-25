@@ -130,6 +130,11 @@ factory_probe_basic_py2.addStep(steps.DirectoryUpload(workersrc="/home/turboss/b
 #                                                     src="sources/pb-installer/bin",
 #                                                     dest="/home/turboss/repo/pb-py2"))
 
+factory_probe_basic_py2.addStep(steps.ShellCommand(
+    command=["/home/turboss/buildbot/probe_basic-py2/sources/.scripts/publish_github_release.sh",
+             "kcjengr/probe_basic", util.Property("probe_basic_dev_version")],
+    workdir="sources/"))
+
 
 factory_probe_basic_py2.addStep(steps.RemoveDirectory(name="delete copy of the local repo", dir="sources/pb-installer/repo"))
 factory_probe_basic_py2.addStep(steps.RemoveDirectory(name="delete build directory", dir="sources/build/"))
