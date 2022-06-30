@@ -120,7 +120,7 @@ factory_probe_basic_dev.addStep(steps.CopyDirectory(name="copy the packages to r
 factory_probe_basic_dev.addStep(
     steps.ShellCommand(
         name="chmod repo directory",
-        command=["sh", "-c", "chmod -R u+rx repo"],
+        command=["sh", "-c", "chmod -R ug+rx repo"],
         workdir="/home/buildbot/repo/pb-dev"
     )
 )
@@ -134,7 +134,7 @@ factory_probe_basic_dev.addStep(steps.CopyDirectory(name="copy the installer to 
 factory_probe_basic_dev.addStep(
     steps.ShellCommand(
         name="chmod bin directory",
-        command=["sh", "-c", "chmod -R u+rx bin"],
+        command=["sh", "-c", "chmod -R ug+rx bin"],
         workdir="/home/buildbot/repo/pb-dev"
     )
 )
