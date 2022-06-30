@@ -21,6 +21,12 @@ factory_probe_basic_dev.addStep(steps.ShellCommand(
     command=["git", "reset", "--hard", "HEAD"],
     workdir="sources/pb-installer"))
 
+# fetch repor
+factory_probe_basic_dev.addStep(steps.ShellCommand(
+    name="fetch repository",
+    command=["git", "fetch"],
+    workdir="sources"))
+
 # fetch sources
 factory_probe_basic_dev.addStep(steps.GitHub(name="download probe_basic sources",
                                              repourl='git@github.com:kcjengr/probe_basic.git',
