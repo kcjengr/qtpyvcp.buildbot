@@ -117,13 +117,13 @@ factory_probe_basic_dev.addStep(steps.CopyDirectory(name="copy the packages to r
                                                     src="sources/pb-installer/repo",
                                                     dest="/home/buildbot/repo/pb-dev"))
 
-factory_probe_basic_dev.addStep(
-    steps.ShellCommand(
-        name="chmod repo directory",
-        command=["sh", "-c", "chmod -R ug+rx repo"],
-        workdir="/home/buildbot/repo/pb-dev"
-    )
-)
+# factory_probe_basic_dev.addStep(
+#     steps.ShellCommand(
+#         name="chmod repo directory",
+#         command=["sh", "-c", "chmod -R ug+rx repo"],
+#         workdir="/home/buildbot/repo/pb-dev"
+#     )
+# )
 
 # copy the installer to repository
 factory_probe_basic_dev.addStep(steps.CopyDirectory(name="copy the installer to repository",
@@ -131,13 +131,23 @@ factory_probe_basic_dev.addStep(steps.CopyDirectory(name="copy the installer to 
                                                     dest="/home/buildbot/repo/pb-dev"))
 
 
+# factory_probe_basic_dev.addStep(
+#     steps.ShellCommand(
+#         name="chmod bin directory",
+#         command=["sh", "-c", "chmod -R ug+rx bin"],
+#         workdir="/home/buildbot/repo/pb-dev"
+#     )
+# )
+
 factory_probe_basic_dev.addStep(
     steps.ShellCommand(
-        name="chmod bin directory",
-        command=["sh", "-c", "chmod -R ug+rx bin"],
-        workdir="/home/buildbot/repo/pb-dev"
+        name="chmod directories",
+        command=["sh", "-c", "/home/buildbot/fix_perms.sh"],
+        workdir="/home/buildbot/repo/"
     )
 )
+
+
 factory_probe_basic_dev.addStep(steps.RemoveDirectory(name="delete copy of the local repo", dir="sources/pb-installer/repo"))
 factory_probe_basic_dev.addStep(steps.RemoveDirectory(name="delete build directory", dir="sources/build/"))
 factory_probe_basic_dev.addStep(steps.RemoveDirectory(name="delete dist directory", dir="sources/dist/"))
