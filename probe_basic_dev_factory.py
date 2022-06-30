@@ -9,11 +9,17 @@ from packaging.version import Version, parse
 
 factory_probe_basic_dev = util.BuildFactory()
 
-# install qtpyvcp
+# reset probe basic
 factory_probe_basic_dev.addStep(steps.ShellCommand(
-    name="reset git repository",
+    name="reset probe_basic source tree",
     command=["git", "reset", "--hard", "HEAD"],
     workdir="sources/"))
+
+# reset pb-installer
+factory_probe_basic_dev.addStep(steps.ShellCommand(
+    name="reset installer source tree",
+    command=["git", "reset", "--hard", "HEAD"],
+    workdir="sources/pb-installer"))
 
 # fetch sources
 factory_probe_basic_dev.addStep(steps.GitHub(name="download probe_basic sources",
@@ -108,7 +114,7 @@ factory_probe_basic_dev.addStep(steps.CopyDirectory(name="copy the packages to r
 factory_probe_basic_dev.addStep(
     steps.ShellCommand(
         name="chmod repo directory",
-        command=["sh", "-c", "chmod u+rx repo"],
+        command=["sh", "-c", "chmod -R u+rx repo"],
         workdir="/home/buildbot/repo/pb-dev"
     )
 )
@@ -122,7 +128,7 @@ factory_probe_basic_dev.addStep(steps.CopyDirectory(name="copy the installer to 
 factory_probe_basic_dev.addStep(
     steps.ShellCommand(
         name="chmod bin directory",
-        command=["sh", "-c", "chmod u+rx bin"],
+        command=["sh", "-c", "chmod -R u+rx bin"],
         workdir="/home/buildbot/repo/pb-dev"
     )
 )
