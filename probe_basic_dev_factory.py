@@ -9,6 +9,12 @@ from packaging.version import Version, parse
 
 factory_probe_basic_dev = util.BuildFactory()
 
+# install qtpyvcp
+factory_probe_basic_dev.addStep(steps.ShellCommand(
+    name="reset git repository",
+    command=["git", "reset", "--hard", "HEAD"],
+    workdir="sources/"))
+
 # fetch sources
 factory_probe_basic_dev.addStep(steps.GitHub(name="download probe_basic sources",
                                              repourl='git@github.com:kcjengr/probe_basic.git',
