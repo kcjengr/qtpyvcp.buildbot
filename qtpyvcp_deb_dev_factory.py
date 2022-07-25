@@ -29,5 +29,5 @@ factory_qtpyvcp_deb_dev.addStep(steps.ShellCommand(
 # copy qtpyvcp deb to repo
 factory_qtpyvcp_deb_dev.addStep(steps.ShellCommand(
     name="copy qtpyvcp deb to repo",
-    command=["cp", "python3-qtpyvcp_0.4-1_all.deb", "/home/buildbot/repo/qtpyvcp-deb-dev"]
-))
+    command=["cp", "python3-qtpyvcp_0.4-1_all.deb", "/home/buildbot/repo/qtpyvcp-deb-dev"],
+    workdir="sources/.."))
