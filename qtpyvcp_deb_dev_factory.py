@@ -11,8 +11,8 @@ factory_qtpyvcp_deb_dev = util.BuildFactory()
 
 # fetch sources
 factory_qtpyvcp_deb_dev.addStep(steps.GitHub(name="get sources",
-                                             repourl='git@github.com:kcjengr/probe_basic.git',
-                                             branch='python3',
+                                             repourl='git@github.com:kcjengr/qtpyvcp.git',
+                                             branch='master',
                                              mode='full',
                                              submodules=False,
                                              workdir="sources/"))
