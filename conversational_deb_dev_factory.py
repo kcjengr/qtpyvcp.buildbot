@@ -11,7 +11,7 @@ factory_conversational_deb_dev = util.BuildFactory()
 
 # fetch sources
 factory_conversational_deb_dev.addStep(steps.GitHub(name="get sources",
-                                             repourl='git@github.com:kcjengr/qtpyvcp/comversational-gcode.git',
+                                             repourl='git@github.com:kcjengr/qtpyvcp.comversational-gcode.git',
                                              branch='debian',
                                              mode='full',
                                              submodules=False,
