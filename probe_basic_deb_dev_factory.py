@@ -27,11 +27,11 @@ factory_probe_basic_deb_dev.addStep(steps.ShellCommand(
 # copy qtpyvcp deb to repo
 factory_probe_basic_deb_dev.addStep(steps.ShellCommand(
     name="copy probe basic deb to repo",
-    command=["cp", "python3-probe-basic_0.4-1_all.deb", "/home/buildbot/repo/probe-basic-deb-dev"],
+    command=["cp", "python3-probe-basic_0.3-1_all.deb", "/home/buildbot/repo/probe-basic-deb-dev"],
     workdir="sources/.."))
 
 # copy qtpyvcp deb to repo
 factory_probe_basic_deb_dev.addStep(steps.ShellCommand(
     name="copy probe basic doc deb to repo",
-    command=["cp", "python-probe-basic-doc_0.4-1_all.deb", "/home/buildbot/repo/probe-basic-deb-dev"],
+    command=["cp", "python-probe-basic-doc_0.3-1_all.deb", "/home/buildbot/repo/probe-basic-deb-dev"],
     workdir="sources/.."))
