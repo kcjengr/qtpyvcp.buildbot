@@ -70,7 +70,7 @@ factory_probe_basic_dev.addStep(
 
 # add version and date to installer package file
 factory_probe_basic_dev.addStep(
-    steps.ShellCommand(name="add version and date to installer package file",
+    steps.ShellCommand(name="add version and date to installer",
                        command=["python3",
                                 "pb-installer/scripts/create_probe_basic_package_config.py",
                                 "pb-installer/templates/probe_basic_package_template.xml",
@@ -80,7 +80,7 @@ factory_probe_basic_dev.addStep(
 
 # add version and date to installer config file
 factory_probe_basic_dev.addStep(
-    steps.ShellCommand(name="add version, date and repo to installer config file",
+    steps.ShellCommand(name="add version, date and repo to installer",
                        command=["python3",
                                 "pb-installer/scripts/create_config.py",
                                 "pb-installer/templates/config_template.xml",
@@ -90,12 +90,12 @@ factory_probe_basic_dev.addStep(
                        workdir="sources/"))
 
 # copy files to installer directories
-factory_probe_basic_dev.addStep(steps.CopyDirectory(name="copy probebasic builds to the installer core package",
+factory_probe_basic_dev.addStep(steps.CopyDirectory(name="copy builds to core package",
                                                     src="sources/dist",
                                                     dest="sources/pb-installer/packages/com.probebasic.core/data/"))
 
 # sim files to installer directories
-factory_probe_basic_dev.addStep(steps.CopyDirectory(name="copy probebasic configs to the installer sim package",
+factory_probe_basic_dev.addStep(steps.CopyDirectory(name="copy configs to sim package",
                                                     src="sources/config",
                                                     dest="sources/pb-installer/packages/com.probebasic.sim/data/"))
 
