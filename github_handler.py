@@ -30,6 +30,12 @@ class CustomGitHubEventHandler(GitHubEventHandler):
             log.msg("Got Push to python3")
 
             return super().handle_push(payload, event)
+
+        elif re.match(r"^refs/(heads)/(debian)$", ref):
+
+            log.msg("Got Push to debian")
+
+            return super().handle_push(payload, event)
         
         elif re.match(r"^refs/(tags)/(v?[0-9]+\.?[0-99]+\.?[0-99]?.)$", ref):
             version = ref.split('/').pop()
