@@ -11,7 +11,7 @@ factory_probe_basic_deb_dev = util.BuildFactory()
 
 # fetch sources
 factory_probe_basic_deb_dev.addStep(steps.GitHub(name="get sources",
-                                             repourl='git@github.com:kcjengr/qtpyvcp/probe-basic.git',
+                                             repourl='git@github.com:kcjengr/probe-basic.git',
                                              branch='debian',
                                              mode='full',
                                              submodules=False,
