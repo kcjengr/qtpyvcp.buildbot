@@ -27,5 +27,11 @@ factory_conversational_deb_dev.addStep(steps.ShellCommand(
 # copy qtpyvcp deb to repo
 factory_conversational_deb_dev.addStep(steps.ShellCommand(
     name="copy qtpyvcp deb to repo",
-    command=["cp", "python3-conversational_0.4-1_all.deb", "/home/buildbot/repo/conversational-deb-dev"],
+    command=["cp", "python3-conversational-gcode_0.3-1_all.deb", "/home/buildbot/repo/conversational-deb-dev"],
+    workdir="sources/.."))
+
+# copy qtpyvcp deb to repo
+factory_conversational_deb_dev.addStep(steps.ShellCommand(
+    name="copy qtpyvcp deb to repo",
+    command=["cp", "python-conversational-gcode-doc_0.3-1_all.deb", "/home/buildbot/repo/conversational-deb-dev"],
     workdir="sources/.."))
