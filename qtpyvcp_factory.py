@@ -17,19 +17,19 @@ factory_qtpyvcp.addStep(steps.GitHub(name="download qtpyvcp sources",
 # install qtpyvcp to virtual env
 factory_qtpyvcp.addStep(steps.ShellCommand(
     name="install qtpyvcp from sources",
-    command=["python", "-m", "pip", "install", "--upgrade", "."],
+    command=["python3", "-m", "pip", "install", "--upgrade", "."],
     workdir="sources/"))
 
 # build binaries and wheel for distribution
 factory_qtpyvcp.addStep(steps.ShellCommand(
     name="build binaries and wheel for distribution",
-    command=["python", "setup.py", "bdist_wheel"],
+    command=["python3", "setup.py", "bdist_wheel"],
     workdir="sources/"))
 
 # build source for distribution
 factory_qtpyvcp.addStep(steps.ShellCommand(
     name="build source for distribution",
-    command=["python", "setup.py", "sdist"],
+    command=["python3", "setup.py", "sdist"],
     workdir="sources/"))
 
 # publish on pypi
@@ -77,7 +77,7 @@ factory_qtpyvcp.addStep(steps.ShellCommand(
 # add version and date to installer config file
 factory_qtpyvcp.addStep(steps.ShellCommand(
     name="add version and date to installer package file",
-    command=["python",
+    command=["python3",
              "installer/scripts/create_config.py",
              "installer/templates/config_template.xml",
              "installer/config/config.xml",
@@ -89,7 +89,7 @@ factory_qtpyvcp.addStep(steps.ShellCommand(
 # add version and date to installer package file
 factory_qtpyvcp.addStep(steps.ShellCommand(
     name="add version and date to installer package file",
-    command=["python",
+    command=["python3",
              "installer/scripts/create_package_config.py",
              "installer/templates/package_template.xml",
              "installer/packages/com.kcjengr.qtpyvcp/meta/package.xml",
