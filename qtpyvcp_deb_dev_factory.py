@@ -12,12 +12,10 @@ factory_qtpyvcp_deb_dev = util.BuildFactory()
 # fetch sources
 factory_qtpyvcp_deb_dev.addStep(steps.GitHub(name="get sources",
                                              repourl='git@github.com:kcjengr/qtpyvcp.git',
-                                             branch='master',
+                                             branch='main',
                                              mode='full',
                                              submodules=False,
                                              workdir="sources/"))
-
-
 
 # build debs
 factory_qtpyvcp_deb_dev.addStep(steps.ShellCommand(
@@ -30,11 +28,4 @@ factory_qtpyvcp_deb_dev.addStep(steps.ShellCommand(
 factory_qtpyvcp_deb_dev.addStep(steps.ShellCommand(
     name="copy qtpyvcp deb to repo",
     command=["cp", "python3-qtpyvcp_0.4-1_all.deb", "/home/buildbot/repo/qtpyvcp-deb-dev"],
-    workdir="sources/.."))
-
-
-# copy qtpyvcp deb to repo
-factory_qtpyvcp_deb_dev.addStep(steps.ShellCommand(
-    name="copy qtpyvcp doc deb to repo",
-    command=["cp", "python-qtpyvcp-doc_0.4-1_all.deb", "/home/buildbot/repo/qtpyvcp-deb-dev"],
     workdir="sources/.."))
