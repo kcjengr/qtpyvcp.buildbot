@@ -15,7 +15,7 @@ factory_probe_basic_dev.addStep(steps.GitHub(name="download probe_basic sources"
                                              repourl='git@github.com:kcjengr/probe_basic.git',
                                              branch='main',
                                              mode='full',
-                                             submodules=True,
+                                             submodules=False,
                                              workdir="sources/"))
 # build debs
 factory_probe_basic_dev.addStep(steps.ShellCommand(
