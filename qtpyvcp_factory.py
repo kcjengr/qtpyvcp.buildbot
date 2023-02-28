@@ -22,10 +22,10 @@ factory_qtpyvcp_deb_dev.addStep(steps.ShellCommand(
     workdir="sources/"))
 
 # publish on github
-factory_qtpyvcp.addStep(steps.ShellCommand(
-    command=["/home/buildbot/buildbot/worker/qtpyvcp/sources/.scripts/publish_github_release.sh",
-             "kcjengr/qtpyvcp", util.Property("branch")],
-    workdir="sources/"))
+# factory_qtpyvcp.addStep(steps.ShellCommand(
+#     command=["/home/buildbot/buildbot/worker/qtpyvcp/sources/.scripts/publish_github_release.sh",
+#              "kcjengr/qtpyvcp", util.Property("branch")],
+#     workdir="sources/"))
 
 
 # factory_qtpyvcp.addStep(steps.RemoveDirectory(name="delete docs directory", dir="docs/"))
