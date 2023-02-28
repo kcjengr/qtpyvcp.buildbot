@@ -22,6 +22,8 @@ factory_qtpyvcp.addStep(steps.ShellCommand(
     command=["dpkg-buildpackage", "-b", "-uc"],
     workdir="sources/"))
 
+
+
 # publish on github
 # factory_qtpyvcp.addStep(steps.ShellCommand(
 #     command=["/home/buildbot/buildbot/worker/qtpyvcp/sources/.scripts/publish_github_release.sh",
