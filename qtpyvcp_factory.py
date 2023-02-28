@@ -15,7 +15,7 @@ factory_qtpyvcp.addStep(steps.GitHub(name="download qtpyvcp sources",
                                      workdir="sources/"))
 
 # build debs
-factory_qtpyvcp_dev.addStep(steps.ShellCommand(
+factory_qtpyvcp.addStep(steps.ShellCommand(
     name="build debs",
     env={'DEB_BUILD_OPTIONS': "nocheck"},
     command=["dpkg-buildpackage", "-b", "-uc"],
