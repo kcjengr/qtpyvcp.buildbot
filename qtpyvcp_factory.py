@@ -15,6 +15,11 @@ factory_qtpyvcp.addStep(steps.GitHub(name="download qtpyvcp sources",
                                      submodules=False,
                                      workdir="sources/"))
 
+factory_qtpyvcp.addStep(steps.ShellCommand(
+    name="compile resources",
+    command=["qcompile", "."],
+    workdir="sources/"))
+
 # build debs
 factory_qtpyvcp.addStep(steps.ShellCommand(
     name="build debs",
