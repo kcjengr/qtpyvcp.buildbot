@@ -17,6 +17,13 @@ factory_probe_basic.addStep(steps.GitHub(name="download probe_basic sources",
                                              mode='full',
                                              submodules=False,
                                              workdir="sources/"))
+
+factory_probe_basic.addStep(steps.ShellCommand(
+    name="compile resources",
+    command=["qcompile", "."],
+    workdir="sources/"))
+
+
 # build debs
 factory_probe_basic.addStep(steps.ShellCommand(
     name="build debs",
