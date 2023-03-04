@@ -6,7 +6,6 @@
 import os
 
 from buildbot.plugins import steps, util
-from buildbot.steps.properties import SetPropertyFromCommand
 
 factory_qtpyvcp_dev = util.BuildFactory()
 
@@ -46,7 +45,7 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     haltOnFailure=True,
 ))
 
-factory_qtpyvcp_dev.addStep(SetPropertyFromCommand(
+factory_qtpyvcp_dev.addStep(steps.SetPropertyFromCommand(
     name="get-tag",
     command=["cat", "git-describe.stdout"],
     property="tag",
