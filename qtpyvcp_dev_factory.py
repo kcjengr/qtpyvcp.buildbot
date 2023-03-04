@@ -39,7 +39,7 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     name="build debs",
     env={'DEB_BUILD_OPTIONS': "nocheck"},
-    command=["debuild", "-us", "-uc"],
+    command=["debuild", "-us", "-uc" "-b", "-d", "experimental"],
     workdir="sources/"))
 
 
