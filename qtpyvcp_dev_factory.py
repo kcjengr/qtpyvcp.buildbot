@@ -43,13 +43,14 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     name="git-describe",
     command=["git", "describe", "--abbrev=0", "--tags"],
     haltOnFailure=True,
+    workdir="sources/"))
 ))
 
 factory_qtpyvcp_dev.addStep(steps.SetPropertyFromCommand(
     name="get-tag",
     command=["cat", "git-describe.stdout"],
     property="tag",
-    workdir=".",
+    workdir="sources/"))
 ))
 
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
