@@ -48,7 +48,6 @@ factory_qtpyvcp_dev.addStep(steps.SetPropertyFromCommand(
 
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     name="move files to repo",
-    command=["echo", util.Interpolate("python3-qtpyvcp_%(prop:tag)s-all.deb")],
     command=["mv",
              util.Interpolate("/home/buildbot/buildbot/worker/qtpyvcp-dev/python3-qtpyvcp_%(prop:tag)s-all.deb"),
              "/home/buildbot/repo/qtpyvcp-dev/"],
