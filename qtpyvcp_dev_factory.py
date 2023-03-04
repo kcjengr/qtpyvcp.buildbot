@@ -40,13 +40,7 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
 #               workdir="sources/"))
 
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
-              command=["echo", util.Interpolate('REVISION=%(src:brnach)s')],
-              workdir="sources/"))
-factory_qtpyvcp_dev.addStep(steps.ShellCommand(
-              command=["echo", util.Interpolate('REVISION=%(src:tag_name)s')],
-              workdir="sources/"))
-factory_qtpyvcp_dev.addStep(steps.ShellCommand(
-              command=["echo", util.Interpolate('REVISION=%(src:tag)s')],
+              command=["echo", util.Interpolate('REVISION=%(src:branch)s')],
               workdir="sources/"))
 # factory_qtpyvcp_dev.addStep(steps.RemoveDirectory(name="delete docs directory", dir="docs/"))
 #
