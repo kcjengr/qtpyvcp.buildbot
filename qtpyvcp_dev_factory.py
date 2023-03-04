@@ -40,11 +40,14 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
 #               workdir="sources/"))
 
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
-              env={'PYTHONPATH': "/home/buildbot/venv/lib/python"},
-              command=["echo", util.Interpolate('REVISION=%(prop:got_revision)s')],
+              command=["echo", util.Interpolate('REVISION=%(src:brnach)s')],
               workdir="sources/"))
-
-
+factory_qtpyvcp_dev.addStep(steps.ShellCommand(
+              command=["echo", util.Interpolate('REVISION=%(src:tag_name)s')],
+              workdir="sources/"))
+factory_qtpyvcp_dev.addStep(steps.ShellCommand(
+              command=["echo", util.Interpolate('REVISION=%(src:tag)s')],
+              workdir="sources/"))
 # factory_qtpyvcp_dev.addStep(steps.RemoveDirectory(name="delete docs directory", dir="docs/"))
 #
 # factory_qtpyvcp_dev.addStep(
