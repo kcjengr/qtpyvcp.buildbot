@@ -29,14 +29,14 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     workdir="sources/"))
 
 # build debs
-factory_qtpyvcp.addStep(steps.ShellCommand(
+factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     name="create changelog",
     env={'DEB_BUILD_OPTIONS': "nocheck"},
     command=["dch", "-v", util.Interpolate("%(prop:tag)s")],
     workdir="sources/"))
 
 # build debs
-factory_qtpyvcp.addStep(steps.ShellCommand(
+factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     name="build debs",
     env={'DEB_BUILD_OPTIONS': "nocheck"},
     command=["debuild", "-us", "-uc"],
