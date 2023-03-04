@@ -32,9 +32,15 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
 
 # util.Interpolate('string before ' + '%(prop:artifact.output)s' + ' string after')
 # util.Property("qtpyvcp_dev_version")
+
+# factory_qtpyvcp_dev.addStep(steps.ShellCommand(
+#               env={'PYTHONPATH': "/home/buildbot/venv/lib/python"},
+#               command=["mv", "/home/buildbot/buildbot/worker/qtpyvcp-dev/python3-qtpyvcp_{5}(?).deb", "/home/buildbot/repo/qtpyvcp-dev/"],
+#               workdir="sources/"))
+
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
-              env={'PYTHONPATH': "/home/buildbot/lib/python"},
-              command=["mv", "/home/buildbot/buildbot/worker/qtpyvcp-dev/python3-qtpyvcp_{5}(?).deb", "/home/buildbot/repo/qtpyvcp-dev/"],
+              env={'PYTHONPATH': "/home/buildbot/venv/lib/python"},
+              command=["echo", util.Property()],
               workdir="sources/"))
 
 
