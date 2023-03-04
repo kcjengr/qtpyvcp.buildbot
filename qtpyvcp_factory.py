@@ -15,6 +15,12 @@ factory_qtpyvcp.addStep(steps.GitHub(name="download qtpyvcp sources",
                                      submodules=False,
                                      workdir="sources/"))
 
+factory_qtpyvcp.addStep(steps.SetPropertyFromCommand(
+    name="get git tag",
+    command=["git", "describe", "--abbrev=0", "--tags"],
+    property="tag",
+    workdir="sources/"))
+
 factory_qtpyvcp.addStep(steps.ShellCommand(
     name="compile resources",
     command=["qcompile", "."],
@@ -22,16 +28,19 @@ factory_qtpyvcp.addStep(steps.ShellCommand(
 
 # build debs
 factory_qtpyvcp.addStep(steps.ShellCommand(
-    name="build debs",
+    name="create changelog",
     env={'DEB_BUILD_OPTIONS': "nocheck"},
-    command=["dpkg-buildpackage", "-b", "-uc"],
+    command=["dch", "-v", util.Interpolate("%(prop:tag)s")],
     workdir="sources/"))
 
-factory_qtpyvcp.addStep(steps.SetPropertyFromCommand(
-    name="get git tag",
-    command=["git", "describe", "--abbrev=0", "--tags"],
-    property="tag",
+# build debs
+factory_qtpyvcp.addStep(steps.ShellCommand(
+    name="build debs",
+    env={'DEB_BUILD_OPTIONS': "nocheck"},
+    command=["debuild", "-us", "-uc"],
     workdir="sources/"))
+
+
 
 factory_qtpyvcp.addStep(steps.ShellCommand(
     name="move files to repo",
