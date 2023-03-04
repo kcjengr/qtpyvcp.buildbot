@@ -51,7 +51,6 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     command=["mv",
              util.Interpolate("/home/buildbot/buildbot/worker/qtpyvcp-dev/python3-qtpyvcp_%(prop:tag)s-all.deb"),
              "/home/buildbot/repo/qtpyvcp-dev/"],
-
     workdir="sources/"))
 
 # factory_qtpyvcp_dev.addStep(steps.RemoveDirectory(name="delete docs directory", dir="docs/"))
