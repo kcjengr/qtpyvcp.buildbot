@@ -41,7 +41,7 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
 
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
               env={'PYTHONPATH': "/home/buildbot/venv/lib/python"},
-              command=["echo", util.Interpolate('REVISION=%(prop:tag_name)s')],
+              command=["echo", util.Interpolate('REVISION=%(prop:got_revision)s')],
               workdir="sources/"))
 
 
