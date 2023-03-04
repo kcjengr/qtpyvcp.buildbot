@@ -39,15 +39,10 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
 #               command=["mv", "/home/buildbot/buildbot/worker/qtpyvcp-dev/python3-qtpyvcp_{5}(?).deb", "/home/buildbot/repo/qtpyvcp-dev/"],
 #               workdir="sources/"))
 
-factory_qtpyvcp_dev.addStep(steps.ShellCommand(
-    name="git-describe",
-    command=["git", "describe", "--abbrev=0", "--tags"],
-    haltOnFailure=True,
-    workdir="sources/"))
 
 factory_qtpyvcp_dev.addStep(steps.SetPropertyFromCommand(
     name="get-tag",
-    command=["cat", "git-describe.stdout"],
+    command=["git", "describe", "--abbrev=0", "--tags"],
     property="tag",
     workdir="sources/"))
 
