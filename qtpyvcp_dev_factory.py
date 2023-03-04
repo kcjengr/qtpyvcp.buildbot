@@ -22,6 +22,7 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     command=["qcompile", "."],
     workdir="sources/"))
 
+
 # build debs
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     name="build debs",
@@ -40,7 +41,7 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
 
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
               env={'PYTHONPATH': "/home/buildbot/venv/lib/python"},
-              command=["echo", util.Property("got_revision")],
+              command=["echo", util.Interpolate('REVISION=%(prop:branch)s')],
               workdir="sources/"))
 
 
