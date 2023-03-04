@@ -6,6 +6,7 @@
 import os
 
 from buildbot.plugins import steps, util
+from buildbot.steps.properties import SetPropertyFromCommand
 
 factory_qtpyvcp_dev = util.BuildFactory()
 
@@ -40,8 +41,22 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
 #               workdir="sources/"))
 
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
-              command=["echo", util.Interpolate('REVISION=%(src:branch)s')],
+    name="git-describe",
+    command=["git", "describe", "--abbrev=0", "--tags"],
+    haltOnFailure=True,
+))
+
+factory_qtpyvcp_dev.addStep(SetPropertyFromCommand(
+    name="get-tag",
+    command=["cat", "git-describe.stdout"],
+    property="tag",
+    workdir=".",
+))
+
+factory_qtpyvcp_dev.addStep(steps.ShellCommand(
+              command=["echo", "python3-qtpyvcp_%(prop:tag)s-all.deb"],
               workdir="sources/"))
+
 # factory_qtpyvcp_dev.addStep(steps.RemoveDirectory(name="delete docs directory", dir="docs/"))
 #
 # factory_qtpyvcp_dev.addStep(
