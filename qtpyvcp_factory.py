@@ -27,13 +27,13 @@ factory_qtpyvcp.addStep(steps.ShellCommand(
     command=["dpkg-buildpackage", "-b", "-uc"],
     workdir="sources/"))
 
-factory_qtpyvcp_dev.addStep(steps.SetPropertyFromCommand(
+factory_qtpyvcp.addStep(steps.SetPropertyFromCommand(
     name="get git tag",
     command=["git", "describe", "--abbrev=0", "--tags"],
     property="tag",
     workdir="sources/"))
 
-factory_qtpyvcp_dev.addStep(steps.ShellCommand(
+factory_qtpyvcp.addStep(steps.ShellCommand(
     name="move files to repo",
     command=["mv",
              util.Interpolate("/home/buildbot/buildbot/worker/qtpyvcp-dev/python3-qtpyvcp_%(prop:tag)s-all.deb"),
