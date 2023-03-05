@@ -25,7 +25,7 @@ class CustomGitHubEventHandler(GitHubEventHandler):
 
             return super().handle_push(payload, event)
 
-        elif re.match(r"refs/tags/(\d+\.\d+-\d+)", ref):
+        elif re.match(r"refs/tags/(\d+\.\d+)", ref):
             version = ref.split('/').pop()
             log.msg(f"Got new tag RELEASE : {version}")
 
