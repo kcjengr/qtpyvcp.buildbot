@@ -13,8 +13,7 @@ factory_qtpyvcp_dev = util.BuildFactory()
 factory_qtpyvcp_dev.addStep(steps.GitHub(name="download sources",
                                          repourl='git@github.com:kcjengr/qtpyvcp.git',
                                          branch='main',
-                                         mode='full',
-                                         submodules=True,
+                                         submodules=False,
                                          workdir="sources/"))
 
 # get git tag
