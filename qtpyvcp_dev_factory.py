@@ -1,34 +1,36 @@
 # -*- python3 -*-
 # ex: set syntax=python3:
-#
+
 # QtPyVCP Develop Factory
-#
+
 import os
 
 from buildbot.plugins import steps, util
 
 factory_qtpyvcp_dev = util.BuildFactory()
 
-# fetch sources
-factory_qtpyvcp_dev.addStep(steps.GitHub(name="download qtpyvcp sources",
+# download sources
+factory_qtpyvcp_dev.addStep(steps.GitHub(name="download sources",
                                          repourl='git@github.com:kcjengr/qtpyvcp.git',
                                          branch='main',
                                          mode='full',
                                          submodules=True,
                                          workdir="sources/"))
 
+# get git tag
 factory_qtpyvcp_dev.addStep(steps.SetPropertyFromCommand(
     name="get git tag",
     command=["git", "describe", "--abbrev=0", "--tags"],
     property="tag",
     workdir="sources/"))
 
+# compile resources
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     name="compile resources",
     command=["qcompile", "."],
     workdir="sources/"))
 
-# build debs
+# reate changelog
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     name="create changelog",
     env={'EMAIL': "j.l.toledano.l@gmail.com"},
@@ -39,10 +41,11 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     name="build debs",
     env={'DEB_BUILD_OPTIONS': "nocheck"},
-    command=["debuild", "-us", "-uc" "-b", "-d", "experimental"],
+    command=["debuild", "-us", "-uc" "-S", ">", "/dev/null", "2>&1b"],
+
     workdir="sources/"))
 
-
+# move files to repo
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     name="move files to repo",
     command=["mv",
