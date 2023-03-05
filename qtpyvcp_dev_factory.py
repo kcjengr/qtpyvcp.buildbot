@@ -40,8 +40,15 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     name="build debs",
     env={'DEB_BUILD_OPTIONS': "nocheck"},
-    command=["debuild", "-us", "-uc" "-S", ">", "/dev/null", "2>&1"],
+    command=["dpkg-buildpackage", "-b", "-uc"],
     workdir="sources/"))
+
+# build debs 2
+# factory_qtpyvcp_dev.addStep(steps.ShellCommand(
+#     name="build debs",
+#     env={'DEB_BUILD_OPTIONS': "nocheck"},
+#     command=["debuild", "-us", "-uc" "-S", ">", "/dev/null", "2>&1"],
+#     workdir="sources/"))
 
 # move files to repo
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
