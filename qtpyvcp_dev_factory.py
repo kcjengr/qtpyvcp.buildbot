@@ -30,7 +30,7 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     command=["qcompile", "."],
     workdir="sources/"))
 
-# reate changelog
+# create changelog
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     name="create changelog",
     env={'EMAIL': "j.l.toledano.l@gmail.com"},
@@ -42,7 +42,6 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     name="build debs",
     env={'DEB_BUILD_OPTIONS': "nocheck"},
     command=["debuild", "-us", "-uc" "-S", ">", "/dev/null", "2>&1"],
-
     workdir="sources/"))
 
 # move files to repo
