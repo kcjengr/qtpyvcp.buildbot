@@ -34,7 +34,7 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     name="create changelog",
     env={'EMAIL': "j.l.toledano.l@gmail.com"},
-    command=["dch", "--distribution", "experimental", "--force-distribution", util.Interpolate("%(prop:tag)s"), util.Interpolate("Bump version to %(prop:tag)s")],
+    command=["dch", "-v", util.Interpolate("%(prop:tag)s"), "--create", "qtpyvcp"],
     workdir="sources/"))
 
 # build debs
