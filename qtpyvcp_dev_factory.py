@@ -24,6 +24,13 @@ factory_qtpyvcp_dev.addStep(steps.SetPropertyFromCommand(
     property="tag",
     workdir="sources/"))
 
+# get git commit ID
+factory_qtpyvcp_dev.addStep(steps.SetPropertyFromCommand(
+    name="get git commit ID",
+    command=["git", "rev-parse", "--short","HEAD"],
+    property="commit_id",
+    workdir="sources/"))
+
 # compile resources
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     name="compile resources",
@@ -34,7 +41,7 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     name="create changelog",
     env={'EMAIL': "j.l.toledano.l@gmail.com"},
-    command=["dch", "--create", "--distribution", "unstable", "--package", "qtpyvcp", "--newversion", util.Interpolate("%(prop:tag)s.dev"), "Development version."],
+    command=["dch", "--create", "--distribution", "unstable", "--package", "qtpyvcp", "--newversion", util.Interpolate("%(prop:tag)s-%(prop:commit_id)s.dev"), "Development version."],
     workdir="sources/"))
 
 # build debs
