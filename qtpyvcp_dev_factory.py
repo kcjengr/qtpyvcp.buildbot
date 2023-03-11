@@ -34,7 +34,7 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     name="create changelog",
     env={'EMAIL': "j.l.toledano.l@gmail.com"},
-    command=["dch", "-v", util.Interpolate("%(prop:tag)s"), "--create", "qtpyvcp"],
+    command=["dch", "--create", "--distribution", "unstable", "--package", "pkgpkg", "--newversion", util.Interpolate("%(prop:tag)s.test"), "Development version."],
     workdir="sources/"))
 
 # build debs
@@ -43,13 +43,6 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     env={'DEB_BUILD_OPTIONS': "nocheck"},
     command=["dpkg-buildpackage", "-b", "-uc"],
     workdir="sources/"))
-
-# build debs 2
-# factory_qtpyvcp_dev.addStep(steps.ShellCommand(
-#     name="build debs",
-#     env={'DEB_BUILD_OPTIONS': "nocheck"},
-#     command=["debuild", "-us", "-uc"],
-#     workdir="sources/"))
 
 # move files to repo
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
