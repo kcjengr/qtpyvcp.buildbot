@@ -55,7 +55,7 @@ factory_probe_basic_dev.addStep(steps.ShellCommand(
 factory_probe_basic_dev.addStep(steps.ShellCommand(
     name="move files to repo",
     command=["mv",
-             util.Interpolate("/home/buildbot/buildbot/worker/probe-basic-dev/python3-probe-basic_%(prop:tag)s-%(prop:commit_id)s.dev_all.deb"),
+             util.Interpolate("/home/buildbot/buildbot/worker/probe_basic-dev/python3-probe-basic_%(prop:tag)s-%(prop:commit_id)s.dev_all.deb"),
              "/home/buildbot/repo/probe-basic-dev/"],
     workdir="sources/"))
 
