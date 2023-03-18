@@ -10,19 +10,32 @@ from packaging.version import Version, parse
 factory_probe_basic = util.BuildFactory()
 
 
-# fetch sources
-factory_probe_basic.addStep(steps.GitHub(name="download probe_basic sources",
+# download sources
+factory_probe_basic.addStep(steps.GitHub(name="download sources",
                                              repourl='git@github.com:kcjengr/probe_basic.git',
                                              branch='main',
                                              mode='full',
                                              submodules=False,
                                              workdir="sources/"))
+# get git tag
+factory_probe_basic.addStep(steps.SetPropertyFromCommand(
+    name="get git tag",
+    command=["git", "describe", "--abbrev=0", "--tags"],
+    property="tag",
+    workdir="sources/"))
 
+# compile resources
 factory_probe_basic.addStep(steps.ShellCommand(
     name="compile resources",
     command=["qcompile", "."],
     workdir="sources/"))
 
+# create changelog
+factory_probe_basic.addStep(steps.ShellCommand(
+    name="create changelog",
+    env={'EMAIL': "j.l.toledano.l@gmail.com"},
+    command=["dch", "--create", "--distribution", "stable", "--package", "probe-basic", "--newversion", util.Interpolate("%(prop:tag)s"), "Stable version."],
+    workdir="sources/"))
 
 # build debs
 factory_probe_basic.addStep(steps.ShellCommand(
@@ -31,13 +44,13 @@ factory_probe_basic.addStep(steps.ShellCommand(
     command=["dpkg-buildpackage", "-b", "-uc"],
     workdir="sources/"))
 
-
-
-# copy files to installer directories
-factory_probe_basic.addStep(steps.CopyDirectory(
-    name="copy qtpyvcp deb file to repo",
-    src="python3-sources/dist",
-    dest="sources/installer/packages/com.qtpyvcp.core/data"))
+# move files to repo
+factory_probe_basic.addStep(steps.ShellCommand(
+    name="move files to repo",
+    command=["mv",
+             util.Interpolate("/home/buildbot/buildbot/worker/probe_basic-dev/python3-probe-basic_%(prop:tag)s_all.deb"),
+             "/home/buildbot/repo/probe-basic-dev/"],
+    workdir="sources/"))
 
 factory_probe_basic.addStep(steps.GitHub(name="downlaod static docs",
                                              repourl='git@github.com:kcjengr/probe_basic.git',
