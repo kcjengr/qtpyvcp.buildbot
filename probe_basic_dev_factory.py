@@ -35,13 +35,13 @@ factory_probe_basic_dev.addStep(steps.SetPropertyFromCommand(
 factory_probe_basic_dev.addStep(steps.ShellCommand(
     name="compile resources",
     command=["qcompile", "."],
-    command=["dch", "--create", "--distribution", "unstable", "--package", "probe-basic", "--newversion", util.Interpolate("%(prop:tag)s.dev"), "Unstable Release version."],
     workdir="sources/"))
 
 # create changelog
 factory_probe_basic_dev.addStep(steps.ShellCommand(
     name="create changelog",
     env={'EMAIL': "j.l.toledano.l@gmail.com"},
+    command=["dch", "--create", "--distribution", "unstable", "--package", "probe-basic", "--newversion", util.Interpolate("%(prop:tag)s.dev"), "Unstable Release version."],
     workdir="sources/"))
 
 # build debs
