@@ -33,7 +33,7 @@ factory_probe_basic.addStep(steps.ShellCommand(
 # create changelog
 factory_probe_basic.addStep(steps.ShellCommand(
     name="create changelog",
-    env={'EMAIL': "j.l.toledano.l@gmail.com"},
+    env={'EMAIL': "lcvette1@gmail.com"},
     command=["dch", "--create", "--distribution", "stable", "--package", "probe-basic", "--newversion", util.Interpolate("%(prop:tag)s"), "Stable version."],
     workdir="sources/"))
 
