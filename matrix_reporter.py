@@ -8,7 +8,7 @@ class MatrixReporter(ReporterBase):
     def __init__(self, homeserver, room_id, **kwargs):
         self.homeserver = homeserver
         self.room_id = room_id
-        self.access_token = pass_file.matrix_access_token
+        self.access_token = matrix_access_token
 
     @defer.inlineCallbacks
     def sendMessage(self, msg):
