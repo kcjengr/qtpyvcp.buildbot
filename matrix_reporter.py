@@ -1,40 +1,37 @@
 # -*- python3 -*-
 # ex: set syntax=python3:
 
-from twisted.internet import defer
-from buildbot.reporters.base import ReporterBase
-from buildbot.http import httpclient
+import requests
+from buildbot.reporters import ReporterBase
 
 from pass_file import matrix_access_token
 
-
 class MatrixReporter(ReporterBase):
-    def __init__(self, homeserver, room_id, **kwargs):
+    def __init__(self, homeserver, room_id, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.homeserver = homeserver
         self.room_id = room_id
         self.access_token = matrix_access_token
-        super().__init__(**kwargs)
 
-    @defer.inlineCallbacks
-    def sendMessage(self, msg):
-        # Send the message using the Matrix homeserver's API
+    def send_message(self, message):
         url = f"{self.homeserver}/_matrix/client/r0/rooms/{self.room_id}/send/m.room.message"
         headers = {
             "Authorization": f"Bearer {self.access_token}",
-            "Content-Type": "application/json",
-            "User-Agent": "Buildbot MatrixReporter",
+            "Content-Type": "application/json"
         }
-        data = {"msgtype": "m.text", "body": msg}
-        client = httpclient.BuildbotHTTPClient(
-            base_url=url,
-            headers=headers,
-            user_agent="Buildbot MatrixReporter",
-        )
-        response = yield client.post("", data=data)
-        if response.code != 200:
-            self.warning(f"Failed to send message to Matrix: {response.phrase}")
+        data = {
+            "msgtype": "m.text",
+            "body": message
+        }
+        response = requests.post(url, headers=headers, json=data)
+        if response.status_code == 200:
+            self.debug("Message sent successfully")
+        else:
+            self.warning(f"Error sending message: {response.text}")
 
-    def getDetails(self):
-        return {"name": "MatrixReporter",
-                "homeserver": self.homeserver,
-                "room_id": self.room_id}
+    def buildFinished(self, builderName, build, result):
+        if result == 0:
+            message = f"Buildbot build {build['num']} of {builderName} succeeded."
+        else:
+            message = f"Buildbot build {build['num']} of {builderName} failed."
+        self.send_message(message)
