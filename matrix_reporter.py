@@ -7,8 +7,8 @@ from buildbot.reporters.base import ReporterBase
 from pass_file import matrix_access_token
 
 class MatrixReporter(ReporterBase):
-    def __init__(self, homeserver, room_id, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, homeserver, room_id, **kwargs):
+        super().__init__(**kwargs)
         self.homeserver = homeserver
         self.room_id = room_id
         self.access_token = matrix_access_token
