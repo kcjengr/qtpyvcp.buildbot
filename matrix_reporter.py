@@ -2,7 +2,7 @@ from twisted.internet import defer
 
 from buildbot.reporters.base import ReporterBase
 from matrix_client.api import MatrixHttpApi
-import pass_file
+from pass_file import matrix_access_token
 
 class MatrixReporter(ReporterBase):
     def __init__(self, homeserver, room_id, **kwargs):
