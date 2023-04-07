@@ -1,6 +1,6 @@
 from twisted.internet import defer
 
-from buildbot.reporters import ReporterBase
+from buildbot.reporters.base import ReporterBase
 from matrix_client.api import MatrixHttpApi
 import pass_file
 
