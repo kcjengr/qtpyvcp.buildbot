@@ -2,7 +2,7 @@
 # ex: set syntax=python3:
 
 import requests
-from buildbot.reporters import ReporterBase
+from buildbot.reporters.base import ReporterBase
 
 from pass_file import matrix_access_token
 
