@@ -2,7 +2,7 @@
 # ex: set syntax=python3:
 
 from twisted.internet import defer
-from buildbot.reporters import ReporterBase
+from buildbot.reporters.base import ReporterBase
 from buildbot.http import httpclient
 
 from pass_file import matrix_access_token
