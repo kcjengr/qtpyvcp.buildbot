@@ -4,104 +4,74 @@
 
 import json
 import requests
+
 from buildbot.reporters.base import ReporterBase
+from buildbot.status.builder import Results, SUCCESS, WARNINGS, FAILURE, EXCEPTION, RETRY
+
 
 from pass_file import matrix_access_token
 
-
 class MatrixReporter(ReporterBase):
-    """
-    A Buildbot reporter that sends build results to a Matrix room via HTTP.
-    """
+    name = 'Matrix'
+    out_of_band = True
 
-    def __init__(self, homeserver, room_id, **kwargs):
-        """
-        Create a new MatrixReporter instance.
-
-        :param homeserver: The URL of the Matrix homeserver to use.
-        :param room_id: The ID of the room to send messages to.
-        :param access_token: The access token to use for authentication.
-        :param kwargs: Additional arguments to pass to the superclass constructor.
-        """
+    def __init__(self, homeserver, room_id, user_name=None, user_id=None,
+                 message_type='m.text', messages_per_second=1, use_ssl=True,
+                 generators=None, **kwargs):
         super().__init__(**kwargs)
         self.homeserver = homeserver
-        self.room_id = room_id
         self.access_token = pass_file.matrix_access_token
+        self.room_id = room_id
+        self.user_name = user_name
+        self.user_id = user_id
+        self.message_type = message_type
+        self.messages_per_second = messages_per_second
+        self.use_ssl = use_ssl
+        self.generators = generators or []
+        self.session = requests.Session()
 
-    def getURL(self, build):
-        """
-        Get the URL of the build.
+    def describe(self):
+        return "Sending build results to Matrix room %s" % self.room_id
 
-        :param build: The build object.
-        :return: The URL of the build.
-        """
-        return build.getURL()
+    def emit(self, success, message):
+        if success:
+            color = "#00FF00"  # green
+            text = "Build SUCCEEDED"
+        else:
+            color = "#FF0000"  # red
+            text = "Build FAILED"
 
-    def getFormattedMessage(self, build):
-        """
-        Get the formatted message to send to the Matrix room.
-
-        :param build: The build object.
-        :return: The formatted message.
-        """
-        # construct the message body
-        body = "**{}**: {} - {}".format(
-            build.getBuilder().getName(),
-            build.getDisplayName(),
-            self.getURL(build)
-        )
-
-        # construct the message content
-        content = {
-            "msgtype": "m.text",
-            "body": body
+        payload = {
+            "msgtype": self.message_type,
+            "body": message,
+            "format": "org.matrix.custom.html",
+            "formatted_body": "<font color=\"%s\">%s</font>" % (color, text)
         }
 
-        return content
+        url = f"{self.homeserver}/_matrix/client/r0/rooms/{self.room_id}/send/m.room.message"
+        headers = {"Authorization": f"Bearer {self.access_token}"}
 
-    def send(self, content):
-        """
-        Send a message to the Matrix room.
+        try:
+            response = self.session.post(url, headers=headers, json=payload, verify=self.use_ssl)
+            response.raise_for_status()
+        except requests.exceptions.RequestException as e:
+            self.logger.warning(f"Failed to send message to Matrix room {self.room_id}: {e}")
+        else:
+            self.logger.info(f"Sent message to Matrix room {self.room_id}")
 
-        :param content: The content of the message.
-        """
-        # construct the URL to send the message to
-        url = "{}/_matrix/client/r0/rooms/{}/send/m.room.message".format(
-            self.homeserver,
-            self.room_id
-        )
+    def send(self, build):
+        if not self.generators:
+            return
 
-        # construct the headers for the HTTP request
-        headers = {
-            "Authorization": "Bearer {}".format(self.access_token),
-            "Content-Type": "application/json"
-        }
+        messages = []
+        for generator in self.generators:
+            messages.append(generator(build))
 
-        # send the HTTP request
-        response = requests.post(url, headers=headers, data=json.dumps(content))
-
-        # check the response code
-        if response.status_code != 200:
-            self.logger.error("Failed to send Matrix message: %s", response.text)
+        for message in messages:
+            self.emit(*message)
 
     def buildStarted(self, build):
-        """
-        Handle a build started event.
-
-        :param build: The build object.
-        """
-        content = self.getFormattedMessage(build)
-        content["body"] += " started"
-        self.send(content)
+        self.send(build)
 
     def buildFinished(self, builderName, build, result):
-        """
-        Handle a build finished event.
-
-        :param builderName: The name of the builder.
-        :param build: The build object.
-        :param result: The result of the build.
-        """
-        content = self.getFormattedMessage(build)
-        content["body"] += " {}".format(result)
-        self.send(content)
+        self.send(build)
