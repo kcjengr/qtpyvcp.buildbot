@@ -18,7 +18,7 @@ class MatrixReporter(ReporterBase):
     def __init__(self, homeserver, room_id, user_name=None, user_id=None,
                  message_type='m.text', messages_per_second=1, use_ssl=True,
                  generators=None, **kwargs):
-        super().__init__(generatos=generatos, **kwargs)
+        super().__init__(generators=generators, **kwargs)
         self.homeserver = homeserver
         self.access_token = pass_file.matrix_access_token
         self.room_id = room_id
