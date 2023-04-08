@@ -6,7 +6,7 @@ import json
 import requests
 
 from buildbot.reporters.base import ReporterBase
-from buildbot.status.builder import Results, SUCCESS, WARNINGS, FAILURE, EXCEPTION, RETRY
+from buildbot.process.results import Results, SUCCESS, WARNINGS, FAILURE, EXCEPTION, RETRY
 
 
 from pass_file import matrix_access_token
