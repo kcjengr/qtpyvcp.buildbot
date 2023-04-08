@@ -14,7 +14,7 @@ class MatrixReporter(ReporterBase):
     A Buildbot reporter that sends build results to a Matrix room via HTTP.
     """
 
-    def __init__(self, homeserver, room_id, access_token, **kwargs):
+    def __init__(self, homeserver, room_id, **kwargs):
         """
         Create a new MatrixReporter instance.
 
