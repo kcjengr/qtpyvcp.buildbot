@@ -11,7 +11,7 @@ from buildbot.process.results import Results, SUCCESS, WARNINGS, FAILURE, EXCEPT
 
 from pass_file import matrix_access_token
 
-def qtoyvcp_generator(build):
+def qtpyvcp_generator(build):
     if build.results == Results.SUCCESS:
         return (True, "Build succeeded!")
     else:
