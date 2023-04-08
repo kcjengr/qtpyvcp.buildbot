@@ -11,6 +11,12 @@ from buildbot.process.results import Results, SUCCESS, WARNINGS, FAILURE, EXCEPT
 
 from pass_file import matrix_access_token
 
+def qtoyvcp_generator(build):
+    if build.results == Results.SUCCESS:
+        return (True, "Build succeeded!")
+    else:
+        return (False, "Build failed :(")
+
 class MatrixReporter(ReporterBase):
     name = 'Matrix'
     out_of_band = True
