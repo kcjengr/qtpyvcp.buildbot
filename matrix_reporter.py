@@ -8,14 +8,8 @@ import requests
 from buildbot.reporters.base import ReporterBase
 from buildbot.process.results import Results, SUCCESS, WARNINGS, FAILURE, EXCEPTION, RETRY
 
-
 from pass_file import matrix_access_token
 
-def qtpyvcp_generator(build):
-    if build.results == Results.SUCCESS:
-        return (True, "Build succeeded!")
-    else:
-        return (False, "Build failed :(")
 
 class MatrixReporter(ReporterBase):
     name = 'Matrix'
