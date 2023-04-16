@@ -84,7 +84,7 @@ factory_probe_basic_dev.addStep(
     steps.Sphinx(
         name="compile sphinx docs",
         haltOnFailure=True,
-        sphinx="/usr/bin/sphinx-build",
+        sphinx="/home/buildbot/venv/bin/sphinx-build",
         sphinx_builddir="/home/buildbot/buildbot/worker/probe_basic-dev/docs/",
         sphinx_sourcedir="/home/buildbot/buildbot/worker/probe_basic-dev/sources/docs_src/source/",
         strict_warnings=False,
