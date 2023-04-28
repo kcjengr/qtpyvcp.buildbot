@@ -32,10 +32,11 @@ factory_probe_basic_dev.addStep(steps.SetPropertyFromCommand(
     workdir="sources/"))
 
 # compile resources
-factory_probe_basic_dev.addStep(steps.ShellCommand(
-    name="compile resources",
-    command=["qcompile", "."],
-    workdir="sources/"))
+# disabled, done in deb build step
+# factory_probe_basic_dev.addStep(steps.ShellCommand(
+#     name="compile resources",
+#     command=["qcompile", "."],
+#     workdir="sources/"))
 
 # create changelog
 factory_probe_basic_dev.addStep(steps.ShellCommand(

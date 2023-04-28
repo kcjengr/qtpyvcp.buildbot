@@ -32,10 +32,11 @@ factory_qtpyvcp_dev.addStep(steps.SetPropertyFromCommand(
     workdir="sources/"))
 
 # compile resources
-factory_qtpyvcp_dev.addStep(steps.ShellCommand(
-    name="compile resources",
-    command=["qcompile", "."],
-    workdir="sources/"))
+# disabled, done in deb build step
+# factory_qtpyvcp_dev.addStep(steps.ShellCommand(
+#     name="compile resources",
+#     command=["qcompile", "."],
+#     workdir="sources/"))
 
 # create changelog
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
