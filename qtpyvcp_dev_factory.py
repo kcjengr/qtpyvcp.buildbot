@@ -89,7 +89,7 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
 
 
 
-delete docs directory
+# delete docs directory
 factory_qtpyvcp_dev.addStep(steps.RemoveDirectory(name="delete docs directory", dir="docs/"))
 
 factory_qtpyvcp_dev.addStep(
