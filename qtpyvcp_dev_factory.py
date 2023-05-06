@@ -89,42 +89,42 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
 
 
 
-# delete docs directory
-# factory_qtpyvcp_dev.addStep(steps.RemoveDirectory(name="delete docs directory", dir="docs/"))
-#
-# factory_qtpyvcp_dev.addStep(
-#     steps.Sphinx(
-#         name="compile sphinx docs",
-#         haltOnFailure=True,
-#         sphinx="/home/buildbot/venv/bin/sphinx-build",
-#         sphinx_builddir="/home/buildbot/buildbot/worker/qtpyvcp-dev/docs",
-#         sphinx_sourcedir="/home/buildbot/buildbot/worker/qtpyvcp-dev/sources/docs/source/",
-#         strict_warnings=False,
-#         env={"LANG": "en_EN.UTF-8"},
-#         workdir="sources/docs/source/"
-#     )
-# )
-#
-# factory_qtpyvcp_dev.addStep(steps.ShellCommand(name="Initialize docs repository",
-#                                                command=["git", "init"],
-#                                                workdir="docs/"))
-#
-# factory_qtpyvcp_dev.addStep(steps.ShellCommand(name="add remote repository",
-#                                                command=["git", "remote", "add", "origin", "git@github.com:kcjengr/qtpyvcp.git"],
-#                                                workdir="docs/"))
-#
-# factory_qtpyvcp_dev.addStep(steps.ShellCommand(name="switch branch",
-#                                                command=["git", "checkout", "-b", "gh-pages"],
-#                                                workdir="docs/"))
-#
-# factory_qtpyvcp_dev.addStep(steps.ShellCommand(name="add docs",
-#                                                command=["git", "add", "."],
-#                                                workdir="docs/"))
-#
-# factory_qtpyvcp_dev.addStep(steps.ShellCommand(name="commit docs",
-#                                                command=["git", "commit", "-m", "Deploy docs"],
-#                                                workdir="docs/"))
-#
-# factory_qtpyvcp_dev.addStep(steps.ShellCommand(name="push docs",
-#                                                command=["git", "push", "--force", "origin", "gh-pages"],
-#                                                workdir="docs/"))
+delete docs directory
+factory_qtpyvcp_dev.addStep(steps.RemoveDirectory(name="delete docs directory", dir="docs/"))
+
+factory_qtpyvcp_dev.addStep(
+    steps.Sphinx(
+        name="compile sphinx docs",
+        haltOnFailure=True,
+        sphinx="/home/buildbot/venv/bin/sphinx-build",
+        sphinx_builddir="/home/buildbot/buildbot/worker/qtpyvcp-dev/docs",
+        sphinx_sourcedir="/home/buildbot/buildbot/worker/qtpyvcp-dev/sources/docs/source/",
+        strict_warnings=False,
+        env={"LANG": "en_EN.UTF-8"},
+        workdir="sources/docs/source/"
+    )
+)
+
+factory_qtpyvcp_dev.addStep(steps.ShellCommand(name="Initialize docs repository",
+                                               command=["git", "init"],
+                                               workdir="docs/"))
+
+factory_qtpyvcp_dev.addStep(steps.ShellCommand(name="add remote repository",
+                                               command=["git", "remote", "add", "origin", "git@github.com:kcjengr/qtpyvcp.git"],
+                                               workdir="docs/"))
+
+factory_qtpyvcp_dev.addStep(steps.ShellCommand(name="switch branch",
+                                               command=["git", "checkout", "-b", "gh-pages"],
+                                               workdir="docs/"))
+
+factory_qtpyvcp_dev.addStep(steps.ShellCommand(name="add docs",
+                                               command=["git", "add", "."],
+                                               workdir="docs/"))
+
+factory_qtpyvcp_dev.addStep(steps.ShellCommand(name="commit docs",
+                                               command=["git", "commit", "-m", "Deploy docs"],
+                                               workdir="docs/"))
+
+factory_qtpyvcp_dev.addStep(steps.ShellCommand(name="push docs",
+                                               command=["git", "push", "--force", "origin", "gh-pages"],
+                                               workdir="docs/"))
