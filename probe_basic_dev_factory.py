@@ -63,7 +63,7 @@ factory_probe_basic_dev.addStep(steps.ShellCommand(
 
 # delete old files from apt directory
 factory_probe_basic_dev.addStep(steps.ShellCommand(
-    name="delete files apt build directory",
+    name="delete files apt apt directory",
     command=["sh", "clean_apt_develop.sh"],
     workdir="sources/.scripts/"))
 
