@@ -77,18 +77,8 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
 # scan new packages in apt repository
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     name="scan new packages in apt repository",
-    command=["dpkg-scanpackages", "--arch amd64 pool/ > dists/develop/main/binary-amd64/Packages"],
-    workdir="/home/buildbot/debian/apt/",
-    ))
-
-# gzip package list
-factory_qtpyvcp_dev.addStep(steps.ShellCommand(
-    name="gzip package list",
-    command=["cat", "dists/develop/main/binary-amd64/Packages | gzip -9 > dists/develop/main/binary-amd64/Packages.gz"],
-    workdir="/home/buildbot/debian/apt/"))
-
-
-
+    command=["sh", "do_apt_develop.sh"],
+    workdir="sources/.scripts/"))
 
 
 
