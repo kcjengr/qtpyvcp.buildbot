@@ -63,7 +63,7 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
 
 # delete old files from apt directory
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
-    name="delete files from build directory",
+    name="delete files from apt directory",
     command=["sh", "clean_apt_develop.sh"],
     workdir="sources/.scripts/"))
 
