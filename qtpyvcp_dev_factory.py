@@ -60,7 +60,14 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
              "/home/buildbot/repo/qtpyvcp-dev/"],
     workdir="sources/"))
 
-# copy files to the apt repo
+
+# delete old files from apt directory
+factory_qtpyvcp_dev.addStep(steps.ShellCommand(
+    name="delete files from build directory",
+    command=["rm", util.Interpolate("/home/buildbot/debian/apt/pool/main/python3-qtpyvcp_*")],
+    workdir="sources/"))
+
+# copy new files to the apt repo
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     name="copy files to repo",
     command=["cp",
