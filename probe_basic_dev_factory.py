@@ -49,7 +49,7 @@ factory_probe_basic_dev.addStep(steps.ShellCommand(
 factory_probe_basic_dev.addStep(steps.ShellCommand(
     name="build debs",
     env={'DEB_BUILD_OPTIONS': "nocheck"},
-    command=["debuild", "-us", "-uc"],
+    command=["dpkg-buildpackage", "-b", "-uc"],
     workdir="sources/"))
 
 # copy files to the http repo
