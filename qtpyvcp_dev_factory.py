@@ -32,7 +32,7 @@ factory_qtpyvcp_dev.addStep(steps.SetPropertyFromCommand(
     workdir="sources/"))
 
 # store version file
-factory_probe_basic_dev.addStep(steps.ShellCommand(
+factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     name="store version file",
     command=["echo", util.Interpolate("%(prop:tag)s-%(prop:commit_id)s"), ">", "qtpyvc_dev_verstion.txt"],
     workdir="/home/buildbot/versions/"))
