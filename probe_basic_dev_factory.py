@@ -34,8 +34,9 @@ factory_probe_basic_dev.addStep(steps.SetPropertyFromCommand(
 # store version file
 factory_probe_basic_dev.addStep(steps.ShellCommand(
     name="store version file",
-    command=["echo", util.Interpolate("%(prop:tag)s-%(prop:commit_id)s"), ">", "pb_dev_verstion.txt"],
-    workdir="/home/buildbot/versions/"))
+    command=["echo", util.Interpolate("%(prop:tag)s-%(prop:commit_id)s"), ">", "pb_dev_version.txt"],
+    workdir="/home/buildbot/versions/"),
+    shell=True)
 
 # compile resources
 # disabled, done in deb build step
