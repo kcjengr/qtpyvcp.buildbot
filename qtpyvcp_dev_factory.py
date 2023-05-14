@@ -31,6 +31,11 @@ factory_qtpyvcp_dev.addStep(steps.SetPropertyFromCommand(
     property="commit_id",
     workdir="sources/"))
 
+# store version file
+factory_probe_basic_dev.addStep(steps.ShellCommand(
+    name="store version file",
+    command=["echo", util.Interpolate("%(prop:tag)s-%(prop:commit_id)s"), ">", "qtpyvc_dev_verstion.txt"],
+    workdir="/home/buildbot/versions/"))
 # compile resources
 # disabled, done in deb build step
 # factory_qtpyvcp_dev.addStep(steps.ShellCommand(
