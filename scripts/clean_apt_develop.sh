@@ -2,5 +2,4 @@
 
 # Delete old packages in repository
 
-cd /home/buildbot/debian/apt/pool/main/
-rm python3-qtpyvcp_*
+rm /home/buildbot/debian/apt/pool/main/${1}

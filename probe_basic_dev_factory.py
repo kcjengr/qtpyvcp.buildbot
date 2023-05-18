@@ -69,8 +69,11 @@ factory_probe_basic_dev.addStep(steps.ShellCommand(
 
 # delete old files from apt directory
 factory_probe_basic_dev.addStep(steps.ShellCommand(
-    name="delete files apt apt directory",
-    command=["sh", "/home/buildbot/buildbot/master/scripts/clean_apt_develop.sh"],
+    name="delete files from apt directory",
+    command=["sh",
+             "/home/buildbot/buildbot/master/scripts/clean_apt_develop.sh",
+             util.Interpolate("python3-probe-basic_%(prop:tag)s-%(prop:commit_id)s.dev_all.deb")
+            ],
     workdir="sources/"))
 
 # copy new files to the apt repo
