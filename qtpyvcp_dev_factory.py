@@ -70,8 +70,8 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
 # delete old files from apt directory
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     name="delete files from apt directory",
-    command=["sh", "clean_apt_develop.sh"],
-    workdir="sources/.scripts/"))
+    command=["sh", "/home/buildbot/buildbot/master/scripts/clean_apt_develop.sh"],
+    workdir="sources/"))
 
 # copy new files to the apt repo
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
@@ -90,8 +90,8 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
 # scan new packages in apt repository
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     name="scan new packages in apt repository",
-    command=["sh", "do_apt_develop.sh"],
-    workdir="sources/.scripts/"))
+    command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_develop.sh"],
+    workdir="sources/"))
 
 
 
