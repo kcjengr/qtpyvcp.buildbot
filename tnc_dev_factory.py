@@ -11,7 +11,7 @@ factory_tnc_dev = util.BuildFactory()
 
 # download sources
 factory_tnc_dev.addStep(steps.GitHub(name="download sources",
-                                         repourl='git@github.com:kcjengr/tnc.git',
+                                         repourl='git@github.com:kcjengr/turbonc.git',
                                          branch='main',
                                          mode='full',
                                          submodules=False,
@@ -62,8 +62,8 @@ factory_tnc_dev.addStep(steps.ShellCommand(
 factory_tnc_dev.addStep(steps.ShellCommand(
     name="copy files to the http repo",
     command=["cp",
-             util.Interpolate("/home/buildbot/buildbot/worker/tnc-dev/python3-tnc_%(prop:tag)s-%(prop:commit_id)s.dev_all.deb"),
-             "/home/buildbot/repo/qtpyvcp-dev/"],
+             util.Interpolate("/home/buildbot/buildbot/worker/tnc-dev/python3-turbo_nc_%(prop:tag)s-%(prop:commit_id)s.dev_all.deb"),
+             "/home/buildbot/repo/turbonc-dev/"],
     workdir="sources/"))
 
 
@@ -72,7 +72,7 @@ factory_tnc_dev.addStep(steps.ShellCommand(
     name="delete files from apt directory",
     command=["sh",
              "/home/buildbot/buildbot/master/scripts/clean_apt_develop.sh",
-             util.Interpolate("python3-tnc_%(prop:tag)s-%(prop:commit_id)s.dev_all.deb")
+             util.Interpolate("python3-turbonc_%(prop:tag)s-%(prop:commit_id)s.dev_all.deb")
             ],
     workdir="sources/"))
 
@@ -80,14 +80,14 @@ factory_tnc_dev.addStep(steps.ShellCommand(
 factory_tnc_dev.addStep(steps.ShellCommand(
     name="copy files to repo",
     command=["cp",
-             util.Interpolate("/home/buildbot/buildbot/worker/tnc-dev/python3-tnc_%(prop:tag)s-%(prop:commit_id)s.dev_all.deb"),
+             util.Interpolate("/home/buildbot/buildbot/worker/turbonc-dev/python3-turbonc_%(prop:tag)s-%(prop:commit_id)s.dev_all.deb"),
              "/home/buildbot/debian/apt/pool/main/"],
     workdir="sources/"))
 
 # delete files from build directory
 factory_tnc_dev.addStep(steps.ShellCommand(
     name="delete files from build directory",
-    command=["rm", util.Interpolate("/home/buildbot/buildbot/worker/qtpyvcp-dev/python3-tnc%(prop:tag)s-%(prop:commit_id)s.dev_all.deb")],
+    command=["rm", util.Interpolate("/home/buildbot/buildbot/worker/turbonc-dev/python3-turbonc%(prop:tag)s-%(prop:commit_id)s.dev_all.deb")],
     workdir="sources/"))
 
 # scan new packages in apt repository
