@@ -48,7 +48,7 @@ factory_tnc_dev.addStep(steps.ShellCommand(
 factory_tnc_dev.addStep(steps.ShellCommand(
     name="create changelog",
     env={'EMAIL': "j.l.toledano.l@gmail.com"},
-    command=["dch", "--create", "--distribution", "unstable", "--package", "qtpyvcp", "--newversion", util.Interpolate("%(prop:tag)s-%(prop:commit_id)s.dev"), "Development version."],
+    command=["dch", "--create", "--distribution", "unstable", "--package", "turbonc", "--newversion", util.Interpolate("%(prop:tag)s-%(prop:commit_id)s.dev"), "Development version."],
     workdir="sources/"))
 
 # build debs
