@@ -62,7 +62,7 @@ factory_tnc_dev.addStep(steps.ShellCommand(
 factory_tnc_dev.addStep(steps.ShellCommand(
     name="copy files to the http repo",
     command=["cp",
-             util.Interpolate("/home/buildbot/buildbot/worker/tnc-dev/python3-turbonc_%(prop:tag)s-%(prop:commit_id)s.dev_all.deb"),
+             util.Interpolate("/home/buildbot/buildbot/worker/turbonc-dev/python3-turbonc_%(prop:tag)s-%(prop:commit_id)s.dev_all.deb"),
              "/home/buildbot/repo/turbonc-dev/"],
     workdir="sources/"))
 
