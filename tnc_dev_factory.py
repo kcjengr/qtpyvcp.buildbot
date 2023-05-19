@@ -87,7 +87,7 @@ factory_tnc_dev.addStep(steps.ShellCommand(
 # delete files from build directory
 factory_tnc_dev.addStep(steps.ShellCommand(
     name="delete files from build directory",
-    command=["rm", util.Interpolate("/home/buildbot/buildbot/worker/turbonc-dev/python3-turbonc%(prop:tag)s-%(prop:commit_id)s.dev_all.deb")],
+    command=["rm", util.Interpolate("/home/buildbot/buildbot/worker/turbonc-dev/python3-turbonc_%(prop:tag)s-%(prop:commit_id)s.dev_all.deb")],
     workdir="sources/"))
 
 # scan new packages in apt repository
