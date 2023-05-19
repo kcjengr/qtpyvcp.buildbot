@@ -62,7 +62,7 @@ factory_monokrom_dev.addStep(steps.ShellCommand(
 factory_monokrom_dev.addStep(steps.ShellCommand(
     name="copy files to the http repo",
     command=["cp",
-             util.Interpolate("/home/buildbot/buildbot/worker/monokrom/python3-monokrom_%(prop:tag)s-%(prop:commit_id)s.dev_all.deb"),
+             util.Interpolate("/home/buildbot/buildbot/worker/monokrom-dev/python3-monokrom_%(prop:tag)s-%(prop:commit_id)s.dev_all.deb"),
              "/home/buildbot/repo/monokrom-dev/"],
     workdir="sources/"))
 
