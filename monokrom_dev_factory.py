@@ -12,7 +12,7 @@ factory_monokrom_dev = util.BuildFactory()
 
 # download sources
 factory_monokrom_dev.addStep(steps.GitHub(name="download sources",
-                                             repourl='git@github.com:kcjengr/probe_basic.git',
+                                             repourl='git@github.com:kcjengr/monokrom.git',
                                              branch='main',
                                              mode='full',
                                              submodules=False,
