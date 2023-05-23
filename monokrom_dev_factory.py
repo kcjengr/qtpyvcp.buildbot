@@ -61,27 +61,27 @@ factory_monokrom_dev.addStep(steps.ShellCommand(
 
 
 # delete old files from apt directory
-factory_monokrom_dev.addStep(steps.ShellCommand(
-    name="delete files from apt directory",
-    command=["sh",
-             "/home/buildbot/buildbot/master/scripts/clean_apt_develop.sh",
-             util.Interpolate("python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb")
-            ],
-    workdir="sources/"))
+# factory_monokrom_dev.addStep(steps.ShellCommand(
+#     name="delete files from apt directory",
+#     command=["sh",
+#              "/home/buildbot/buildbot/master/scripts/clean_apt_develop.sh",
+#              util.Interpolate("python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb")
+#             ],
+#     workdir="sources/"))
 
-# copy new files to the apt repo
+# move new files to the apt repo
 factory_monokrom_dev.addStep(steps.ShellCommand(
-    name="copy files to repo",
-    command=["cp",
+    name="move new files to the apt repo",
+    command=["mv",
              util.Interpolate("/home/buildbot/buildbot/worker/monokrom-dev/python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb"),
              "/home/buildbot/debian/apt/pool/main/"],
     workdir="sources/"))
 
 # delete files from build directory
-factory_monokrom_dev.addStep(steps.ShellCommand(
-    name="delete files from build directory",
-    command=["rm", util.Interpolate("/home/buildbot/buildbot/worker/monokrom-dev/python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb")],
-    workdir="sources/"))
+# factory_monokrom_dev.addStep(steps.ShellCommand(
+#     name="delete files from build directory",
+#     command=["rm", util.Interpolate("/home/buildbot/buildbot/worker/monokrom-dev/python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb")],
+#     workdir="sources/"))
 
 # scan new packages in apt repository
 factory_monokrom_dev.addStep(steps.ShellCommand(
