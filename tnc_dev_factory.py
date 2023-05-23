@@ -24,17 +24,18 @@ factory_tnc_dev.addStep(steps.SetPropertyFromCommand(
     property="tag",
     workdir="sources/"))
 
-# get git commit ID
+
+# get git commit count since last tag
 factory_tnc_dev.addStep(steps.SetPropertyFromCommand(
-    name="get git commit ID",
-    command=["git", "rev-parse", "--short","HEAD"],
-    property="commit_id",
+    name="get git commit count since last tag",
+    command=["git", "rev-list", "--count", "--branches", util.Interpolate("^refs/tags/%(prop:tag)s")],
+    property="minor_version",
     workdir="sources/"))
 
 # store version file
 factory_tnc_dev.addStep(steps.ShellCommand(
     name="store version file",
-    command=["/bin/sh", "-c", util.Interpolate('echo %(prop:tag)s-%(prop:commit_id)s > tnc_dev_version.txt')],
+    command=["/bin/sh", "-c", util.Interpolate('echo %(prop:tag)s-%(prop:minor_version)s > tnc_dev_version.txt')],
     workdir="/home/buildbot/versions/"))
 
 # compile resources
