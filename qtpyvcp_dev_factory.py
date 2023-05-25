@@ -26,7 +26,7 @@ factory_qtpyvcp_dev.addStep(steps.SetPropertyFromCommand(
 
 
 # get git commit count since last tag
-factory_probe_basic_dev.addStep(steps.SetPropertyFromCommand(
+factory_qtpyvcp_dev.addStep(steps.SetPropertyFromCommand(
     name="get git commit count since last tag",
     command=["git", "rev-list", "--count", "--branches", util.Interpolate("^refs/tags/%(prop:tag)s")],
     property="minor_version",
