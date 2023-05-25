@@ -24,17 +24,18 @@ factory_qtpyvcp_dev.addStep(steps.SetPropertyFromCommand(
     property="tag",
     workdir="sources/"))
 
-# get git commit ID
-factory_qtpyvcp_dev.addStep(steps.SetPropertyFromCommand(
-    name="get git commit ID",
-    command=["git", "rev-parse", "--short","HEAD"],
-    property="commit_id",
+
+# get git commit count since last tag
+factory_probe_basic_dev.addStep(steps.SetPropertyFromCommand(
+    name="get git commit count since last tag",
+    command=["git", "rev-list", "--count", "--branches", util.Interpolate("^refs/tags/%(prop:tag)s")],
+    property="minor_version",
     workdir="sources/"))
 
 # store version file
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     name="store version file",
-    command=["/bin/sh", "-c", util.Interpolate('echo %(prop:tag)s-%(prop:commit_id)s > qtpyvcp_dev_version.txt')],
+    command=["/bin/sh", "-c", util.Interpolate('echo %(prop:tag)s-%(prop:minor_version)s > qtpyvcp_dev_version.txt')],
     workdir="/home/buildbot/versions/"))
 
 # compile resources
@@ -48,7 +49,7 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     name="create changelog",
     env={'EMAIL': "j.l.toledano.l@gmail.com"},
-    command=["dch", "--create", "--distribution", "unstable", "--package", "qtpyvcp", "--newversion", util.Interpolate("%(prop:tag)s-%(prop:commit_id)s.dev"), "Development version."],
+    command=["dch", "--create", "--distribution", "unstable", "--package", "qtpyvcp", "--newversion", util.Interpolate("%(prop:tag)s-%(prop:minor_version)s.dev"), "Development version."],
     workdir="sources/"))
 
 # build debs
@@ -62,7 +63,7 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     name="copy files to the http repo",
     command=["cp",
-             util.Interpolate("/home/buildbot/buildbot/worker/qtpyvcp-dev/python3-qtpyvcp_%(prop:tag)s-%(prop:commit_id)s.dev_all.deb"),
+             util.Interpolate("/home/buildbot/buildbot/worker/qtpyvcp-dev/python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb"),
              "/home/buildbot/repo/qtpyvcp-dev/"],
     workdir="sources/"))
 
@@ -72,7 +73,7 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     name="delete files from apt directory",
     command=["sh",
              "/home/buildbot/buildbot/master/scripts/clean_apt_develop.sh",
-             util.Interpolate("python3-qtpyvcp_%(prop:tag)s-%(prop:commit_id)s.dev_all.deb")
+             util.Interpolate("python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb")
             ],
     workdir="sources/"))
 
@@ -80,14 +81,14 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     name="copy files to repo",
     command=["cp",
-             util.Interpolate("/home/buildbot/buildbot/worker/qtpyvcp-dev/python3-qtpyvcp_%(prop:tag)s-%(prop:commit_id)s.dev_all.deb"),
+             util.Interpolate("/home/buildbot/buildbot/worker/qtpyvcp-dev/python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb"),
              "/home/buildbot/debian/apt/pool/main/"],
     workdir="sources/"))
 
 # delete files from build directory
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     name="delete files from build directory",
-    command=["rm", util.Interpolate("/home/buildbot/buildbot/worker/qtpyvcp-dev/python3-qtpyvcp_%(prop:tag)s-%(prop:commit_id)s.dev_all.deb")],
+    command=["rm", util.Interpolate("/home/buildbot/buildbot/worker/qtpyvcp-dev/python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb")],
     workdir="sources/"))
 
 # scan new packages in apt repository
