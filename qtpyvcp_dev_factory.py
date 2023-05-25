@@ -69,13 +69,13 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
 
 
 # delete old files from apt directory
-factory_qtpyvcp_dev.addStep(steps.ShellCommand(
-    name="delete files from apt directory",
-    command=["sh",
-             "/home/buildbot/buildbot/master/scripts/clean_apt_develop.sh",
-             util.Interpolate("python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb")
-            ],
-    workdir="sources/"))
+# factory_qtpyvcp_dev.addStep(steps.ShellCommand(
+#     name="delete files from apt directory",
+#     command=["sh",
+#              "/home/buildbot/buildbot/master/scripts/clean_apt_develop.sh",
+#              util.Interpolate("python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb")
+#             ],
+#     workdir="sources/"))
 
 # copy new files to the apt repo
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
@@ -86,10 +86,10 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     workdir="sources/"))
 
 # delete files from build directory
-factory_qtpyvcp_dev.addStep(steps.ShellCommand(
-    name="delete files from build directory",
-    command=["rm", util.Interpolate("/home/buildbot/buildbot/worker/qtpyvcp-dev/python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb")],
-    workdir="sources/"))
+# factory_qtpyvcp_dev.addStep(steps.ShellCommand(
+#     name="delete files from build directory",
+#     command=["rm", util.Interpolate("/home/buildbot/buildbot/worker/qtpyvcp-dev/python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb")],
+#     workdir="sources/"))
 
 # scan new packages in apt repository
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
