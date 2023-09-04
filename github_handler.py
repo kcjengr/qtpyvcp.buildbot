@@ -4,7 +4,6 @@
 import datetime
 import json
 import re
-from pprint import pprint
 
 from buildbot.www.hooks.github import GitHubEventHandler
 from dateutil.parser import parse as dateparse
@@ -18,21 +17,27 @@ from twisted.python import log
 class CustomGitHubEventHandler(GitHubEventHandler):
 
     def handle_push(self, payload, event):
+        
         ref = payload['ref']
-
+        
         if re.match(r"^refs/(heads)/(main)$", ref):
 
             log.msg("Got Push to main")
 
             return super().handle_push(payload, event)
-
-        elif re.match(r"refs/tags/(\d+\.\d+)", ref):
+        
+        if re.match(r"refs/tags/(\d+\.\d+)", ref):
+            
             version = ref.split('/').pop()
-            log.msg(f"Got new tag RELEASE : {version}")
+            
+            log.msg(f"Got new tag RELEASE: {version}")
 
             payload["release"] = version
+            
             return super().handle_push(payload, event)
-        else:
-            print(f'CustomGitHubEventHandler: ignoring push event for ref: {ref}')
-            return [], 'git'
+
+        
+        print(f'CustomGitHubEventHandler: ignore push event for ref: {ref}')
+        
+        return [], 'git'
 
