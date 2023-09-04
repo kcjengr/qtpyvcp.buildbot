@@ -24,7 +24,6 @@ factory_qtpyvcp_dev.addStep(steps.SetPropertyFromCommand(
     property="tag",
     workdir="sources/"))
 
-
 # get git commit count since last tag
 factory_qtpyvcp_dev.addStep(steps.SetPropertyFromCommand(
     name="get git commit count since last tag",
@@ -37,13 +36,6 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     name="store version file",
     command=["/bin/sh", "-c", util.Interpolate('echo %(prop:tag)s-%(prop:minor_version)s > qtpyvcp_dev_version.txt')],
     workdir="/home/buildbot/versions/"))
-
-# compile resources
-# disabled, done in deb build step
-# factory_qtpyvcp_dev.addStep(steps.ShellCommand(
-#     name="compile resources",
-#     command=["qcompile", "."],
-#     workdir="sources/"))
 
 # create changelog
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
@@ -68,15 +60,6 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     workdir="sources/"))
 
 
-# delete old files from apt directory
-# factory_qtpyvcp_dev.addStep(steps.ShellCommand(
-#     name="delete files from apt directory",
-#     command=["sh",
-#              "/home/buildbot/buildbot/master/scripts/clean_apt_develop.sh",
-#              util.Interpolate("python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb")
-#             ],
-#     workdir="sources/"))
-
 # copy new files to the apt repo
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     name="copy files to repo",
@@ -85,11 +68,6 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
              "/home/buildbot/debian/apt/pool/main/"],
     workdir="sources/"))
 
-# delete files from build directory
-# factory_qtpyvcp_dev.addStep(steps.ShellCommand(
-#     name="delete files from build directory",
-#     command=["rm", util.Interpolate("/home/buildbot/buildbot/worker/qtpyvcp-dev/python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb")],
-#     workdir="sources/"))
 
 # scan new packages in apt repository
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
