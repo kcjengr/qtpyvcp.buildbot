@@ -56,7 +56,7 @@ factory_qtpyvcp.addStep(steps.ShellCommand(
 factory_qtpyvcp.addStep(steps.ShellCommand(
     name="copy files to the http repo",
     command=["cp",
-             util.Interpolate("/home/buildbot/buildbot/worker/qtpyvcp/python3-qtpyvcp_%(prop:tag)s.all.deb"),
+             util.Interpolate("/home/buildbot/buildbot/worker/qtpyvcp/python3-qtpyvcp_%(prop:tag)s_all.deb"),
              "/home/buildbot/repo/qtpyvcp/"],
     workdir="sources/"))
 
@@ -65,7 +65,7 @@ factory_qtpyvcp.addStep(steps.ShellCommand(
 # factory_qtpyvcp.addStep(steps.ShellCommand(
 #     name="copy files to repo",
 #     command=["cp",
-#              util.Interpolate("/home/buildbot/buildbot/worker/qtpyvcp-dev/python3-qtpyvcp_%(prop:tag)s-all.deb"),
+#              util.Interpolate("/home/buildbot/buildbot/worker/qtpyvcp-dev/python3-qtpyvcp_%(prop:tag)s_all.deb"),
 #              "/home/buildbot/repo/qtpyvcp-dev/"],
 #     workdir="sources/"))
 
