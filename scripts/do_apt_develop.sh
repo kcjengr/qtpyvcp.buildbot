@@ -9,7 +9,7 @@ cat dists/develop/main/binary-amd64/Packages | gzip -9 > dists/develop/main/bina
 
 cd /home/buildbot/debian/apt/dists/develop
 
-/home/buildbot/debian/generate-release.sh > Release
+/home/buildbot/debian/generate-develop.sh > Release
 
 export GPG_TTY=$(tty)
 export GNUPGHOME="/home/buildbot/debian/pgpkeys"
