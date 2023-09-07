@@ -61,13 +61,13 @@ factory_qtpyvcp.addStep(steps.ShellCommand(
     workdir="sources/"))
 
 # disabled needs apt structure things
-# # copy new files to the apt repo
-# factory_qtpyvcp.addStep(steps.ShellCommand(
-#     name="copy files to repo",
-#     command=["cp",
-#              util.Interpolate("/home/buildbot/buildbot/worker/qtpyvcp-dev/python3-qtpyvcp_%(prop:tag)s_all.deb"),
-#              "/home/buildbot/repo/qtpyvcp-dev/"],
-#     workdir="sources/"))
+# copy new files to the apt repo
+factory_qtpyvcp.addStep(steps.ShellCommand(
+    name="copy files to repo",
+    command=["cp",
+             util.Interpolate("/home/buildbot/buildbot/worker/qtpyvcp/python3-qtpyvcp_%(prop:tag)s_all.deb"),
+             "/home/buildbot/debian/apt/pool/main/"],
+    workdir="sources/"))
 
 # needs more testing
 # publish on github
@@ -79,11 +79,11 @@ factory_qtpyvcp.addStep(steps.ShellCommand(
 
 
 # more apt things
-# # scan new packages in apt repository
-# factory_qtpyvcp.addStep(steps.ShellCommand(
-#     name="scan new packages in apt repository",
-#     command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_develop.sh"],
-#     workdir="sources/"))
+# scan new packages in apt repository
+factory_qtpyvcp.addStep(steps.ShellCommand(
+    name="scan new packages in apt repository",
+    command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_release.sh"],
+    workdir="sources/"))
 
 # doc related things
 # # delete docs directory
