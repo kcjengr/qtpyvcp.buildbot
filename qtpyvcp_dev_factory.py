@@ -72,7 +72,7 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
 # scan new packages in apt repository
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     name="scan new packages in apt repository",
-    command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_release.sh"],
+    command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_develop.sh"],
     workdir="sources/"))
 
 
