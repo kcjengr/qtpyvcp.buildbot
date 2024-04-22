@@ -54,7 +54,7 @@ factory_tnc_dev.addStep(steps.ShellCommand(
 # build pypi
 factory_tnc_dev.addStep(steps.ShellCommand(
     name="build tar.gz and wheel",
-    command=["python", "-m", "build"],
+    command=["python3", "-m", "build"],
     workdir="sources/"))
 
 # upload them to pypi.org
