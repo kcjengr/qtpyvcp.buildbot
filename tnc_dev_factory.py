@@ -60,7 +60,7 @@ factory_tnc_dev.addStep(steps.SetPropertyFromCommand(
 # upload them to pypi.org
 factory_tnc_dev.addStep(steps.SetPropertyFromCommand(
     name="upload tar.gz to pypi",
-    command=["twine", "upload", "--repository", "pypi", util.Interpolate("dist/turbonc-%(prop:tag)s*")],
+    command=["twine", "upload", "--repository", "pypi", util.Interpolate("dist/turbonc-%(prop:tag)s-py3-none-any.whl")],
     workdir="sources/"))
 
 # build debs
