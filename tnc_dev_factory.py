@@ -24,7 +24,6 @@ factory_tnc_dev.addStep(steps.SetPropertyFromCommand(
     property="tag",
     workdir="sources/"))
 
-
 # get git commit count since last tag
 factory_tnc_dev.addStep(steps.SetPropertyFromCommand(
     name="get git commit count since last tag",
@@ -50,6 +49,18 @@ factory_tnc_dev.addStep(steps.ShellCommand(
     name="create changelog",
     env={'EMAIL': "j.l.toledano.l@gmail.com"},
     command=["dch", "--create", "--distribution", "unstable", "--package", "turbonc", "--newversion", util.Interpolate("%(prop:tag)s-%(prop:minor_version)s.dev"), "Development version."],
+    workdir="sources/"))
+
+# build targz for pypi
+factory_tnc_dev.addStep(steps.SetPropertyFromCommand(
+    name="build tar.gz",
+    command=["python", "-m", "build"],
+    workdir="sources/"))
+
+# upload them to pypi.org
+factory_tnc_dev.addStep(steps.SetPropertyFromCommand(
+    name="upload tar.gz to pypi",
+    command=["twine", "upload", "--repository", "pypi", util.Interpolate("dist/turbonc-%(prop:tag)*")],
     workdir="sources/"))
 
 # build debs
