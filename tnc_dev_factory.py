@@ -25,7 +25,7 @@ factory_tnc_dev.addStep(steps.SetPropertyFromCommand(
     workdir="sources/"))
 
 # get git commit count since last tag
-factory_tnc_dev.addStep(steps.SetPropertyFromCommand(
+factory_tnc_dev.addStep(steps.ShellCommand(
     name="get git commit count since last tag",
     command=["git", "rev-list", "--count", "--branches", util.Interpolate("^refs/tags/%(prop:tag)s")],
     property="minor_version",
@@ -52,13 +52,13 @@ factory_tnc_dev.addStep(steps.ShellCommand(
     workdir="sources/"))
 
 # build targz for pypi
-factory_tnc_dev.addStep(steps.SetPropertyFromCommand(
+factory_tnc_dev.addStep(steps.ShellCommand(
     name="build tar.gz",
     command=["python", "-m", "build"],
     workdir="sources/"))
 
 # upload them to pypi.org
-factory_tnc_dev.addStep(steps.SetPropertyFromCommand(
+factory_tnc_dev.addStep(steps.ShellCommand(
     name="upload tar.gz to pypi",
     command=["twine", "upload", "--repository", "pypi", util.Interpolate("dist/turbonc-%(prop:tag)s-py3-none-any.whl")],
     workdir="sources/"))
