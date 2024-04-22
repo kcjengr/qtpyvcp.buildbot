@@ -51,18 +51,6 @@ factory_tnc_dev.addStep(steps.ShellCommand(
     command=["dch", "--create", "--distribution", "unstable", "--package", "turbonc", "--newversion", util.Interpolate("%(prop:tag)s-%(prop:minor_version)s.dev"), "Development version."],
     workdir="sources/"))
 
-# build pypi
-factory_tnc_dev.addStep(steps.ShellCommand(
-    name="build tar.gz and wheel",
-    command=["python3", "-m", "build"],
-    workdir="sources/"))
-
-# upload them to pypi.org
-factory_tnc_dev.addStep(steps.ShellCommand(
-    name="upload tar.gz to pypi",
-    command=["twine", "upload", "--repository", "pypi", util.Interpolate("dist/turbonc-%(prop:tag)s-py3-none-any.whl")],
-    workdir="sources/"))
-
 # build debs
 factory_tnc_dev.addStep(steps.ShellCommand(
     name="build debs",
