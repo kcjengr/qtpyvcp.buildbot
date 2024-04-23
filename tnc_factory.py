@@ -1,7 +1,7 @@
 # -*- python3 -*-
 # ex: set syntax=python3:
 #
-# ProbeBasic Develop Factory
+# TurBoNC Release Factory
 #
 
 from buildbot.plugins import steps, util
@@ -11,7 +11,7 @@ factory_tnc = util.BuildFactory()
 
 # download sources
 factory_tnc.addStep(steps.GitHub(name="download sources",
-                                             repourl='git@github.com:kcjengr/probe_basic.git',
+                                             repourl='git@github.com:kcjengr/turbonc.git',
                                              branch='main',
                                              mode='full',
                                              submodules=False,
@@ -33,7 +33,7 @@ factory_tnc.addStep(steps.ShellCommand(
 factory_tnc.addStep(steps.ShellCommand(
     name="create changelog",
     env={'EMAIL': "lcvette1@gmail.com"},
-    command=["dch", "--create", "--distribution", "stable", "--package", "probe-basic", "--newversion", util.Interpolate("%(prop:tag)s"), "Stable version."],
+    command=["dch", "--create", "--distribution", "stable", "--package", "turbonc", "--newversion", util.Interpolate("%(prop:tag)s"), "Stable version."],
     workdir="sources/"))
 
 # build pypi
@@ -59,8 +59,8 @@ factory_tnc.addStep(steps.ShellCommand(
 factory_tnc.addStep(steps.ShellCommand(
     name="move files to repo",
     command=["mv",
-             util.Interpolate("/home/buildbot/buildbot/worker/probe_basic-dev/python3-probe-basic_%(prop:tag)s_all.deb"),
-             "/home/buildbot/repo/probe-basic-dev/"],
+             util.Interpolate("/home/buildbot/buildbot/worker/probe_basic-dev/python3-turbonc_%(prop:tag)s_all.deb"),
+             "/home/buildbot/repo/turbonc-dev/"],
     workdir="sources/"))
 
 #
