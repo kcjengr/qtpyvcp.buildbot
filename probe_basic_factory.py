@@ -48,7 +48,7 @@ factory_probe_basic.addStep(steps.ShellCommand(
 factory_probe_basic.addStep(steps.ShellCommand(
     name="move files to repo",
     command=["mv",
-             util.Interpolate("/home/buildbot/buildbot/worker/probe_basic-dev/python3-probe-basic_%(prop:tag)s_all.deb"),
+             util.Interpolate("/home/buildbot/buildbot/worker/probe_basic/python3-probe-basic_%(prop:tag)s_all.deb"),
              "/home/buildbot/repo/probe-basic-dev/"],
     workdir="sources/"))
 
@@ -76,8 +76,8 @@ factory_probe_basic.addStep(
         name="compile sphinx docs",
         haltOnFailure=True,
         sphinx="/usr/bin/sphinx-build",
-        sphinx_builddir="/home/buildbot/buildbot/worker/probe_basic-dev/docs/",
-        sphinx_sourcedir="/home/buildbot/buildbot/worker/probe_basic-dev/sources/docs_src/source/",
+        sphinx_builddir="/home/buildbot/buildbot/worker/probe_basic/docs/",
+        sphinx_sourcedir="/home/buildbot/buildbot/worker/probe_basic/sources/docs_src/source/",
         strict_warnings=False,
         env={"LANG": "en_EN.UTF-8"},
         workdir="docs/"))
