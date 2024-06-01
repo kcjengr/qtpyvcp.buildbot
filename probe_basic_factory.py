@@ -49,7 +49,7 @@ factory_probe_basic.addStep(steps.ShellCommand(
     name="move files to repo",
     command=["mv",
              util.Interpolate("/home/buildbot/buildbot/worker/probe_basic/python3-probe-basic_%(prop:tag)s_all.deb"),
-             "/home/buildbot/repo/probe-basic-dev/"],
+             "/home/buildbot/repo/probe-basic/"],
     workdir="sources/"))
 
 factory_probe_basic.addStep(steps.GitHub(name="downlaod static docs",
