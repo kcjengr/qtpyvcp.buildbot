@@ -52,6 +52,13 @@ factory_probe_basic.addStep(steps.ShellCommand(
              "/home/buildbot/repo/probe-basic/"],
     workdir="sources/"))
 
+# more apt things
+# scan new packages in apt repository
+factory_probe_basic.addStep(steps.ShellCommand(
+    name="scan new packages in apt repository",
+    command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_stable.sh"],
+    workdir="sources/"))
+
 factory_probe_basic.addStep(steps.GitHub(name="downlaod static docs",
                                              repourl='git@github.com:kcjengr/probe_basic.git',
                                              origin="origin",
