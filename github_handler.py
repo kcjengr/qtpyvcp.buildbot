@@ -26,7 +26,7 @@ class CustomGitHubEventHandler(GitHubEventHandler):
             log.msg("Got Push to main")
             super().handle_push(payload, event)
             changes, vcs = super().handle_push(payload, event)
-            print(changes, vcs)
+            return changes, vcs
 
         elif re.match(r"refs/tags/(\d+\.\d+.\d+)", ref):
             version = ref.split('/').pop()
@@ -34,6 +34,6 @@ class CustomGitHubEventHandler(GitHubEventHandler):
 
             payload["release"] = version
             changes, vcs = super().handle_push(payload, event)
-            print(changes, vcs)
+            return changes, vcs
 
         return [], 'git'
