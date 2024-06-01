@@ -16,24 +16,31 @@ from twisted.python import log
 
 class CustomGitHubEventHandler(GitHubEventHandler):
 
-    def handle_push(self, payload, event):
+    def handle_push(self, payload):
 
+        changes = []
         ref = payload['ref']
+
+        log.msg("Processing GitHub Push `%s'" % ref)
 
         if re.match(r"^refs/(heads)/(main)$", ref):
             log.msg("Got Push to main")
+            category = "develop"
 
-            return super().handle_push(payload, event)
-
-        if re.match(r"refs/tags/(\d+\.\d+.\d+)", ref):
+        elif re.match(r"refs/tags/(\d+\.\d+.\d+)", ref):
             version = ref.split('/').pop()
-
             log.msg(f"Got new tag RELEASE: {version}")
 
             payload["release"] = version
+            category = "stable"
+        else:
+            return [], 'git'
 
-            return super().handle_push(payload, event)
+        change = {
+            'category': category,
+            'payload': payload
+        }
 
-        print(f'CustomGitHubEventHandler: ignore push event for ref: {ref}')
+        changes.append(change)
 
-        return [], 'git'
+        return changes, 'git'
