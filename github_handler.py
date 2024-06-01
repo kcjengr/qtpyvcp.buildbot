@@ -16,7 +16,7 @@ from twisted.python import log
 
 class CustomGitHubEventHandler(GitHubEventHandler):
 
-    def handle_push(self, payload):
+    def handle_push(self, payload, event):
 
         changes = []
         ref = payload['ref']
