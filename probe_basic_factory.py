@@ -52,6 +52,14 @@ factory_probe_basic.addStep(steps.ShellCommand(
              "/home/buildbot/repo/probe-basic/"],
     workdir="sources/"))
 
+# copy new files to the apt repo
+factory_probe_basic.addStep(steps.ShellCommand(
+    name="copy files to repo",
+    command=["cp",
+             util.Interpolate("/home/buildbot/buildbot/worker/qtpyvcp/python3-probe_basic_%(prop:tag)s_all.deb"),
+             "/home/buildbot/debian/apt/pool/main/stable/"],
+    workdir="sources/"))
+
 # more apt things
 # scan new packages in apt repository
 factory_probe_basic.addStep(steps.ShellCommand(

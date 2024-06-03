@@ -65,7 +65,7 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     name="copy files to repo",
     command=["cp",
              util.Interpolate("/home/buildbot/buildbot/worker/qtpyvcp-dev/python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb"),
-             "/home/buildbot/debian/apt/pool/main/"],
+             "/home/buildbot/debian/apt/pool/main/develop/"],
     workdir="sources/"))
 
 
