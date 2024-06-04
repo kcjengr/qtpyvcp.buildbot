@@ -47,7 +47,7 @@ factory_probe_basic.addStep(steps.ShellCommand(
 # copy new files to the http repo
 factory_probe_basic.addStep(steps.ShellCommand(
     name="copy files to http repo",
-    command=["mv",
+    command=["cp",
              util.Interpolate("/home/buildbot/buildbot/worker/probe_basic/python3-probe-basic_%(prop:tag)s_all.deb"),
              "/home/buildbot/repo/probe-basic/"],
     workdir="sources/"))
