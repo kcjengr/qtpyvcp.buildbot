@@ -62,11 +62,15 @@ factory_qtpyvcp_pi4_dev.addStep(steps.FileUpload(
 factory_qtpyvcp_pi4_dev.addStep(steps.FileUpload(
     name="copy files to repo",
     workersrc=util.Interpolate("/home/buildbot/workdir/qtpyvcp-pi4-dev/python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb"),
-    masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/develop/python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb")))
+    masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/develop/python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb")
+    )
+)
 
 
 #scan new packages in apt repository
 factory_qtpyvcp_pi4_dev.addStep(steps.MasterShellCommand(
     name="scan new packages in apt repository",
-    command="/home/buildbot/buildbot/master/scripts/do_apt_develop.sh"))
+    command="/home/buildbot/buildbot/master/scripts/do_apt_develop.sh"
+    )
+)
 
