@@ -68,5 +68,5 @@ factory_qtpyvcp_pi4_dev.addStep(steps.FileUpload(
 #scan new packages in apt repository
 factory_qtpyvcp_pi4_dev.addStep(steps.MasterShellCommand(
     name="scan new packages in apt repository",
-    command="/home/buildbot/buildbot/master/scripts/do_apt_develop.sh")
+    command="/home/buildbot/buildbot/master/scripts/do_apt_develop.sh"))
 
