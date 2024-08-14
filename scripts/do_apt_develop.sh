@@ -7,6 +7,10 @@ cd /home/buildbot/debian/apt
 dpkg-scanpackages --arch amd64 pool/main/develop > dists/develop/main/binary-amd64/Packages
 cat dists/develop/main/binary-amd64/Packages | gzip -9 > dists/develop/main/binary-amd64/Packages.gz
 
+dpkg-scanpackages --arch arm64 pool/main/develop > dists/develop/main/binary-arm64/Packages
+cat dists/develop/main/binary-arm64/Packages | gzip -9 > dists/develop/main/binary-arm64/Packages.gz
+
+
 cd /home/buildbot/debian/apt/dists/develop
 
 /home/buildbot/debian/generate-develop.sh > Release
