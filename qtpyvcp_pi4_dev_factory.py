@@ -51,27 +51,23 @@ factory_qtpyvcp_pi4_dev.addStep(steps.ShellCommand(
     command=["dpkg-buildpackage", "-b", "-uc"],
     workdir="sources/"))
 
-# copy files to the http repo
-factory_qtpyvcp_pi4_dev.addStep(steps.ShellCommand(
+# copy files to the http repo on .13 machine
+factory_qtpyvcp_pi4_dev.addStep(steps.FileUpload(
     name="copy files to the http repo",
-    command=["cp",
-             util.Interpolate("/home/buildbot/buildbot/worker/qtpyvcp-dev/python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb"),
-             "/home/buildbot/repo/qtpyvcp-dev/"],
-    workdir="sources/"))
+    workersrc=util.Interpolate("/home/buildbot/workdir/qtpyvcp-dev/python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb"),
+    masterdest="/home/buildbot/repo/qtpyvcp-dev/")
 
 
-# copy new files to the apt repo
-factory_qtpyvcp_pi4_dev.addStep(steps.ShellCommand(
+# copy new files to the apt repo on .13 machine
+factory_qtpyvcp_pi4_dev.addStep(steps.FileUpload(
     name="copy files to repo",
-    command=["cp",
-             util.Interpolate("/home/buildbot/buildbot/worker/qtpyvcp-dev/python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb"),
-             "/home/buildbot/debian/apt/pool/main/develop/"],
-    workdir="sources/"))
+    workersrc=util.Interpolate("/home/buildbot/workdir/qtpyvcp-dev/python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb"),
+    masterdest="/home/buildbot/debian/apt/pool/main/develop/")
 
 
-# scan new packages in apt repository
-factory_qtpyvcp_pi4_dev.addStep(steps.ShellCommand(
+scan new packages in apt repository
+factory_qtpyvcp_pi4_dev.addStep(steps.MasterShellCommand(
     name="scan new packages in apt repository",
-    command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_develop.sh"],
-    workdir="sources/"))
+    command="/home/buildbot/buildbot/master/scripts/do_apt_develop.sh",
+    workdir="sources/")
 
