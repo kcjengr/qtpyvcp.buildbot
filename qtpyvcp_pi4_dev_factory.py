@@ -35,7 +35,7 @@ factory_qtpyvcp_pi4_dev.addStep(steps.SetPropertyFromCommand(
 factory_qtpyvcp_pi4_dev.addStep(steps.ShellCommand(
     name="store version file",
     command=["/bin/sh", "-c", util.Interpolate('echo %(prop:tag)s-%(prop:minor_version)s > qtpyvcp_dev_version.txt')],
-    workdir="/home/turboss/versions/"))
+    workdir="/home/buildbot/versions/"))
 
 # create changelog
 factory_qtpyvcp_pi4_dev.addStep(steps.ShellCommand(
@@ -55,8 +55,8 @@ factory_qtpyvcp_pi4_dev.addStep(steps.ShellCommand(
 # factory_qtpyvcp_pi4_dev.addStep(steps.ShellCommand(
 #     name="copy files to the http repo",
 #     command=["cp",
-#              util.Interpolate("/home/turboss/buildbot/worker/qtpyvcp-dev/python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb"),
-#              "/home/turboss/repo/qtpyvcp-dev/"],
+#              util.Interpolate("/home/buildbot/buildbot/worker/qtpyvcp-dev/python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb"),
+#              "/home/buildbot/repo/qtpyvcp-dev/"],
 #     workdir="sources/"))
 #
 #
