@@ -55,14 +55,14 @@ factory_qtpyvcp_pi4_dev.addStep(steps.ShellCommand(
 factory_qtpyvcp_pi4_dev.addStep(steps.FileUpload(
     name="copy files to the http repo",
     workersrc=util.Interpolate("/home/buildbot/workdir/qtpyvcp-pi4-dev/python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb"),
-    masterdest="/home/buildbot/repo/qtpyvcp-dev/"))
+    masterdest=util.Interpolate("/home/buildbot/repo/qtpyvcp-dev/python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb")))
 
 
 # copy new files to the apt repo on .13 machine
 factory_qtpyvcp_pi4_dev.addStep(steps.FileUpload(
     name="copy files to repo",
     workersrc=util.Interpolate("/home/buildbot/workdir/qtpyvcp-pi4-dev/python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb"),
-    masterdest="/home/buildbot/debian/apt/pool/main/develop/"))
+    masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/develop/python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb")))
 
 
 #scan new packages in apt repository
