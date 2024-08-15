@@ -71,7 +71,7 @@ factory_qtpyvcp_pi4_dev.addStep(steps.FileUpload(
 factory_qtpyvcp_pi4_dev.addStep(steps.ShellCommand(
     name="clean workdir",
 #    command=["ls", "-l", "*.dev_*"],
-    command=["ls", "-l"],
+    command=["ls -l *.dev_*"],
     workdir="./"
     )
 )
