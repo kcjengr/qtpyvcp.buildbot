@@ -70,7 +70,8 @@ factory_qtpyvcp_pi4_dev.addStep(steps.FileUpload(
 # clean up the workdir of old deb files after copying
 factory_qtpyvcp_pi4_dev.addStep(steps.ShellCommand(
     name="clean workdir",
-    command=["ls", "-l", "*.dev_*"]
+    command=["ls", "-l", "*.dev_*"],
+    workdir="./"
     )
 )
 
