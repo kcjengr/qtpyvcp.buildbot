@@ -69,7 +69,7 @@ factory_qtpyvcp_pi4_dev.addStep(steps.FileUpload(
 
 # clean up the workdir of old deb files after copying
 factory_qtpyvcp_pi4_dev.addStep(steps.ShellCommand(
-    name="check for deb files in workdir",
+    name="remove deb files from workdir",
     command=["rm", util.Interpolate("python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb")],
     workdir="./"
     )
@@ -77,7 +77,7 @@ factory_qtpyvcp_pi4_dev.addStep(steps.ShellCommand(
 
 
 factory_qtpyvcp_pi4_dev.addStep(steps.ShellCommand(
-    name="check for change files in workdir",
+    name="remove changes files from workdir",
     command=["rm", util.Interpolate("qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.changes")],
     workdir="./"
     )
@@ -85,7 +85,7 @@ factory_qtpyvcp_pi4_dev.addStep(steps.ShellCommand(
 
 
 factory_qtpyvcp_pi4_dev.addStep(steps.ShellCommand(
-    name="check for buildinfo files in workdir",
+    name="rmove buildinfo files from workdir",
     command=["rm", util.Interpolate("qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.buildinfo")],
     workdir="./"
     )
