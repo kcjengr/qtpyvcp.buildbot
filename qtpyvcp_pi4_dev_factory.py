@@ -67,6 +67,13 @@ factory_qtpyvcp_pi4_dev.addStep(steps.FileUpload(
 )
 
 
+# clean up the workdir of old deb files after copying
+factory_qtpyvcp_pi4_dev.addStep(steps.ShellCommand(
+    name="remove old debs, changes and buildinfo files from workdir",
+    command=["rm", "-f", "*.dev_*"],
+    workdir="workdir/qtpyvcp-pi4-dev/"))
+
+
 #scan new packages in apt repository
 factory_qtpyvcp_pi4_dev.addStep(steps.MasterShellCommand(
     name="scan new packages in apt repository",
