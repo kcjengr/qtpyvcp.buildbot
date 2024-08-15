@@ -76,7 +76,7 @@ factory_qtpyvcp_pi4_dev.addStep(steps.ShellCommand(
 
 
 factory_qtpyvcp_pi4_dev.addStep(steps.ShellCommand(
-    name="check for chanhge files in workdir",
+    name="check for change files in workdir",
     command=["ls", "-l", util.Interpolate("qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.changes")]
     )
 )
