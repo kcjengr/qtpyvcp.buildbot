@@ -69,12 +69,24 @@ factory_qtpyvcp_pi4_dev.addStep(steps.FileUpload(
 
 # clean up the workdir of old deb files after copying
 factory_qtpyvcp_pi4_dev.addStep(steps.ShellCommand(
-    name="clean workdir",
-    command=["ls", "-l", "./*.dev_*"],
-    workdir="./"
+    name="check for deb files in workdir",
+    command=["ls", "-l", util.Interpolate("python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb")]
     )
 )
 
+
+factory_qtpyvcp_pi4_dev.addStep(steps.ShellCommand(
+    name="check for chanhge files in workdir",
+    command=["ls", "-l", util.Interpolate("qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.changes")]
+    )
+)
+
+
+factory_qtpyvcp_pi4_dev.addStep(steps.ShellCommand(
+    name="check for buildinfo files in workdir",
+    command=["ls", "-l", util.Interpolate("qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.buildinfo")]
+    )
+)
 
 #scan new packages in apt repository
 factory_qtpyvcp_pi4_dev.addStep(steps.MasterShellCommand(
