@@ -55,7 +55,7 @@ factory_monokrom_dev.addStep(steps.ShellCommand(
 factory_monokrom_dev.addStep(steps.ShellCommand(
     name="copy files to the http repo",
     command=["cp",
-             util.Interpolate("/home/buildbot/buildbot/worker/monokrom-dev/python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb"),
+             util.Interpolate("/home/buildbot/buildbot/worker/monokrom-dev/python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_amd.deb"),
              "/home/buildbot/repo/monokrom-dev/"],
     workdir="sources/"))
 
@@ -73,7 +73,7 @@ factory_monokrom_dev.addStep(steps.ShellCommand(
 factory_monokrom_dev.addStep(steps.ShellCommand(
     name="move new files to the apt repo",
     command=["mv",
-             util.Interpolate("/home/buildbot/buildbot/worker/monokrom-dev/python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb"),
+             util.Interpolate("/home/buildbot/buildbot/worker/monokrom-dev/python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_amd.deb"),
              "/home/buildbot/debian/apt/pool/main/"],
     workdir="sources/"))
 
