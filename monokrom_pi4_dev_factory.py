@@ -84,10 +84,11 @@ factory_monokrom_pi4_dev.addStep(steps.FileUpload(
 #     workdir="sources/"))
 
 # scan new packages in apt repository
-factory_monokrom_pi4_dev.addStep(steps.ShellCommand(
+factory_monokrom_pi4_dev.addStep(steps.MasterShellCommand(
     name="scan new packages in apt repository",
-    command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_develop.sh"],
-    workdir="sources/"))
+    command="/home/buildbot/buildbot/master/scripts/do_apt_develop.sh"
+    )
+)
 
 
 
