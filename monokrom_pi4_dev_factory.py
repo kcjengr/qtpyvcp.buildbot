@@ -72,7 +72,7 @@ factory_monokrom_pi4_dev.addStep(steps.FileUpload(
 # move new files to the apt repo
 factory_monokrom_pi4_dev.addStep(steps.FileUpload(
     name="move new files to the apt repo",
-    workersrc=util.Interpolate("/home/buildbot/workdir/monokrom-dev/python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb"),
+    workersrc=util.Interpolate("/home/buildbot/workdir/monokrom-pi4-dev/python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb"),
     masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/develop/python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb")
     )
 )
