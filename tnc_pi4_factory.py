@@ -25,7 +25,7 @@ factory_tnc_pi4.addStep(steps.SetPropertyFromCommand(
     workdir="sources/"))
 
 # compile resources
-factory_tnc.addStep(steps.ShellCommand(
+factory_tnc_pi4.addStep(steps.ShellCommand(
     name="compile resources",
     command=["qcompile", "."],
     workdir="sources/"))
@@ -38,13 +38,13 @@ factory_tnc_pi4.addStep(steps.ShellCommand(
     workdir="sources/"))
 
 # build pypi
-factory_tnc.addStep(steps.ShellCommand(
+factory_tnc_pi4.addStep(steps.ShellCommand(
     name="build tar.gz and wheel",
     command=["python3", "-m", "poetry", "build"],
     workdir="sources/"))
 
 # upload them to pypi.org
-factory_tnc.addStep(steps.ShellCommand(
+factory_tnc_pi4.addStep(steps.ShellCommand(
     name="upload tar.gz to pypi",
     command=["twine", "upload", "--repository", "pypi", util.Interpolate("dist/turbonc-%(prop:tag)s-py3-none-any.whl"), util.Interpolate("dist/turbonc-%(prop:tag)s.tar.gz")],
     workdir="sources/"))
