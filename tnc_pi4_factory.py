@@ -33,7 +33,7 @@ factory_tnc.addStep(steps.ShellCommand(
 # create changelog
 factory_tnc_pi4.addStep(steps.ShellCommand(
     name="create changelog",
-    env={'EMAIL': "lcvette1@gmail.com""},
+    env={'EMAIL': "lcvette1@gmail.com"},
     command=["dch", "--create", "--distribution", "stable", "--package", "turbonc", "--newversion", util.Interpolate("%(prop:tag)s"), "Stable version."],
     workdir="sources/"))
 
