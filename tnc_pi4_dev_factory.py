@@ -1,7 +1,7 @@
 # -*- python3 -*-
 # ex: set syntax=python3:
 #
-# MonoKrom VCP Develop Factory
+# TurBoNC VCP Develop Factory
 #
 
 from buildbot.plugins import steps, util
@@ -40,7 +40,7 @@ factory_tnc_pi4_dev.addStep(steps.ShellCommand(
 # create changelog
 factory_tnc_pi4_dev.addStep(steps.ShellCommand(
     name="create changelog",
-    env={'EMAIL': "james@snaggingpixels.com"},
+    env={'EMAIL': "lcvette1@gmail.com""},
     command=["dch", "--create", "--distribution", "unstable", "--package", "turbonc", "--newversion", util.Interpolate("%(prop:tag)s-%(prop:minor_version)s.dev"), "Unstable Release version."],
     workdir="sources/"))
 
