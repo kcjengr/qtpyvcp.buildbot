@@ -37,16 +37,16 @@ factory_tnc.addStep(steps.ShellCommand(
     workdir="sources/"))
 
 # build pypi
-factory_tnc.addStep(steps.ShellCommand(
-    name="build tar.gz and wheel",
-    command=["python3", "-m", "poetry", "build"],
-    workdir="sources/"))
-
-# upload them to pypi.org
-factory_tnc.addStep(steps.ShellCommand(
-    name="upload tar.gz to pypi",
-    command=["twine", "upload", "--repository", "pypi", util.Interpolate("dist/turbonc-%(prop:tag)s-py3-none-any.whl"), util.Interpolate("dist/turbonc-%(prop:tag)s.tar.gz")],
-    workdir="sources/"))
+# factory_tnc.addStep(steps.ShellCommand(
+#     name="build tar.gz and wheel",
+#     command=["python3", "-m", "poetry", "build"],
+#     workdir="sources/"))
+#
+# # upload them to pypi.org
+# factory_tnc.addStep(steps.ShellCommand(
+#     name="upload tar.gz to pypi",
+#     command=["twine", "upload", "--repository", "pypi", util.Interpolate("dist/turbonc-%(prop:tag)s-py3-none-any.whl"), util.Interpolate("dist/turbonc-%(prop:tag)s.tar.gz")],
+#     workdir="sources/"))
 
 # build debs
 factory_tnc.addStep(steps.ShellCommand(
