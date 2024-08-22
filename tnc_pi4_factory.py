@@ -37,17 +37,23 @@ factory_tnc_pi4.addStep(steps.ShellCommand(
     command=["dch", "--create", "--distribution", "stable", "--package", "turbonc", "--newversion", util.Interpolate("%(prop:tag)s"), "Stable version."],
     workdir="sources/"))
 
-# build pypi
-factory_tnc_pi4.addStep(steps.ShellCommand(
-    name="build tar.gz and wheel",
-    command=["python3", "-m", "poetry", "build"],
-    workdir="sources/"))
+# ~ # set poetry version number for wheel build
+# ~ factory_tnc_pi4.addStep(steps.ShellCommand(
+    # ~ name="set poetry ver number",
+    # ~ command=["python3", "-m", "poetry", "config", "version", util.Interpolate("%(prop:tag)s")],
+    # ~ workdir="sources/"))
 
-# upload them to pypi.org
-factory_tnc_pi4.addStep(steps.ShellCommand(
-    name="upload tar.gz to pypi",
-    command=["twine", "upload", "--repository", "pypi", util.Interpolate("dist/turbonc-%(prop:tag)s-py3-none-any.whl"), util.Interpolate("dist/turbonc-%(prop:tag)s.tar.gz")],
-    workdir="sources/"))
+# ~ # build pypi
+# ~ factory_tnc_pi4.addStep(steps.ShellCommand(
+    # ~ name="build tar.gz and wheel",
+    # ~ command=["python3", "-m", "poetry", "build"],
+    # ~ workdir="sources/"))
+
+# ~ # upload them to pypi.org
+# ~ factory_tnc_pi4.addStep(steps.ShellCommand(
+    # ~ name="upload tar.gz to pypi",
+    # ~ command=["twine", "upload", "--repository", "pypi", util.Interpolate("dist/turbonc-%(prop:tag)s-py3-none-any.whl"), util.Interpolate("dist/turbonc-%(prop:tag)s.tar.gz")],
+    # ~ workdir="sources/"))
 
 # build debs
 factory_tnc_pi4.addStep(steps.ShellCommand(
