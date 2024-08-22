@@ -54,8 +54,8 @@ factory_probe_basic_pi4_dev.addStep(steps.ShellCommand(
 # copy files to the http repo
 factory_probe_basic_pi4_dev.addStep(steps.FileUpload(
     name="copy files to the http repo",
-    workersrc=util.Interpolate("/home/buildbot/workdir/probe_basic-pi4-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb"),
-     masterdest=util.Interpolate("/home/buildbot/repo/probe-basic-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb")
+    workersrc=util.Interpolate("/home/buildbot/workdir/probe_basic-pi4-dev/python3-probe-basic_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb"),
+     masterdest=util.Interpolate("/home/buildbot/repo/probe-basic-dev/python3-probe-basic_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb")
     )
 )
 
