@@ -63,7 +63,7 @@ factory_probe_basic_dev.addStep(steps.ShellCommand(
 factory_probe_basic_dev.addStep(steps.ShellCommand(
     name="copy files to the http repo",
     command=["cp",
-             util.Interpolate("/home/buildbot/buildbot/worker/probe_basic-dev/python3-probe-basic_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb"),
+             util.Interpolate("/home/buildbot/buildbot/worker/probe_basic-dev/python3-probe-basic_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb"),
              "/home/buildbot/repo/probe-basic-dev/"],
     workdir="sources/"))
 
@@ -81,7 +81,7 @@ factory_probe_basic_dev.addStep(steps.ShellCommand(
 factory_probe_basic_dev.addStep(steps.ShellCommand(
     name="copy files to repo",
     command=["cp",
-             util.Interpolate("/home/buildbot/buildbot/worker/probe_basic-dev/python3-probe-basic_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb"),
+             util.Interpolate("/home/buildbot/buildbot/worker/probe_basic-dev/python3-probe-basic_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb"),
              "/home/buildbot/debian/apt/pool/main/develop/"],
     workdir="sources/"))
 
