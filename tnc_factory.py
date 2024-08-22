@@ -59,7 +59,7 @@ factory_tnc.addStep(steps.ShellCommand(
 factory_tnc.addStep(steps.ShellCommand(
     name="move files to repo",
     command=["mv",
-             util.Interpolate("/home/buildbot/buildbot/worker/probe_basic-dev/python3-turbonc_%(prop:tag)s_amd64.deb"),
+             util.Interpolate("/home/buildbot/buildbot/worker/turbonc/python3-turbonc_%(prop:tag)s_amd64.deb"),
              "/home/buildbot/repo/turbonc-dev/"],
     workdir="sources/"))
 
