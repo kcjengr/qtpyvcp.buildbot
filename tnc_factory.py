@@ -55,12 +55,18 @@ factory_tnc.addStep(steps.ShellCommand(
     command=["dpkg-buildpackage", "-b", "-uc"],
     workdir="sources/"))
 
-# move files to repo
+# move new files to the apt repo
+factory_tnc.addStep(steps.FileUpload(
+    name="move new files to the apt repo",
+    workersrc=util.Interpolate("/home/buildbot/workdir/turbonc-pi4-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.arm64.deb"),
+    masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/stable/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.arm64.deb")
+    )
+)
+
+# scan new packages in apt repository
 factory_tnc.addStep(steps.ShellCommand(
-    name="move files to repo",
-    command=["mv",
-             util.Interpolate("/home/buildbot/buildbot/worker/turbonc/python3-turbonc_%(prop:tag)s_amd64.deb"),
-             "/home/buildbot/repo/turbonc-dev/"],
+    name="scan new packages in apt repository",
+    command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_stable.sh"],
     workdir="sources/"))
 
 #
