@@ -66,7 +66,7 @@ factory_tnc.addStep(steps.ShellCommand(
 # move new files to the apt repo
 factory_tnc.addStep(steps.FileUpload(
     name="move new files to the apt repo",
-    workersrc=util.Interpolate("/home/buildbot/workdir/turbonc/python3-turbonc_%(prop:tag)s_amd64.deb"),
+    workersrc=util.Interpolate("/home/buildbot/buildbot/workdir/turbonc/python3-turbonc_%(prop:tag)s_amd64.deb"),
     masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/stable/python3-turbonc_%(prop:tag)s_amd64.deb")
     )
 )
