@@ -84,7 +84,7 @@ factory_tnc_pi4.addStep(steps.FileUpload(
 factory_tnc_pi4.addStep(steps.FileUpload(
     name="move new files to the apt repo",
     workersrc=util.Interpolate("/home/buildbot/workdir/turbonc-pi4/python3-turbonc_%(prop:tag)s_arm64.deb"),
-    masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/develop/python3-turbonc_%(prop:tag)s_arm64.deb")
+    masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/stable/python3-turbonc_%(prop:tag)s_arm64.deb")
     )
 )
 
@@ -97,7 +97,7 @@ factory_tnc_pi4.addStep(steps.FileUpload(
 # scan new packages in apt repository
 factory_tnc_pi4.addStep(steps.MasterShellCommand(
     name="scan new packages in apt repository",
-    command="/home/buildbot/buildbot/master/scripts/do_apt_develop.sh"
+    command="/home/buildbot/buildbot/master/scripts/do_apt_stable.sh"
     )
 )
 
