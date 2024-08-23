@@ -23,11 +23,19 @@ factory_tnc.addStep(steps.SetPropertyFromCommand(
     property="tag",
     workdir="sources/"))
 
-# compile resources
 factory_tnc.addStep(steps.ShellCommand(
-    name="compile resources",
-    command=["qcompile", "."],
-    workdir="sources/"))
+        name="build wheel with poetry",
+        command=["python3", "-m", "poetry", "build"],
+        workdir="sources/"
+    )
+)
+
+# compile resources
+# disabled, done in deb build step
+# factory_tnc.addStep(steps.ShellCommand(
+#     name="compile resources",
+#     command=["qcompile", "."],
+#     workdir="sources/"))
 
 # create changelog
 factory_tnc.addStep(steps.ShellCommand(
