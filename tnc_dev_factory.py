@@ -44,6 +44,13 @@ factory_tnc_dev.addStep(steps.ShellCommand(
 #     command=["qcompile", "."],
 #     workdir="sources/"))
 
+factory_tnc_dev.addStep(steps.ShellCommand(
+        name="build wheel with poetry",
+        command=["python3", "-m", "poetry", "build"],
+        workdir="sources/"
+    )
+)
+
 # create changelog
 factory_tnc_dev.addStep(steps.ShellCommand(
     name="create changelog",
