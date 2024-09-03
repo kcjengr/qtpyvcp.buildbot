@@ -25,7 +25,7 @@ factory_probe_basic_pi4.addStep(steps.SetPropertyFromCommand(
     workdir="sources/"))
 
 # compile resources
-factory_probe_basic.addStep(steps.ShellCommand(
+factory_probe_basic_pi4.addStep(steps.ShellCommand(
     name="compile resources",
     command=["qcompile", "."],
     workdir="sources/"))
