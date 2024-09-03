@@ -48,7 +48,7 @@ factory_probe_basic.addStep(steps.ShellCommand(
 factory_probe_basic.addStep(steps.ShellCommand(
     name="copy files to http repo",
     command=["cp",
-             util.Interpolate("/home/buildbot/buildbot/worker/probe_basic/python3-probe-basic_%(prop:tag)s_all.deb"),
+             util.Interpolate("/home/buildbot/buildbot/worker/probe_basic/python3-probe-basic_%(prop:tag)s_amd64.deb"),
              "/home/buildbot/repo/probe-basic/"],
     workdir="sources/"))
 
@@ -56,7 +56,7 @@ factory_probe_basic.addStep(steps.ShellCommand(
 factory_probe_basic.addStep(steps.ShellCommand(
     name="copy files to apt repo",
     command=["cp",
-             util.Interpolate("/home/buildbot/buildbot/worker/probe_basic/python3-probe-basic_%(prop:tag)s_all.deb"),
+             util.Interpolate("/home/buildbot/buildbot/worker/probe_basic/python3-probe-basic_%(prop:tag)s_amd64.deb"),
              "/home/buildbot/debian/apt/pool/main/stable/"],
     workdir="sources/"))
 
