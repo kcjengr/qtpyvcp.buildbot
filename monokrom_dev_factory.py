@@ -74,7 +74,7 @@ factory_monokrom_dev.addStep(steps.ShellCommand(
     name="move new files to the apt repo",
     command=["mv",
              util.Interpolate("/home/buildbot/buildbot/worker/monokrom-dev/python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb"),
-             "/home/buildbot/debian/apt/pool/main/"],
+             "/home/buildbot/debian/apt/pool/main/develop/"],
     workdir="sources/"))
 
 # delete files from build directory
