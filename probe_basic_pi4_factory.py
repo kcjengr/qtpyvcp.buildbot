@@ -66,7 +66,7 @@ factory_probe_basic_pi4.addStep(steps.FileUpload(
 factory_probe_basic_pi4.addStep(steps.FileUpload(
     name="move new files to the apt repo",
     workersrc=util.Interpolate("/home/buildbot/workdir/probe_basic-pi4/python3-probe-basic_%(prop:tag)s_arm64.deb"),
-    masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/develop/python3-probe-basic_%(prop:tag)s_arm64.deb")
+    masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/stable/python3-probe-basic_%(prop:tag)s_arm64.deb")
     )
 )
 
