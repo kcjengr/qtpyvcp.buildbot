@@ -22,8 +22,8 @@ class MatrixReporter(ReporterBase):
         super().checkConfig(generators=generators, **kwargs)
 
     @defer.inlineCallbacks
-    def reconfigService(self, serverUrl, userName=None, auth=None, headers=None,
-                        debug=None, verify=None, generators=None, **kwargs):
+    def reconfigService(self, serverUrl, userName=None, auth=None, roomID=None, headers=None,
+                    debug=None, verify=None, generators=None, **kwargs):
         self.debug = debug
         self.verify = verify
 
