@@ -29,7 +29,7 @@ class MatrixReporter(ReporterBase):
 
         yield super().reconfigService(generators=generators, **kwargs)
 
-        self._client = httpx.AsyncClient(serverUrl, userName)
+        self._client = AsyncClient(serverUrl, userName)
 
     def _create_default_generators(self):
         formatter = MessageFormatterFunction(lambda context: context['build'], 'plain')
