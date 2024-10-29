@@ -59,6 +59,6 @@ class MatrixReporter(ReporterBase):
     @defer.inlineCallbacks
     def sendMessage(self, reports):
         msg_text = reports[0]['body']
-        self._client.login(self.matrix_pass)
+        self._client.login(self.matrix_user_pass)
         yield self._client.room_send(room_id=self.room_id, message_type="m.room.message",
                                      content={"msgtype":"m.text", "body":msg_text})
