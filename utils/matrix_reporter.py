@@ -10,12 +10,15 @@ class MatrixReporter(ReporterBase):
     name = "MatrixReporter"
     secrets = []
 
-    def checkConfig(self, serverUrl, userName=None, auth=None, headers=None,
+    room_id = ""
+
+
+    def checkConfig(self, serverUrl, userName=None, auth=None, roomID=None, headers=None,
                     debug=None, verify=None, generators=None, **kwargs):
 
         if generators is None:
             generators = self._create_default_generators()
-
+        self.room_id = roomID
         super().checkConfig(generators=generators, **kwargs)
 
     @defer.inlineCallbacks
@@ -41,5 +44,5 @@ class MatrixReporter(ReporterBase):
     def sendMessage(self, reports):
         msg_text = reports[0]['body']
         self._client.login(matrix_pass)
-        yield self._client.room_send(room_id=room_id, message_type="m.room.message",
+        yield self._client.room_send(room_id=self.room_id, message_type="m.room.message",
                                      content={"msgtype":"m.text", "body":msg_text})
