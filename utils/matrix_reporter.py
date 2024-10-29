@@ -10,7 +10,7 @@ class MatrixReporter(ReporterBase):
     name = "MatrixReporter"
     secrets = []
 
-    def checkConfig(self, serverUrl, auth=None, headers=None,
+    def checkConfig(self, serverUrl, userName=None, auth=None, headers=None,
                     debug=None, verify=None, generators=None, **kwargs):
 
         if generators is None:
@@ -19,9 +19,8 @@ class MatrixReporter(ReporterBase):
         super().checkConfig(generators=generators, **kwargs)
 
     @defer.inlineCallbacks
-    def reconfigService(self, serverUrl, auth=None, headers=None,
-                        debug=None, verify=None, generators=None,
-                        **kwargs):
+    def reconfigService(self, serverUrl, userName=None, auth=None, headers=None,
+                        debug=None, verify=None, generators=None, **kwargs):
         self.debug = debug
         self.verify = verify
 
@@ -30,7 +29,7 @@ class MatrixReporter(ReporterBase):
 
         yield super().reconfigService(generators=generators, **kwargs)
 
-        self._client = httpx.AsyncClient(serverUrl, matrix_user)
+        self._client = httpx.AsyncClient(serverUrl, userName)
 
     def _create_default_generators(self):
         formatter = MessageFormatterFunction(lambda context: context['build'], 'plain')
