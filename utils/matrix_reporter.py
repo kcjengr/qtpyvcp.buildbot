@@ -1,5 +1,5 @@
 import asyncio
-import httpx
+from nio import AsyncClient, MatrixRoom, RoomMessageText
 
 from twisted.internet import defer
 from buildbot.reporters.base import ReporterBase
