@@ -1,3 +1,6 @@
+import asyncio
+import httpx
+
 from twisted.internet import defer
 from buildbot.reporters.base import ReporterBase
 from buildbot.reporters.generators.build import BuildStatusGenerator
@@ -27,7 +30,7 @@ class MatrixReporter(ReporterBase):
 
         yield super().reconfigService(generators=generators, **kwargs)
 
-        self._client = AsyncClient(serverUrl, matrix_user)
+        self._client = httpx.AsyncClient(serverUrl, matrix_user)
 
     def _create_default_generators(self):
         formatter = MessageFormatterFunction(lambda context: context['build'], 'plain')
