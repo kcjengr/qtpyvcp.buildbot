@@ -76,14 +76,6 @@ class MatrixReporter(ReporterBase):
     @defer.inlineCallbacks
     def sendMessage(self, reports):
 
-        print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-        
-        pprint(reports)
-
         msg_text = reports[0]['body']
 
-        pprint(msg_text)
-
-        print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-
-        yield asyncio.ensure_future(self.wrapper(self._client, msg_text))
+        return asyncio.ensure_future(self.wrapper(self._client, msg_text))
