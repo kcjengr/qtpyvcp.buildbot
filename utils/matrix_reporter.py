@@ -79,7 +79,7 @@ class MatrixReporter(ReporterBase):
         users = merge_reports_prop(reports, 'users')
         patches = merge_reports_prop(reports, 'patches')
         logs = merge_reports_prop(reports, 'logs')
-        worker = merge_reports_prop_take_first(reports, 'worker'
+        worker = merge_reports_prop_take_first(reports, 'worker')
 
         print("@@@@@@@@@@@@@@@")
         print(body)
