@@ -8,7 +8,7 @@ from twisted.internet import defer
 from buildbot.reporters.generators.build import BuildStatusGenerator
 from buildbot.reporters.message import MessageFormatterFunction, MessageFormatter
 from buildbot.reporters.base import ReporterBase
-from buildbot.reporters.utils import merge_reports_prop
+from buildbot.reporters.utils import merge_reports_prop, merge_reports_prop_take_first
 
 # Enable debug logging for the nio client
 logging.basicConfig(level=logging.DEBUG)
@@ -71,7 +71,7 @@ class MatrixReporter(ReporterBase):
 
     @defer.inlineCallbacks
     def sendMessage(self, reports):
-        body = merge_reports_prop(reports, 'body')
+        body = reports.get('body')
         subject = merge_reports_prop_take_first(reports, 'subject')
         type = merge_reports_prop_take_first(reports, 'type')
         results = merge_reports_prop(reports, 'results')
