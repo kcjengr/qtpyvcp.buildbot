@@ -51,7 +51,7 @@ class MatrixReporter(ReporterBase):
         yield super().reconfigService(generators=generators, **kwargs)
 
         async def wrapper(client):
-            await client.login("my-secret-password")
+            await client.login(self.user_pass)
             await client.sync_forever(timeout=30000)  # milliseconds
 
         self._client = AsyncClient(self.server_url, self.user_name)
@@ -66,5 +66,4 @@ class MatrixReporter(ReporterBase):
     @defer.inlineCallbacks
     def sendMessage(self, reports):
         msg_text = reports[0]['body']
-        self._client.login(self.user_pass)
         yield self._client.room_send(room_id=self.room_id, message_type="m.room.message", content={"msgtype":"m.text", "body":msg_text})
