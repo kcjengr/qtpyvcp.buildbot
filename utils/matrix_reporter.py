@@ -70,6 +70,14 @@ class MatrixReporter(ReporterBase):
 
         msg_text = reports[0]['body']
 
+        # Convert datetime objects to strings
+        def date2str(obj):
+            if isinstance(obj, datetime):
+                return obj.isoformat()
+            return obj
+
+        msg_text = date2str(msg_text)
+
         yield defer.ensureDeferred(self._client.room_send(
                 room_id=self.room_id,
                 message_type="m.room.message",
