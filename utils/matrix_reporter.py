@@ -56,7 +56,7 @@ class MatrixReporter(BuildbotService):
 
 
         self._client = AsyncClient(self.server_url, self.user_name)
-        asyncio.run(self.wrapper(self._client))
+        asyncio.ensure_future(self.wrapper(self._client))
 
     def _create_default_generators(self):
         formatter = MessageFormatterFunction(lambda context: context['build'], 'plain')
