@@ -1,4 +1,6 @@
 import asyncio
+from pprint import pprint
+
 from nio import AsyncClient, MatrixRoom, RoomMessageText
 
 from twisted.internet import defer
@@ -17,19 +19,16 @@ class MatrixReporter(ReporterBase):
     room_id = ""
     debug = False
 
-    async def login_wrapper(self, client):
-        await client.login(self.user_pass)
-        await client.sync_forever(timeout=30000)  # milliseconds
 
-    async def msg_wrapper(self, client, msg_text):
+    async def wrapper(self, client, msg_text):
         return await client.room_send(
             room_id=self.room_id,
             message_type="m.room.message",
             content={"msgtype": "m.text", "body": msg_text}
         )
-        
-    def checkConfig(self, serverUrl, userName=None, userPass=None, roomID=None, headers=None,
-                    debug=None, verify=None, generators=None, **kwargs):
+
+    def checkConfig(self, serverUrl, userName=None, userToken=None, roomID=None, headers=None,
+                        debug=None, verify=None, generators=None, **kwargs):
 
         if generators is None:
             generators = self._create_default_generators()
@@ -43,14 +42,14 @@ class MatrixReporter(ReporterBase):
         super().checkConfig(generators=generators, **kwargs)
 
     @defer.inlineCallbacks
-    def reconfigService(self, serverUrl, userName=None, userPass=None, roomID=None, headers=None,
+    def reconfigService(self, serverUrl, userName=None, userToken=None, roomID=None, headers=None,
                         debug=None, verify=None, generators=None, **kwargs):
         self.debug = debug
         self.verify = verify
 
         self.server_url = serverUrl
         self.user_name = userName
-        self.user_pass = userPass
+        self.user_token = userToken
         self.room_id = roomID
         self.debug = debug
 
@@ -59,7 +58,12 @@ class MatrixReporter(ReporterBase):
 
         yield super().reconfigService(generators=generators, **kwargs)
 
-        self._client = AsyncClient(self.server_url, self.user_name)
+        self._client = AsyncClient(self.server_url)
+
+        self._client.access_token = self.user_token
+        self._client.user_id = self.user_name
+        self._client.device_id = "buildbot"
+
         asyncio.ensure_future(self.login_wrapper(self._client))
 
     def _create_default_generators(self):
@@ -68,7 +72,9 @@ class MatrixReporter(ReporterBase):
 
     @defer.inlineCallbacks
     def sendMessage(self, reports):
+
+        pprint(reports)
+
         msg_text = reports[0]['body']
-        print(msg_text)
         msg = asyncio.ensure_future(self.msg_wrapper(self._client, msg_text))
         yield msg
