@@ -29,7 +29,7 @@ class MatrixReporter(ReporterBase):
         await client.room_send(
             room_id=self.room_id,
             message_type="m.room.message",
-            content={"msgtype": "m.text", "body": msg_text}
+            content={"msgtype": "m.text", "body": "hello bot here"}
         )
 
     def checkConfig(self, serverUrl, userName=None, userToken=None, roomID=None, headers=None,
