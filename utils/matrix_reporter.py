@@ -18,9 +18,12 @@ class MatrixReporter(ReporterBase):
     room_id = ""
     debug = ""
 
-    async def wrapper(self, client):
+    async def login_wrapper(self, client):
         await client.login(self.user_pass)
         await client.sync_forever(timeout=30000)  # milliseconds
+
+    async def msg_wrapper(self, client):
+        return await client.room_send(room_id=self.room_id, message_type="m.room.message", content={"msgtype":"m.text", "body":msg_text})
 
     def checkConfig(self, serverUrl, userName=None, userPass=None, roomID=None, headers=None,
                     debug=None, verify=None, generators=None, **kwargs):
@@ -56,7 +59,7 @@ class MatrixReporter(ReporterBase):
 
 
         self._client = AsyncClient(self.server_url, self.user_name)
-        asyncio.ensure_future(self.wrapper(self._client))
+        asyncio.ensure_future(self.login_wrapper(self._client))
 
     def _create_default_generators(self):
         formatter = MessageFormatterFunction(lambda context: context['build'], 'plain')
@@ -67,4 +70,7 @@ class MatrixReporter(ReporterBase):
     @defer.inlineCallbacks
     def sendMessage(self, reports):
         msg_text = reports[0]['body']
-        yield self._client.room_send(room_id=self.room_id, message_type="m.room.message", content={"msgtype":"m.text", "body":msg_text})
+
+        msg = msg_wrapper(self._client)
+
+        yield msg
