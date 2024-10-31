@@ -4,11 +4,11 @@ from nio import AsyncClient, MatrixRoom, RoomMessageText
 from twisted.internet import defer
 from buildbot.reporters.generators.build import BuildStatusGenerator
 from buildbot.reporters.message import MessageFormatterFunction
-from buildbot.util.service import BuildbotService
+from buildbot.reporters.base import ReporterBase
 
 
 
-class MatrixReporter(BuildbotService):
+class MatrixReporter(ReporterBase):
     name = "MatrixReporter"
     secrets = []
 
