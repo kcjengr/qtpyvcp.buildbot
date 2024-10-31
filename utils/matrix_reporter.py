@@ -18,6 +18,10 @@ class MatrixReporter(ReporterBase):
     room_id = ""
     debug = ""
 
+    async def wrapper(client):
+        await client.login(self.user_pass)
+        await client.sync_forever(timeout=30000)  # milliseconds
+
     def checkConfig(self, serverUrl, userName=None, userPass=None, roomID=None, headers=None,
                     debug=None, verify=None, generators=None, **kwargs):
 
@@ -50,12 +54,9 @@ class MatrixReporter(ReporterBase):
 
         yield super().reconfigService(generators=generators, **kwargs)
 
-        async def wrapper(client):
-            await client.login(self.user_pass)
-            await client.sync_forever(timeout=30000)  # milliseconds
 
         self._client = AsyncClient(self.server_url, self.user_name)
-        asyncio.run(wrapper(self._client))
+        asyncio.run(self.wrapper(self._client))
 
     def _create_default_generators(self):
         formatter = MessageFormatterFunction(lambda context: context['build'], 'plain')
