@@ -49,6 +49,8 @@ class MatrixReporter(ReporterBase):
         yield super().reconfigService(generators=generators, **kwargs)
 
         self._client = AsyncClient(self.server_url, self.user_name)
+        self._client.login("my-secret-password")
+        self._client.sync_forever(timeout=30000)  # milliseconds
 
     def _create_default_generators(self):
         formatter = MessageFormatterFunction(lambda context: context['build'], 'plain')
@@ -60,5 +62,4 @@ class MatrixReporter(ReporterBase):
     def sendMessage(self, reports):
         msg_text = reports[0]['body']
         self._client.login(self.user_pass)
-        yield self._client.room_send(room_id=self.room_id, message_type="m.room.message",
-                                     content={"msgtype":"m.text", "body":msg_text})
+        yield self._client.room_send(room_id=self.room_id, message_type="m.room.message", content={"msgtype":"m.text", "body":msg_text})
