@@ -1,8 +1,7 @@
 import asyncio
 import logging
 
-from pprint import pprint
-
+from datetime import datetime
 from nio import AsyncClient, MatrixRoom, RoomMessageText
 
 from twisted.internet import defer
