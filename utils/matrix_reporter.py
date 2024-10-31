@@ -71,6 +71,6 @@ class MatrixReporter(ReporterBase):
     def sendMessage(self, reports):
         msg_text = reports[0]['body']
 
-        msg = msg_wrapper(self._client)
+        msg = self.msg_wrapper(self._client)
 
         yield msg
