@@ -18,22 +18,16 @@ class MatrixReporter(ReporterBase):
     debug = False
 
     async def login_wrapper(self, client):
-        try:
-            await client.login(self.user_pass)
-            await client.sync_forever(timeout=30000)  # milliseconds
-        except Exception as e:
-            print(f"Login failed: {e}")
+        await client.login(self.user_pass)
+        await client.sync_forever(timeout=30000)  # milliseconds
 
     async def msg_wrapper(self, client, msg_text):
-        try:
-            return await client.room_send(
-                room_id=self.room_id,
-                message_type="m.room.message",
-                content={"msgtype": "m.text", "body": msg_text}
-            )
-        except Exception as e:
-            print(f"Message sending failed: {e}")
-
+        return await client.room_send(
+            room_id=self.room_id,
+            message_type="m.room.message",
+            content={"msgtype": "m.text", "body": msg_text}
+        )
+        
     def checkConfig(self, serverUrl, userName=None, userPass=None, roomID=None, headers=None,
                     debug=None, verify=None, generators=None, **kwargs):
 
@@ -75,8 +69,6 @@ class MatrixReporter(ReporterBase):
     @defer.inlineCallbacks
     def sendMessage(self, reports):
         msg_text = reports[0]['body']
-        try:
-            msg = asyncio.ensure_future(self.msg_wrapper(self._client, msg_text))
-            yield msg
-        except Exception as e:
-            print(f"Message sending failed: {e}")
+        print(msg_text)
+        msg = asyncio.ensure_future(self.msg_wrapper(self._client, msg_text))
+        yield msg
