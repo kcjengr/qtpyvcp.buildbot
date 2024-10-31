@@ -64,8 +64,6 @@ class MatrixReporter(ReporterBase):
         self._client.user_id = self.user_name
         self._client.device_id = "buildbot"
 
-        asyncio.ensure_future(self.login_wrapper(self._client))
-
     def _create_default_generators(self):
         formatter = MessageFormatterFunction(lambda context: context['build'], 'plain')
         return [BuildStatusGenerator(message_formatter=formatter, report_new=True)]
@@ -76,5 +74,5 @@ class MatrixReporter(ReporterBase):
         pprint(reports)
 
         msg_text = reports[0]['body']
-        msg = asyncio.ensure_future(self.msg_wrapper(self._client, msg_text))
+        msg = asyncio.ensure_future(self.wrapper(self._client, msg_text))
         yield msg
