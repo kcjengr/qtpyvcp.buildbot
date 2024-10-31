@@ -7,7 +7,6 @@ from buildbot.reporters.message import MessageFormatterFunction
 from buildbot.reporters.base import ReporterBase
 
 
-
 class MatrixReporter(ReporterBase):
     name = "MatrixReporter"
     secrets = []
@@ -57,20 +56,15 @@ class MatrixReporter(ReporterBase):
 
         yield super().reconfigService(generators=generators, **kwargs)
 
-
         self._client = AsyncClient(self.server_url, self.user_name)
         asyncio.ensure_future(self.login_wrapper(self._client))
 
     def _create_default_generators(self):
         formatter = MessageFormatterFunction(lambda context: context['build'], 'plain')
-        return [
-            BuildStatusGenerator(message_formatter=formatter, report_new=True)
-        ]
+        return [BuildStatusGenerator(message_formatter=formatter, report_new=True)]
 
     @defer.inlineCallbacks
     def sendMessage(self, reports):
         msg_text = reports[0]['body']
-
-        msg = self.msg_wrapper(self._client)
-
+        msg = asyncio.ensure_future(self.msg_wrapper(self._client))
         yield msg
