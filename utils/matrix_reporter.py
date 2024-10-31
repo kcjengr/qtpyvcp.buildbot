@@ -31,7 +31,7 @@ class MatrixReporter(ReporterBase):
         super().checkConfig(generators=generators, **kwargs)
 
     @defer.inlineCallbacks
-    def reconfigService(self, serverUrl, userName=None, userPass=None, roomID=None, headers=None,
+    async def reconfigService(self, serverUrl, userName=None, userPass=None, roomID=None, headers=None,
                     debug=None, verify=None, generators=None, **kwargs):
         self.debug = debug
         self.verify = verify
@@ -49,8 +49,8 @@ class MatrixReporter(ReporterBase):
         yield super().reconfigService(generators=generators, **kwargs)
 
         self._client = AsyncClient(self.server_url, self.user_name)
-        self._client.login("my-secret-password")
-        self._client.sync_forever(timeout=30000)  # milliseconds
+        await self._client.login("my-secret-password")
+        await self._client.sync_forever(timeout=30000)  # milliseconds
 
     def _create_default_generators(self):
         formatter = MessageFormatterFunction(lambda context: context['build'], 'plain')
