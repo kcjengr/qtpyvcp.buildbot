@@ -8,7 +8,7 @@ from buildbot.reporters.message import MessageFormatterFunction
 
 
 
-class MatrixReporter(ReporterBase):
+class MatrixReporter(service.BuildbotService):
     name = "MatrixReporter"
     secrets = []
 
