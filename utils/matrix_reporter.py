@@ -78,4 +78,8 @@ class MatrixReporter(ReporterBase):
 
         msg_text = reports[0]['body']
 
-        return asyncio.ensure_future(self.wrapper(self._client, msg_text))
+        yield  self._client.room_send(
+                    room_id=self.room_id,
+                    message_type="m.room.message",
+                    content={"msgtype": "m.text", "body": "Hello world!"}
+                )
