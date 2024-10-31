@@ -24,14 +24,6 @@ class MatrixReporter(ReporterBase):
     room_id = ""
     debug = False
 
-
-    async def wrapper(self, client, msg_text):
-        await client.room_send(
-            room_id=self.room_id,
-            message_type="m.room.message",
-            content={"msgtype": "m.text", "body": "Hello world!"}
-        )
-
     def checkConfig(self, serverUrl, userName=None, userToken=None, roomID=None, headers=None,
                         debug=None, verify=None, generators=None, **kwargs):
 
@@ -78,8 +70,8 @@ class MatrixReporter(ReporterBase):
 
         msg_text = reports[0]['body']
 
-        yield  self._client.room_send(
-                    room_id=self.room_id,
-                    message_type="m.room.message",
-                    content={"msgtype": "m.text", "body": "Hello world!"}
-                )
+        yield defer.ensureDeferred(self._client.room_send(
+                room_id=self.room_id,
+                message_type="m.room.message",
+                content={"msgtype": "m.text", "body": msg_text}
+            ))
