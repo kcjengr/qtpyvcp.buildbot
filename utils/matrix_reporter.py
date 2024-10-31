@@ -1,4 +1,6 @@
 import asyncio
+import logging
+
 from pprint import pprint
 
 from nio import AsyncClient, MatrixRoom, RoomMessageText
@@ -7,6 +9,9 @@ from twisted.internet import defer
 from buildbot.reporters.generators.build import BuildStatusGenerator
 from buildbot.reporters.message import MessageFormatterFunction
 from buildbot.reporters.base import ReporterBase
+
+# Enable debug logging for the nio client
+logging.basicConfig(level=logging.DEBUG)
 
 
 class MatrixReporter(ReporterBase):
