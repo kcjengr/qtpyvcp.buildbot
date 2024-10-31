@@ -6,8 +6,9 @@ from nio import AsyncClient, MatrixRoom, RoomMessageText
 
 from twisted.internet import defer
 from buildbot.reporters.generators.build import BuildStatusGenerator
-from buildbot.reporters.message import MessageFormatterFunction
+from buildbot.reporters.message import MessageFormatterFunction, MessageFormatter
 from buildbot.reporters.base import ReporterBase
+from buildbot.reporters.utils import merge_reports_prop
 
 # Enable debug logging for the nio client
 logging.basicConfig(level=logging.DEBUG)
@@ -61,24 +62,47 @@ class MatrixReporter(ReporterBase):
         self._client.device_id = "buildbot"
 
     def _create_default_generators(self):
+
+        BuildStatusGenerator(
+                add_patch=True, message_formatter=MessageFormatter(template_type='html')
+        ),
         formatter = MessageFormatterFunction(lambda context: context['build'], 'plain')
         return [BuildStatusGenerator(message_formatter=formatter, report_new=True)]
 
     @defer.inlineCallbacks
     def sendMessage(self, reports):
+        body = merge_reports_prop(reports, 'body')
+        subject = merge_reports_prop_take_first(reports, 'subject')
+        type = merge_reports_prop_take_first(reports, 'type')
+        results = merge_reports_prop(reports, 'results')
+        builds = merge_reports_prop(reports, 'builds')
+        users = merge_reports_prop(reports, 'users')
+        patches = merge_reports_prop(reports, 'patches')
+        logs = merge_reports_prop(reports, 'logs')
+        worker = merge_reports_prop_take_first(reports, 'worker'
 
-        msg_text = reports[0]['body']
-
-        # Convert datetime objects to strings
-        def date2str(obj):
-            if isinstance(obj, datetime):
-                return obj.isoformat()
-            return obj
-
-        msg_text = date2str(msg_text)
+        print("@@@@@@@@@@@@@@@")
+        print(body)
+        print("@@@@@@@@@@@@@@@")
+        print(subject)
+        print("@@@@@@@@@@@@@@@")
+        print(type)
+        print("@@@@@@@@@@@@@@@")
+        print(results)
+        print("@@@@@@@@@@@@@@@")
+        print(builds)
+        print("@@@@@@@@@@@@@@@")
+        print(users)
+        print("@@@@@@@@@@@@@@@")
+        print(patches)
+        print("@@@@@@@@@@@@@@@")
+        print(logs)
+        print("@@@@@@@@@@@@@@@")
+        print(worker)
+        print("@@@@@@@@@@@@@@@")
 
         yield defer.ensureDeferred(self._client.room_send(
                 room_id=self.room_id,
                 message_type="m.room.message",
-                content={"msgtype": "m.text", "body": msg_text}
+                content={"msgtype": "m.text", "body": f"Worker {worker} subject {subject}"}
             ))
