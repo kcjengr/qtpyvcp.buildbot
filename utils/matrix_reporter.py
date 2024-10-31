@@ -29,7 +29,7 @@ class MatrixReporter(ReporterBase):
         await client.room_send(
             room_id=self.room_id,
             message_type="m.room.message",
-            content={"msgtype": "m.text", "body": "hello bot here"}
+            content={"msgtype": "m.text", "body": "Hello world!"}
         )
 
     def checkConfig(self, serverUrl, userName=None, userToken=None, roomID=None, headers=None,
@@ -76,7 +76,14 @@ class MatrixReporter(ReporterBase):
     @defer.inlineCallbacks
     def sendMessage(self, reports):
 
+        print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+        
         pprint(reports)
 
         msg_text = reports[0]['body']
+
+        pprint(msg_text)
+
+        print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+
         yield asyncio.ensure_future(self.wrapper(self._client, msg_text))
