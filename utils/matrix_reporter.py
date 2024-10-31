@@ -20,7 +20,7 @@ class MatrixReporter(ReporterBase):
 
     async def wrapper(self, client):
         await client.login(self.user_pass)
-        await client.sync_forever(timeout=30000)  # milliseconds
+        # wait client.sync_forever(timeout=30000)  # milliseconds
 
     def checkConfig(self, serverUrl, userName=None, userPass=None, roomID=None, headers=None,
                     debug=None, verify=None, generators=None, **kwargs):
