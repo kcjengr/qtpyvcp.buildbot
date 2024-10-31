@@ -60,7 +60,8 @@ class MatrixReporter(ReporterBase):
         self._client.access_token = self.user_token
         self._client.user_id = self.user_name
         self._client.device_id = "buildbot"
-
+        self._client.login()
+        
     def _create_default_generators(self):
 
         BuildStatusGenerator(
