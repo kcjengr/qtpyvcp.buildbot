@@ -71,7 +71,7 @@ class MatrixReporter(ReporterBase):
 
     @defer.inlineCallbacks
     def sendMessage(self, reports):
-        body = reports.get('body')
+        body = merge_reports_prop(reports, 'body')
         subject = merge_reports_prop_take_first(reports, 'subject')
         type = merge_reports_prop_take_first(reports, 'type')
         results = merge_reports_prop(reports, 'results')
