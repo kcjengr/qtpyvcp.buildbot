@@ -6,6 +6,8 @@ from buildbot.reporters.base import ReporterBase
 from buildbot.reporters.generators.build import BuildStatusGenerator
 from buildbot.reporters.message import MessageFormatterFunction
 
+
+
 class MatrixReporter(ReporterBase):
     name = "MatrixReporter"
     secrets = []
@@ -31,7 +33,7 @@ class MatrixReporter(ReporterBase):
         super().checkConfig(generators=generators, **kwargs)
 
     @defer.inlineCallbacks
-    async def reconfigService(self, serverUrl, userName=None, userPass=None, roomID=None, headers=None,
+    def reconfigService(self, serverUrl, userName=None, userPass=None, roomID=None, headers=None,
                     debug=None, verify=None, generators=None, **kwargs):
         self.debug = debug
         self.verify = verify
@@ -48,9 +50,12 @@ class MatrixReporter(ReporterBase):
 
         yield super().reconfigService(generators=generators, **kwargs)
 
+        async def wrapper(client):
+            await client.login("my-secret-password")
+            await client.sync_forever(timeout=30000)  # milliseconds
+
         self._client = AsyncClient(self.server_url, self.user_name)
-        await self._client.login("my-secret-password")
-        await self._client.sync_forever(timeout=30000)  # milliseconds
+        asyncio.run(wrapper(self._client))
 
     def _create_default_generators(self):
         formatter = MessageFormatterFunction(lambda context: context['build'], 'plain')
