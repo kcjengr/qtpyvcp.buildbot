@@ -21,7 +21,7 @@ class MatrixReporter(ReporterBase):
 
 
     async def wrapper(self, client, msg_text):
-        return await client.room_send(
+        await client.room_send(
             room_id=self.room_id,
             message_type="m.room.message",
             content={"msgtype": "m.text", "body": msg_text}
@@ -74,5 +74,4 @@ class MatrixReporter(ReporterBase):
         pprint(reports)
 
         msg_text = reports[0]['body']
-        msg = asyncio.ensure_future(self.wrapper(self._client, msg_text))
-        yield msg
+        asyncio.ensure_future(self.wrapper(self._client, msg_text))
