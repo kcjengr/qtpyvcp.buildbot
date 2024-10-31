@@ -74,4 +74,4 @@ class MatrixReporter(ReporterBase):
         pprint(reports)
 
         msg_text = reports[0]['body']
-        asyncio.ensure_future(self.wrapper(self._client, msg_text))
+        yield asyncio.ensure_future(self.wrapper(self._client, msg_text))
