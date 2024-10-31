@@ -35,7 +35,7 @@ class MatrixReporter(ReporterBase):
 
         self.server_url = serverUrl
         self.user_name = userName
-        self.user_pass = userPass
+        self.user_token = userToken
         self.room_id = roomID
         self.debug = debug
 
