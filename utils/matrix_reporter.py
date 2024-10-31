@@ -15,14 +15,24 @@ class MatrixReporter(ReporterBase):
     user_name = ""
     user_pass = ""
     room_id = ""
-    debug = ""
+    debug = False
 
     async def login_wrapper(self, client):
-        await client.login(self.user_pass)
-        await client.sync_forever(timeout=30000)  # milliseconds
+        try:
+            await client.login(self.user_pass)
+            await client.sync_forever(timeout=30000)  # milliseconds
+        except Exception as e:
+            print(f"Login failed: {e}")
 
-    async def msg_wrapper(self, client):
-        return await client.room_send(room_id=self.room_id, message_type="m.room.message", content={"msgtype":"m.text", "body":msg_text})
+    async def msg_wrapper(self, client, msg_text):
+        try:
+            return await client.room_send(
+                room_id=self.room_id,
+                message_type="m.room.message",
+                content={"msgtype": "m.text", "body": msg_text}
+            )
+        except Exception as e:
+            print(f"Message sending failed: {e}")
 
     def checkConfig(self, serverUrl, userName=None, userPass=None, roomID=None, headers=None,
                     debug=None, verify=None, generators=None, **kwargs):
@@ -40,7 +50,7 @@ class MatrixReporter(ReporterBase):
 
     @defer.inlineCallbacks
     def reconfigService(self, serverUrl, userName=None, userPass=None, roomID=None, headers=None,
-                    debug=None, verify=None, generators=None, **kwargs):
+                        debug=None, verify=None, generators=None, **kwargs):
         self.debug = debug
         self.verify = verify
 
@@ -49,7 +59,6 @@ class MatrixReporter(ReporterBase):
         self.user_pass = userPass
         self.room_id = roomID
         self.debug = debug
-
 
         if generators is None:
             generators = self._create_default_generators()
@@ -66,5 +75,8 @@ class MatrixReporter(ReporterBase):
     @defer.inlineCallbacks
     def sendMessage(self, reports):
         msg_text = reports[0]['body']
-        msg = asyncio.ensure_future(self.msg_wrapper(self._client))
-        yield msg
+        try:
+            msg = asyncio.ensure_future(self.msg_wrapper(self._client, msg_text))
+            yield msg
+        except Exception as e:
+            print(f"Message sending failed: {e}")
