@@ -18,7 +18,7 @@ class MatrixReporter(ReporterBase):
     room_id = ""
     debug = ""
 
-    async def wrapper(client):
+    async def wrapper(self, client):
         await client.login(self.user_pass)
         await client.sync_forever(timeout=30000)  # milliseconds
 
