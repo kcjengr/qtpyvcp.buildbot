@@ -18,6 +18,7 @@ factory_tnc_pi4.addStep(steps.GitHub(name="download sources",
                                      tags=True,
                                      shallow=True,
                                      submodules=False,
+                                     method="clobber",
                                      workdir="sources/"))
 # get git tag
 factory_tnc_pi4.addStep(steps.SetPropertyFromCommand(
