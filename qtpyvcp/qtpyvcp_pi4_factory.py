@@ -55,15 +55,17 @@ factory_qtpyvcp_pi4.addStep(steps.ShellCommand(
 # copy files to the http repo on .13 machine
 factory_qtpyvcp_pi4.addStep(steps.FileUpload(
     name="copy files to the http repo",
-    workersrc=util.Interpolate("/home/buildbot/workdir/qtpyvcp-pi4/python3-qtpyvcp_%(prop:tag)s._arm64.deb"),
-    masterdest=util.Interpolate("/home/buildbot/repo/qtpyvcp/python3-qtpyvcp_%(prop:tag)s._arm64.deb")))
+    workersrc=util.Interpolate("/home/buildbot/workdir/qtpyvcp-pi4/python3-qtpyvcp_%(prop:tag)s_arm64.deb"),
+    masterdest=util.Interpolate("/home/buildbot/repo/qtpyvcp/python3-qtpyvcp_%(prop:tag)s_arm64.deb")
+    )
+)
 
 
 # copy new files to the apt repo on .13 machine
 factory_qtpyvcp_pi4.addStep(steps.FileUpload(
-    name="copy files to repo",
-    workersrc=util.Interpolate("/home/buildbot/workdir/qtpyvcp-pi4/python3-qtpyvcp_%(prop:tag)s._arm64.deb"),
-    masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/stable/python3-qtpyvcp_%(prop:tag)s._arm64.deb")
+    name="copy files to apt stable repo",
+    workersrc=util.Interpolate("/home/buildbot/workdir/qtpyvcp-pi4/python3-qtpyvcp_%(prop:tag)s_arm64.deb"),
+    masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/stable/python3-qtpyvcp_%(prop:tag)s_arm64.deb")
     )
 )
 
