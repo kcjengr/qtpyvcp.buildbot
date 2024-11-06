@@ -103,9 +103,10 @@ class MatrixReporter(ReporterBase):
         print(worker)
         print("@@@@@@@@@@@@@@@")
 
-        yield defer.ensureDeferred(self._client.room_send(
+        event_loop = asyncio.get_event_loop()
+
+        asyncio.ensure_future(self._client.room_send(
                 room_id=self.room_id,
                 message_type="m.room.message",
                 content={"msgtype": "m.text", "body": f"Worker {worker} subject {subject}"}
-            )
-        )
+            ), loop=event_loop)
