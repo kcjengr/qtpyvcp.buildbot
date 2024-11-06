@@ -16,6 +16,7 @@ factory_tnc_pi4.addStep(steps.GitHub(name="download sources",
                                      branch='main',
                                      mode='full',
                                      tags=True,
+                                     shallow=True,
                                      submodules=False,
                                      workdir="sources/"))
 # get git tag
