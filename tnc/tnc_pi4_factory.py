@@ -13,6 +13,7 @@ factory_tnc_pi4 = util.BuildFactory()
 # download sources
 factory_tnc_pi4.addStep(steps.GitHub(name="download sources",
                                      repourl='git@github.com:kcjengr/turbonc.git',
+                                     branch='main',
                                      mode='full',
                                      tags=True,
                                      shallow=True,
