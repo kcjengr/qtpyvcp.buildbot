@@ -60,7 +60,8 @@ class MatrixReporter(ReporterBase):
         self._client.access_token = self.user_token
         self._client.user_id = self.user_name
         self._client.device_id = "buildbot"
-        self._client.login()
+
+        yield defer.ensureDeferred(self._client.login())
 
     def _create_default_generators(self):
 
@@ -106,4 +107,5 @@ class MatrixReporter(ReporterBase):
                 room_id=self.room_id,
                 message_type="m.room.message",
                 content={"msgtype": "m.text", "body": f"Worker {worker} subject {subject}"}
-            ))
+            )
+        )
