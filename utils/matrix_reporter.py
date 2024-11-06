@@ -61,7 +61,7 @@ class MatrixReporter(ReporterBase):
         self._client.user_id = self.user_name
         self._client.device_id = "buildbot"
 
-        yield self._client.login()
+        # yield self._client.login()
 
     def _create_default_generators(self):
 
