@@ -106,7 +106,7 @@ class MatrixReporter(ReporterBase):
 
         event_loop = asyncio.get_event_loop()
 
-        yield send(subject)
+        yield self.send(subject)
 
     def send(self, subject, **kwargs):
         asyncio.ensure_future(
