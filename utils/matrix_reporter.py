@@ -83,10 +83,6 @@ class MatrixReporter(ReporterBase):
         logs = merge_reports_prop(reports, 'logs')
         worker = merge_reports_prop_take_first(reports, 'worker')
 
-        yield self.send(subject)
-
-    @defer.inlineCallbacks
-    def send(self, subject, **kwargs):
         loop = asyncio.get_event_loop()
         tasks = [
             loop.run_until_complete(self._client.room_send(
