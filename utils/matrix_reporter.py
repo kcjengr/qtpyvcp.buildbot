@@ -109,7 +109,7 @@ class MatrixReporter(ReporterBase):
         yield self.send(subject)
 
     def send(self, subject, **kwargs):
-        loop = asyncio.get_event_loop()
+        event_loop = asyncio.get_event_loop()
 
         asyncio.ensure_future(
             self._client.room_send(
