@@ -55,7 +55,7 @@ class MatrixReporter(ReporterBase):
 
         yield super().reconfigService(generators=generators, **kwargs)
 
-        self._client = AsyncClient(self.server_url)
+        self._client = AsyncClient(self.server_url, self.user_name)
 
         self._client.access_token = self.user_token
         self._client.user_id = self.user_name
@@ -83,30 +83,36 @@ class MatrixReporter(ReporterBase):
         logs = merge_reports_prop(reports, 'logs')
         worker = merge_reports_prop_take_first(reports, 'worker')
 
-        print("@@@@@@@@@@@@@@@")
+"""
+        print("#########################")
+        print("BODY @@@@@@@@@@@@@@@")
         print(body)
-        print("@@@@@@@@@@@@@@@")
+        print("SUBJECT @@@@@@@@@@@@@@@")
         print(subject)
-        print("@@@@@@@@@@@@@@@")
+        print("TYPE @@@@@@@@@@@@@@@")
         print(type)
-        print("@@@@@@@@@@@@@@@")
+        print("RESULTS @@@@@@@@@@@@@@@")
         print(results)
-        print("@@@@@@@@@@@@@@@")
+        print("BUILD @@@@@@@@@@@@@@@")
         print(builds)
-        print("@@@@@@@@@@@@@@@")
+        print("USERS @@@@@@@@@@@@@@@")
         print(users)
-        print("@@@@@@@@@@@@@@@")
+        print("PATCHES @@@@@@@@@@@@@@@")
         print(patches)
-        print("@@@@@@@@@@@@@@@")
+        print("LOGS @@@@@@@@@@@@@@@")
         print(logs)
-        print("@@@@@@@@@@@@@@@")
+        print("WORKER @@@@@@@@@@@@@@@")
         print(worker)
-        print("@@@@@@@@@@@@@@@")
+        print("#########################")
+ """
 
-        event_loop = asyncio.get_event_loop()
+        # event_loop = asyncio.get_event_loop()
 
-        yield asyncio.ensure_future(self._client.room_send(
-                room_id=self.room_id,
-                message_type="m.room.message",
-                content={"msgtype": "m.text", "body": f"Worker {worker} subject {subject}"}
-            ), loop=event_loop)
+        yield send(message, subject)
+
+   async def send(self, message, subject, **kwargs):
+        await self._client.room_send(
+            room_id=self.room_id,
+            message_type="m.room.message",
+            content={"msgtype": "m.text", "body": f"Worker {worker} subject {subject}"}
+        )
