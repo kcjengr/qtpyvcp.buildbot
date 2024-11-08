@@ -8,7 +8,16 @@ from buildbot.reporters.base import ReporterBase
 from buildbot.reporters.utils import merge_reports_prop, merge_reports_prop_take_first
 from nio import AsyncClient, RoomSendResponse, RoomSendError
 
+from buildbot.util import Notifier
+from buildbot.util import asyncSleep
+from buildbot.util import bytes2unicode
+from buildbot.util import epoch2datetime
+from buildbot.util import httpclientservice
+from buildbot.util import service
+from buildbot.util import unicode2bytes
+
 # Enable debug logging for the nio client
+
 logging.basicConfig(level=logging.DEBUG)
 
 class MatrixChannel:
