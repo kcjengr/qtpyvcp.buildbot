@@ -83,7 +83,7 @@ class MatrixReporter(ReporterBase):
         logs = merge_reports_prop(reports, 'logs')
         worker = merge_reports_prop_take_first(reports, 'worker')
 
-        yield self.send(message, subject)
+        yield self.send(subject)
 
     async def send(self, subject, **kwargs):
         await self._client.room_send(
