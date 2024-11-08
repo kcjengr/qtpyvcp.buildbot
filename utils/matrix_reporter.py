@@ -113,7 +113,7 @@ class MatrixReporter(ReporterBase):
             self._client.room_send(
                 room_id=self.room_id,
                 message_type="m.room.message",
-                content={"msgtype": "m.text", "body": f"Worker {worker} subject {subject}"}
+                content={"msgtype": "m.text", "body": f"{subject}"}
             ),
             loop=event_loop
         )
