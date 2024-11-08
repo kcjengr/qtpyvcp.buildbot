@@ -23,7 +23,7 @@ class CustomGitHubEventHandler(GitHubEventHandler):
 
         if re.match(r"^refs/(heads)/(main)$", ref):
             log.msg("Got Push to main")
-            super().handle_push(payload, event)
+
             changes, vcs = super().handle_push(payload, event)
             return changes, vcs
 
@@ -31,7 +31,7 @@ class CustomGitHubEventHandler(GitHubEventHandler):
             version = ref.split('/').pop()
             log.msg(f"Got new tag RELEASE: {version}")
             payload["release"] = version
-            super().handle_push(payload, event)
+
             changes, vcs = super().handle_push(payload, event)
             return changes, vcs
 
