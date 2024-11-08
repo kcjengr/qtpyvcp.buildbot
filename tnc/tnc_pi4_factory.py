@@ -11,13 +11,14 @@ factory_tnc_pi4 = util.BuildFactory()
 
 
 # download sources
-factory_tnc_pi4.addStep(steps.GitHub(name="download sources",
+factory_tnc_pi4.addStep(steps.Git(name="download sources",
                                      repourl='git@github.com:kcjengr/turbonc.git',
                                      branch='main',
                                      mode='full',
-                                     tags=True,
-                                     submodules=False,
                                      method="clobber",
+                                     tags=True,
+                                     shallow=True,
+                                     submodules=False,
                                      workdir="sources/"))
 # get git tag
 factory_tnc_pi4.addStep(steps.SetPropertyFromCommand(
@@ -65,12 +66,12 @@ factory_tnc_pi4.addStep(steps.ShellCommand(
     workdir="sources/"))
 
 # copy files to the http repo
-factory_tnc_pi4.addStep(steps.FileUpload(
-    name="copy files to the http repo",
-    workersrc=util.Interpolate("/home/buildbot/workdir/turbonc-pi4/python3-turbonc_%(prop:tag)s_arm64.deb"),
-     masterdest=util.Interpolate("/home/buildbot/repo/turbonc/python3-turbonc_%(prop:tag)s_arm64.deb")
-    )
-)
+# factory_tnc_pi4.addStep(steps.FileUpload(
+#     name="copy files to the http repo",
+#     workersrc=util.Interpolate("/home/buildbot/workdir/turbonc-pi4/python3-turbonc_%(prop:tag)s_arm64.deb"),
+#      masterdest=util.Interpolate("/home/buildbot/repo/turbonc/python3-turbonc_%(prop:tag)s_arm64.deb")
+#     )
+# )
 
 
 # delete old files from apt directory
