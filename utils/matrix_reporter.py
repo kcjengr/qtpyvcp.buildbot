@@ -83,34 +83,9 @@ class MatrixReporter(ReporterBase):
         logs = merge_reports_prop(reports, 'logs')
         worker = merge_reports_prop_take_first(reports, 'worker')
 
-"""
-        print("#########################")
-        print("BODY @@@@@@@@@@@@@@@")
-        print(body)
-        print("SUBJECT @@@@@@@@@@@@@@@")
-        print(subject)
-        print("TYPE @@@@@@@@@@@@@@@")
-        print(type)
-        print("RESULTS @@@@@@@@@@@@@@@")
-        print(results)
-        print("BUILD @@@@@@@@@@@@@@@")
-        print(builds)
-        print("USERS @@@@@@@@@@@@@@@")
-        print(users)
-        print("PATCHES @@@@@@@@@@@@@@@")
-        print(patches)
-        print("LOGS @@@@@@@@@@@@@@@")
-        print(logs)
-        print("WORKER @@@@@@@@@@@@@@@")
-        print(worker)
-        print("#########################")
- """
-
-        # event_loop = asyncio.get_event_loop()
-
         yield send(message, subject)
 
-   async def send(self, message, subject, **kwargs):
+    async def send(self, message, subject, **kwargs):
         await self._client.room_send(
             room_id=self.room_id,
             message_type="m.room.message",
