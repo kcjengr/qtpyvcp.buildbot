@@ -11,11 +11,12 @@ factory_tnc_dev = util.BuildFactory()
 
 # download sources
 factory_tnc_dev.addStep(steps.GitHub(name="download sources",
-                                         repourl='git@github.com:kcjengr/turbonc.git',
-                                         branch='main',
-                                         mode='full',
-                                         submodules=False,
-                                         workdir="sources/"))
+                                     repourl='git@github.com:kcjengr/turbonc.git',
+                                     mode='full',
+                                     method="clean",
+                                     tags=True,
+                                     submodules=False,
+                                     workdir="sources/"))
 
 # get git tag
 factory_tnc_dev.addStep(steps.SetPropertyFromCommand(
