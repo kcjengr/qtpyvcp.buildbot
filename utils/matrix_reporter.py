@@ -85,9 +85,9 @@ class MatrixReporter(ReporterBase):
 
         yield self.send(message, subject)
 
-    async def send(self, message, subject, **kwargs):
+    async def send(self, subject, **kwargs):
         await self._client.room_send(
             room_id=self.room_id,
             message_type="m.room.message",
-            content={"msgtype": "m.text", "body": f"Worker {worker} subject {subject}"}
+            content={"msgtype": "m.text", "body": f"{subject}"}
         )
