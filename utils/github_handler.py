@@ -19,7 +19,6 @@ class CustomGitHubEventHandler(GitHubEventHandler):
     def handle_push(self, payload, event):
 
         ref = payload['ref']
-
         log.msg("Processing GitHub Push `%s'" % ref)
 
         if re.match(r"^refs/(heads)/(main)$", ref):
@@ -31,8 +30,8 @@ class CustomGitHubEventHandler(GitHubEventHandler):
         elif re.match(r"refs/tags/(\d+\.\d+.\d+)", ref):
             version = ref.split('/').pop()
             log.msg(f"Got new tag RELEASE: {version}")
-
             payload["release"] = version
+            super().handle_push(payload, event)
             changes, vcs = super().handle_push(payload, event)
             return changes, vcs
 
