@@ -16,7 +16,6 @@ factory_tnc_pi4.addStep(steps.Git(name="download sources",
                                      mode='full',
                                      method="clean",
                                      tags=True,
-                                     shallow=True,
                                      submodules=False,
                                      workdir="sources/"))
 
