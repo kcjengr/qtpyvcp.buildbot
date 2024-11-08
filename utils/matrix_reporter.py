@@ -75,7 +75,7 @@ class MatrixReporter(ReporterBase):
     def sendMessage(self, reports):
         body = merge_reports_prop(reports, 'body')
         subject = merge_reports_prop_take_first(reports, 'subject')
-        type = merge_reports_prop_take_first(reports, 'type')
+        build_type = merge_reports_prop_take_first(reports, 'type')
         results = merge_reports_prop(reports, 'results')
         builds = merge_reports_prop(reports, 'builds')
         users = merge_reports_prop(reports, 'users')
@@ -85,17 +85,14 @@ class MatrixReporter(ReporterBase):
 
         yield self.send(subject)
 
+    @defer.inlineCallbacks
     def send(self, subject, **kwargs):
-
         loop = asyncio.get_event_loop()
         tasks = [
-            loop.create_task(
-                self._client.room_send(
-                    room_id=self.room_id,
-                    message_type="m.room.message",
-                    content={"msgtype": "m.text", "body": f"{subject}"}
-                )
-            ),
+            loop.run_until_complete(self._client.room_send(
+                room_id=self.room_id,
+                message_type="m.room.message",
+                content={"msgtype": "m.text", "body": f"{subject}"}
+            ))
         ]
-        loop.run_until_complete(asyncio.wait(tasks))
-        loop.close()
+        yield defer.DeferredList(tasks)
