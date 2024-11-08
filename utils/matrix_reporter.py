@@ -85,9 +85,17 @@ class MatrixReporter(ReporterBase):
 
         yield self.send(subject)
 
-    async def send(self, subject, **kwargs):
-        await self._client.room_send(
-            room_id=self.room_id,
-            message_type="m.room.message",
-            content={"msgtype": "m.text", "body": f"{subject}"}
-        )
+    def send(self, subject, **kwargs):
+
+        loop = asyncio.get_event_loop()
+        tasks = [
+            loop.create_task(
+                self._client.room_send(
+                    room_id=self.room_id,
+                    message_type="m.room.message",
+                    content={"msgtype": "m.text", "body": f"{subject}"}
+                )
+            ),
+        ]
+        loop.run_until_complete(asyncio.wait(tasks))
+        loop.close()
