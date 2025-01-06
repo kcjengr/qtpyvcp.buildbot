@@ -19,7 +19,7 @@ factory_qtpyvcp.addStep(steps.GitHub(name="download sources",
 # git pull
 factory_qtpyvcp.addStep(steps.ShellCommand(
     name="git pull",
-    command=["/bin/sh", "-c", "git pull"],
+    command=["/bin/sh", "-c", "git pull origin main"],
     workdir="sources/"))
 
 # get git tag
