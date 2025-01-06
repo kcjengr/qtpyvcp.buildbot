@@ -17,6 +17,12 @@ factory_probe_basic_pi4.addStep(steps.GitHub(name="download sources",
                                              mode='full',
                                              submodules=False,
                                              workdir="sources/"))
+# git pull
+factory_probe_basic_pi4.addStep(steps.ShellCommand(
+    name="git pull",
+    command=["/bin/sh", "-c", "git pull origin main"],
+    workdir="sources/"))
+
 # get git tag
 factory_probe_basic_pi4.addStep(steps.SetPropertyFromCommand(
     name="get git tag",
