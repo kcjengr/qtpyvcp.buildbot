@@ -16,6 +16,12 @@ factory_qtpyvcp_pi4_dev.addStep(steps.GitHub(name="download sources",
                                          mode='full',
                                          submodules=False,
                                          workdir="sources/"))
+# git fetch
+factory_qtpyvcp_pi4_dev.addStep(steps.ShellCommand(
+    name="git fetch",
+    command=["/bin/sh", "-c", "git fetch --all"],
+    workdir="sources/"))
+
 # git pull
 factory_qtpyvcp_pi4_dev.addStep(steps.ShellCommand(
     name="git pull",

@@ -17,6 +17,8 @@ factory_monokrom_dev.addStep(steps.GitHub(name="download sources",
                                              mode='full',
                                              submodules=False,
                                              workdir="sources/"))
+
+
 # get git tag
 factory_monokrom_dev.addStep(steps.SetPropertyFromCommand(
     name="get git tag",

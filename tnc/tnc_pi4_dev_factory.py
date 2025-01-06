@@ -32,6 +32,20 @@ factory_tnc_pi4_dev.addStep(steps.SetPropertyFromCommand(
     property="minor_version",
     workdir="sources/"))
 
+# get git tag
+factory_tnc_pi4_dev.addStep(steps.SetPropertyFromCommand(
+    name="get git tag",
+    command=["git", "describe", "--abbrev=0", "--tags"],
+    property="tag",
+    workdir="sources/"))
+
+# get git commit count since last tag
+factory_tnc_pi4_dev.addStep(steps.SetPropertyFromCommand(
+    name="get git commit count since last tag",
+    command=["git", "rev-list", "--count", "--branches", util.Interpolate("^refs/tags/%(prop:tag)s")],
+    property="minor_version",
+    workdir="sources/"))
+
 # store version file
 factory_tnc_pi4_dev.addStep(steps.ShellCommand(
     name="store version file",

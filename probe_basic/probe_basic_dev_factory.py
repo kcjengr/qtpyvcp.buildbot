@@ -17,6 +17,13 @@ factory_probe_basic_dev.addStep(steps.GitHub(name="download sources",
                                              mode='full',
                                              submodules=False,
                                              workdir="sources/"))
+
+# git fetch
+factory_probe_basic_dev.addStep(steps.ShellCommand(
+    name="git fetch",
+    command=["/bin/sh", "-c", "git fetch --all"],
+    workdir="sources/"))
+
 # get git tag
 factory_probe_basic_dev.addStep(steps.SetPropertyFromCommand(
     name="get git tag",
