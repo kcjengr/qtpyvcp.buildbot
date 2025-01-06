@@ -16,6 +16,11 @@ factory_qtpyvcp_dev.addStep(steps.GitHub(name="download sources",
                                          mode='full',
                                          submodules=False,
                                          workdir="sources/"))
+# git pull
+factory_qtpyvcp_dev.addStep(steps.ShellCommand(
+    name="git pull",
+    command=["/bin/sh", "-c", "git pull origin main"],
+    workdir="sources/"))
 
 # get git tag
 factory_qtpyvcp_dev.addStep(steps.SetPropertyFromCommand(
