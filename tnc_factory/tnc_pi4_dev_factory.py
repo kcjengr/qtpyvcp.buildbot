@@ -66,45 +66,45 @@ factory_tnc_pi4_dev.addStep(steps.ShellCommand(
     command=["dpkg-buildpackage", "-b", "-uc"],
     workdir="sources/"))
 
-# copy files to the http repo
-factory_tnc_pi4_dev.addStep(steps.FileUpload(
-    name="copy files to the http repo",
-    workersrc=util.Interpolate("/home/buildbot/workdir/turbonc-pi4-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb"),
-     masterdest=util.Interpolate("/home/buildbot/repo/turbonc-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb")
-    )
-)
-
-
-# delete old files from apt directory
-# factory_tnc_pi4_dev.addStep(steps.ShellCommand(
-#     name="delete files from apt directory",
-#     command=["sh",
-#              "/home/buildbot/buildbot/master/scripts/clean_apt_develop.sh",
-#              util.Interpolate("python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb")
-#             ],
-#     workdir="sources/"))
-
-# move new files to the apt repo
-factory_tnc_pi4_dev.addStep(steps.FileUpload(
-    name="move new files to the apt repo",
-    workersrc=util.Interpolate("/home/buildbot/workdir/turbonc-pi4-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb"),
-    masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/develop/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb")
-    )
-)
-
-# delete files from build directory
-# factory_tnc_pi4_dev.addStep(steps.ShellCommand(
-#     name="delete files from build directory",
-#     command=["rm", util.Interpolate("/home/buildbot/buildbot/worker/monokrom-dev/python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb")],
-#     workdir="sources/"))
-
-# scan new packages in apt repository
-factory_tnc_pi4_dev.addStep(steps.MasterShellCommand(
-    name="scan new packages in apt repository",
-    command="/home/buildbot/buildbot/master/scripts/do_apt_develop.sh"
-    )
-)
-
+# # copy files to the http repo
+# factory_tnc_pi4_dev.addStep(steps.FileUpload(
+#     name="copy files to the http repo",
+#     workersrc=util.Interpolate("/home/buildbot/workdir/turbonc-pi4-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb"),
+#      masterdest=util.Interpolate("/home/buildbot/repo/turbonc-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb")
+#     )
+# )
+#
+#
+# # delete old files from apt directory
+# # factory_tnc_pi4_dev.addStep(steps.ShellCommand(
+# #     name="delete files from apt directory",
+# #     command=["sh",
+# #              "/home/buildbot/buildbot/master/scripts/clean_apt_develop.sh",
+# #              util.Interpolate("python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb")
+# #             ],
+# #     workdir="sources/"))
+#
+# # move new files to the apt repo
+# factory_tnc_pi4_dev.addStep(steps.FileUpload(
+#     name="move new files to the apt repo",
+#     workersrc=util.Interpolate("/home/buildbot/workdir/turbonc-pi4-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb"),
+#     masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/develop/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb")
+#     )
+# )
+#
+# # delete files from build directory
+# # factory_tnc_pi4_dev.addStep(steps.ShellCommand(
+# #     name="delete files from build directory",
+# #     command=["rm", util.Interpolate("/home/buildbot/buildbot/worker/monokrom-dev/python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb")],
+# #     workdir="sources/"))
+#
+# # scan new packages in apt repository
+# factory_tnc_pi4_dev.addStep(steps.MasterShellCommand(
+#     name="scan new packages in apt repository",
+#     command="/home/buildbot/buildbot/master/scripts/do_apt_develop.sh"
+#     )
+# )
+#
 
 
 # factory_tnc_pi4_dev.addStep(steps.GitHub(name="downlaod static docs",
