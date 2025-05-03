@@ -50,12 +50,12 @@ factory_tnc_pi4_dev.addStep(steps.SetPropertyFromCommand(
 factory_tnc_pi4_dev.addStep(steps.ShellCommand(
     name="store version file",
     command=["/bin/sh", "-c", util.Interpolate('echo %(prop:tag)s-%(prop:minor_version)s > tnc_dev_version.txt')],
-    workdir="/home/buildbot/versions/"))
+    workdir="/home/pi/buildbot/versions/"))
 
 # create changelog
 factory_tnc_pi4_dev.addStep(steps.ShellCommand(
     name="create changelog",
-    env={'EMAIL': "lcvette1@gmail.com"},
+    env={'EMAIL': "j.l.toledano.l@gmail.com"},
     command=["dch", "--create", "--distribution", "unstable", "--package", "turbonc", "--newversion", util.Interpolate("%(prop:tag)s-%(prop:minor_version)s.dev"), "Unstable Release version."],
     workdir="sources/"))
 
