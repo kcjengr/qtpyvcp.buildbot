@@ -60,7 +60,7 @@ factory_tnc_dev.addStep(steps.ShellCommand(
 
 factory_tnc_dev.addStep(steps.ShellCommand(
         name="build wheel with poetry",
-        command=["python3", "-m", "poetry", "build"],
+        command=["/home/buildbot/pyside6_venv/bin/python3", "-m", "poetry", "build"],
         workdir="sources/"
     )
 )
