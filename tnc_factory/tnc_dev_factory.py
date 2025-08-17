@@ -81,7 +81,10 @@ factory_tnc_dev.addStep(steps.ShellCommand(
 # build debs
 factory_tnc_dev.addStep(steps.ShellCommand(
     name="build debs",
-    env={'DEB_BUILD_OPTIONS': "nocheck"},
+    env={
+        'DEB_BUILD_OPTIONS': "nocheck",
+        'PYTHONPATH': "/home/buildbot/pyside6_venv"
+    },
     command=["debuild", "-b", "-uc", "-us"],
     workdir="sources/"))
 
