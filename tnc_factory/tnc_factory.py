@@ -53,10 +53,17 @@ factory_tnc.addStep(steps.ShellCommand(
 #     command=["qcompile", "."],
 #     workdir="sources/"))
 
+# delete previous changelog
+factory_tnc.addStep(steps.ShellCommand(
+    name="Delete previous changelog",
+    env={},
+    command=["rm", "debian", "changelog"],
+    workdir="sources/"))
+
 # create changelog
 factory_tnc.addStep(steps.ShellCommand(
     name="create changelog",
-    env={'EMAIL': "lcvette1@gmail.com"},
+    env={'EMAIL': "j.l.toledano.l@gmail.com"},
     command=["dch", "--create", "--distribution", "stable", "--package", "turbonc", "--newversion", util.Interpolate("%(prop:tag)s"), "Stable version."],
     workdir="sources/"))
 
