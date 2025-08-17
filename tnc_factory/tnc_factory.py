@@ -90,7 +90,7 @@ factory_tnc.addStep(steps.FileUpload(
 # scan new packages in apt repository
 factory_tnc.addStep(steps.ShellCommand(
     name="scan new packages in apt repository",
-    command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_stable.sh"],
+    command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_trixie.sh"],
     workdir="sources/"))
 
 #
