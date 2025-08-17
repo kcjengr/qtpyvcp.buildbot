@@ -64,6 +64,12 @@ factory_tnc_dev.addStep(steps.ShellCommand(
         workdir="sources/"
     )
 )
+# delete previous changelog
+factory_tnc_dev.addStep(steps.ShellCommand(
+    name="Delete previous changelog",
+    env={},
+    command=["rm", "debian", "changelog"],
+    workdir="sources/"))
 
 # create changelog
 factory_tnc_dev.addStep(steps.ShellCommand(
