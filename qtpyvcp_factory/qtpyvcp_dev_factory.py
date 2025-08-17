@@ -77,14 +77,14 @@ factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     name="copy files to repo",
     command=["cp",
              util.Interpolate("/home/buildbot/buildbot/worker/qtpyvcp-dev/python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb"),
-             "/home/buildbot/debian/apt/pool/main/develop/"],
+             "/home/buildbot/debian/apt/pool/main/trixie/"],
     workdir="sources/"))
 
 
 # scan new packages in apt repository
 factory_qtpyvcp_dev.addStep(steps.ShellCommand(
     name="scan new packages in apt repository",
-    command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_develop.sh"],
+    command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_trixie.sh"],
     workdir="sources/"))
 
 

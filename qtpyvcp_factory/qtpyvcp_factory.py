@@ -53,7 +53,7 @@ factory_qtpyvcp.addStep(steps.ShellCommand(
 factory_qtpyvcp.addStep(steps.ShellCommand(
     name="create changelog",
     env={'EMAIL': "j.l.toledano.l@gmail.com"},
-    command=["dch", "--create", "--distribution", "stable", "--package", "qtpyvcp", "--newversion", util.Interpolate("%(prop:tag)s"), "Stable version."],
+    command=["dch", "--create", "--distribution", "trixie", "--package", "qtpyvcp", "--newversion", util.Interpolate("%(prop:tag)s"), "Trixie version."],
     workdir="sources/"))
 
 # build debs
@@ -77,7 +77,7 @@ factory_qtpyvcp.addStep(steps.ShellCommand(
     name="copy files to repo",
     command=["cp",
              util.Interpolate("/home/buildbot/buildbot/worker/qtpyvcp/python3-qtpyvcp_%(prop:tag)s_amd64.deb"),
-             "/home/buildbot/debian/apt/pool/main/stable/"],
+             "/home/buildbot/debian/apt/pool/main/trixie/"],
     workdir="sources/"))
 
 # needs more testing
@@ -93,7 +93,7 @@ factory_qtpyvcp.addStep(steps.ShellCommand(
 # scan new packages in apt repository
 factory_qtpyvcp.addStep(steps.ShellCommand(
     name="scan new packages in apt repository",
-    command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_stable.sh"],
+    command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_trixie.sh"],
     workdir="sources/"))
 
 # doc related things
