@@ -4,20 +4,20 @@
 
 cd /home/buildbot/debian/apt
 
-dpkg-scanpackages --arch amd64 pool/main/trixe-dev > dists/trixe-dev/main/binary-amd64/Packages
-cat dists/trixe-dev/main/binary-amd64/Packages | gzip -9 > dists/trixe-dev/main/binary-amd64/Packages.gz
+dpkg-scanpackages --arch amd64 pool/main/trixie-dev-dev > dists/trixie-dev-dev/main/binary-amd64/Packages
+cat dists/trixie-dev-dev/main/binary-amd64/Packages | gzip -9 > dists/trixie-dev-dev/main/binary-amd64/Packages.gz
 
-dpkg-scanpackages --arch arm64 pool/main/trixe-dev > dists/trixe-dev/main/binary-arm64/Packages
-cat dists/trixe-dev/main/binary-arm64/Packages | gzip -9 > dists/trixe-dev/main/binary-arm64/Packages.gz
+dpkg-scanpackages --arch arm64 pool/main/trixie-dev-dev > dists/trixie-dev-dev/main/binary-arm64/Packages
+cat dists/trixie-dev-dev/main/binary-arm64/Packages | gzip -9 > dists/trixie-dev-dev/main/binary-arm64/Packages.gz
 
 
-cd /home/buildbot/debian/apt/dists/trixe-dev
+cd /home/buildbot/debian/apt/dists/trixie-dev-dev
 
-/home/buildbot/debian/generate-trixe-dev.sh > Release
+/home/buildbot/debian/generate-trixie-dev-dev.sh > Release
 
 export GPG_TTY=$(tty)
 export GNUPGHOME="/home/buildbot/debian/pgpkeys"
 
-cat /home/buildbot/debian/apt/dists/trixe-dev/Release | gpg --default-key 2DEC041F290DF85A -abs > /home/buildbot/debian/apt/dists/trixe-dev/Release.gpg
-cat /home/buildbot/debian/apt/dists/trixe-dev/Release | gpg --default-key 2DEC041F290DF85A -abs --clearsign > /home/buildbot/debian/apt/dists/trixe-dev/InRelease
+cat /home/buildbot/debian/apt/dists/trixie-dev-dev/Release | gpg --default-key 2DEC041F290DF85A -abs > /home/buildbot/debian/apt/dists/trixie-dev-dev/Release.gpg
+cat /home/buildbot/debian/apt/dists/trixie-dev-dev/Release | gpg --default-key 2DEC041F290DF85A -abs --clearsign > /home/buildbot/debian/apt/dists/trixie-dev-dev/InRelease
 
