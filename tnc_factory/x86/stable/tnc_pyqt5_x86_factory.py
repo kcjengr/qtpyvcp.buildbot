@@ -73,9 +73,13 @@ factory_tnc_pyqt5_x86.addStep(steps.ShellCommand(
 # build debs
 factory_tnc_pyqt5_x86.addStep(steps.ShellCommand(
     name="build debs",
-    env={'DEB_BUILD_OPTIONS': "nocheck"},
+    env={'DEB_BUILD_OPTIONS': "nocheck",
+        'PYTHONPATH': "/home/bb/.venv"
+    },
     command=["dpkg-buildpackage", "-b", "-uc"],
     workdir="sources/"))
+
+
 
 # move new files to the apt repo
 # factory_tnc_pyqt5_x86.addStep(steps.FileUpload(

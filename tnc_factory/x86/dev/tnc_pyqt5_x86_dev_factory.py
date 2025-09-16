@@ -75,6 +75,7 @@ factory_tnc_pyqt5_x86_dev.addStep(steps.ShellCommand(
     workdir="sources/"))
 
 
+
 # copy files to the http repo
 # factory_tnc_pyqt5_x86_dev.addStep(steps.ShellCommand(
 #     name="copy files to the http repo",
