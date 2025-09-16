@@ -12,6 +12,7 @@ factory_tnc_pyqt5_x86_dev = util.BuildFactory()
 # download sources
 factory_tnc_pyqt5_x86_dev.addStep(steps.GitHub(name="download sources",
                                                repourl='git@github.com:kcjengr/turbonc.git',
+                                               branch='pyqt5',
                                                mode='full',
                                                method="clean",
                                                tags=True,
@@ -49,7 +50,7 @@ factory_tnc_pyqt5_x86_dev.addStep(steps.SetPropertyFromCommand(
 factory_tnc_pyqt5_x86_dev.addStep(steps.ShellCommand(
     name="store version file",
     command=["/bin/sh", "-c", util.Interpolate('echo %(prop:tag)s-%(prop:minor_version)s > tnc_dev_version.txt')],
-    workdir="/home/buildbot/versions/"))
+    workdir="/home/bb/versions/"))
 
 # compile resources
 # disabled, done in deb build step
@@ -60,7 +61,7 @@ factory_tnc_pyqt5_x86_dev.addStep(steps.ShellCommand(
 
 factory_tnc_pyqt5_x86_dev.addStep(steps.ShellCommand(
         name="build wheel with poetry",
-        command=["/home/buildbot/pyside6_venv/bin/python3", "-m", "poetry", "build"],
+        command=["/home/bb/.venv/bin/python3", "-m", "poetry", "build"],
         workdir="sources/"
     )
 )
@@ -83,48 +84,49 @@ factory_tnc_pyqt5_x86_dev.addStep(steps.ShellCommand(
     name="build debs",
     env={
         'DEB_BUILD_OPTIONS': "nocheck",
-        'PYTHONPATH': "/home/buildbot/pyside6_venv"
+        'PYTHONPATH': "/home/bb/.venv"
     },
     command=["debuild", "-b", "-uc", "-us"],
     workdir="sources/"))
 
+
 # copy files to the http repo
-factory_tnc_pyqt5_x86_dev.addStep(steps.ShellCommand(
-    name="copy files to the http repo",
-    command=["cp",
-             util.Interpolate("/home/buildbot/buildbot/worker/turbonc-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb"),
-             "/home/buildbot/repo/turbonc-dev/"],
-    workdir="sources/"))
+# factory_tnc_pyqt5_x86_dev.addStep(steps.ShellCommand(
+#     name="copy files to the http repo",
+#     command=["cp",
+#              util.Interpolate("/home/bb/work/turbonc-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb"),
+#              "/home/bb/repo/turbonc-dev/"],
+#     workdir="sources/"))
 
 
 # delete old files from apt directory
 # factory_tnc_dev.addStep(steps.ShellCommand(
 #     name="delete files from apt directory",
 #     command=["sh",
-#              "/home/buildbot/buildbot/master/scripts/clean_apt_develop.sh",
+#              "/home/bb/buildbot/master/scripts/clean_apt_develop.sh",
 #              util.Interpolate("python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb")
 #             ],
 #     workdir="sources/"))
 
 # move new files to the apt repo
-factory_tnc_pyqt5_x86_dev.addStep(steps.ShellCommand(
-    name="move new files to the apt repo",
-    command=["mv",
-             util.Interpolate("/home/buildbot/buildbot/worker/turbonc-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb"),
-             "/home/buildbot/debian/apt/pool/main/bookworm-dev/"],
-    workdir="sources/"))
+# factory_tnc_pyqt5_x86_dev.addStep(steps.ShellCommand(
+#     name="move new files to the apt repo",
+#     command=["mv",
+#              util.Interpolate("/home/bb/buildbot/worker/turbonc-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb"),
+#              "/home/bb/debian/apt/pool/main/bookworm-dev/"],
+#     workdir="sources/"))
 
 # delete files from build directory
 # factory_tnc_dev.addStep(steps.ShellCommand(
 #     name="delete files from build directory",
-#     command=["rm", util.Interpolate("/home/buildbot/buildbot/worker/turbonc-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb")],
+#     command=["rm", util.Interpolate("/home/bb/buildbot/worker/turbonc-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb")],
 #     workdir="sources/"))
 
 # scan new packages in apt repository
-factory_tnc_pyqt5_x86_dev.addStep(steps.ShellCommand(
-    name="scan new packages in apt repository",
-    command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_bookworm_dev.sh"],
-    workdir="sources/"))
+# factory_tnc_pyqt5_x86_dev.addStep(steps.ShellCommand(
+#     name="scan new packages in apt repository",
+#     command=["sh", "/home/bb/buildbot/master/scripts/do_apt_bookworm_dev.sh"],
+#     workdir="sources/"))
 
 
 
@@ -135,9 +137,9 @@ factory_tnc_pyqt5_x86_dev.addStep(steps.ShellCommand(
 #     steps.Sphinx(
 #         name="compile sphinx docs",
 #         haltOnFailure=True,
-#         sphinx="/home/buildbot/venv/bin/sphinx-build",
-#         sphinx_builddir="/home/buildbot/buildbot/worker/qtpyvcp-dev/docs",
-#         sphinx_sourcedir="/home/buildbot/buildbot/worker/qtpyvcp-dev/sources/docs/source/",
+#         sphinx="/home/bb/venv/bin/sphinx-build",
+#         sphinx_builddir="/home/bb/buildbot/worker/qtpyvcp-dev/docs",
+#         sphinx_sourcedir="/home/bb/buildbot/worker/qtpyvcp-dev/sources/docs/source/",
 #         strict_warnings=False,
 #         env={"LANG": "en_EN.UTF-8"},
 #         workdir="sources/docs/source/"
