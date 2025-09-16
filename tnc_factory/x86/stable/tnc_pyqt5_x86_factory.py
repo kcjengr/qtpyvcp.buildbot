@@ -7,16 +7,15 @@ from buildbot.plugins import steps, util
 
 factory_tnc_pyqt5_x86 = util.BuildFactory()
 
-
 # download sources
 factory_tnc_pyqt5_x86.addStep(steps.GitHub(name="download sources",
                                            repourl='https://github.com/kcjengr/turbonc.git',
+                                           branch='pyqt5',
                                            mode='incremental',
                                            method="clean",
                                            tags=True,
                                            submodules=False,
                                            workdir="sources/"))
-
 # get git tag
 factory_tnc_pyqt5_x86.addStep(steps.SetPropertyFromCommand(
     name="get git tag",
@@ -29,13 +28,6 @@ factory_tnc_pyqt5_x86.addStep(steps.SetPropertyFromCommand(
     name="get git commit count since last tag",
     command=["git", "rev-list", "--count", "--branches", util.Interpolate("^refs/tags/%(prop:tag)s")],
     property="minor_version",
-    workdir="sources/"))
-
-# get git tag
-factory_tnc_pyqt5_x86.addStep(steps.SetPropertyFromCommand(
-    name="get git tag",
-    command=["git", "describe", "--abbrev=0", "--tags"],
-    property="tag",
     workdir="sources/"))
 
 # factory_tnc_pyqt5_x86.addStep(steps.ShellCommand(

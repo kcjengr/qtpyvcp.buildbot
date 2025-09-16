@@ -3,8 +3,6 @@
 
 # TNC Develop Factory x86
 
-import os
-
 from buildbot.plugins import steps, util
 
 factory_tnc_pyqt5_x86_dev = util.BuildFactory()
@@ -25,14 +23,12 @@ factory_tnc_pyqt5_x86_dev.addStep(steps.SetPropertyFromCommand(
     property="tag",
     workdir="sources/"))
 
-
 # get git commit count since last tag
 factory_tnc_pyqt5_x86_dev.addStep(steps.SetPropertyFromCommand(
     name="get git commit count since last tag",
     command=["git", "rev-list", "--count", "--branches", util.Interpolate("^refs/tags/%(prop:tag)s")],
     property="minor_version",
     workdir="sources/"))
-
 
 # store version file
 factory_tnc_pyqt5_x86_dev.addStep(steps.ShellCommand(
