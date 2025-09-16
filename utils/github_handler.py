@@ -19,10 +19,23 @@ class CustomGitHubEventHandler(GitHubEventHandler):
     def handle_push(self, payload, event):
 
         ref = payload['ref']
+
         log.msg("Processing GitHub Push `%s'" % ref)
 
         if re.match(r"^refs/(heads)/(main)$", ref):
             log.msg("Got Push to main")
+
+            changes, vcs = super().handle_push(payload, event)
+            return changes, vcs
+
+        elif re.match(r"^refs/(heads)/(pyside6)$", ref):
+            log.msg("Got Push to pyside6")
+
+            changes, vcs = super().handle_push(payload, event)
+            return changes, vcs
+
+        elif re.match(r"^refs/(heads)/(pyqt5)$", ref):
+            log.msg("Got Push to pyqt5")
 
             changes, vcs = super().handle_push(payload, event)
             return changes, vcs
