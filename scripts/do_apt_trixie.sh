@@ -10,6 +10,7 @@ cat dists/trixie/main/binary-amd64/Packages | gzip -9 > dists/trixie/main/binary
 dpkg-scanpackages --arch arm64 pool/main/trixie > dists/trixie/main/binary-arm64/Packages
 cat dists/trixie/main/binary-arm64/Packages | gzip -9 > dists/trixie/main/binary-arm64/Packages.gz
 
+
 cd /home/buildbot/debian/apt/dists/trixie
 
 /home/buildbot/debian/generate-trixie.sh > Release

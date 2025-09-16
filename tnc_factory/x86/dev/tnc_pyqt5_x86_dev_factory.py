@@ -111,7 +111,7 @@ factory_tnc_pyqt5_x86_dev.addStep(steps.ShellCommand(
     name="move new files to the apt repo",
     command=["mv",
              util.Interpolate("/home/buildbot/buildbot/worker/turbonc-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb"),
-             "/home/buildbot/debian/apt/pool/main/trixie-dev/"],
+             "/home/buildbot/debian/apt/pool/main/bookworm-dev/"],
     workdir="sources/"))
 
 # delete files from build directory
@@ -123,7 +123,7 @@ factory_tnc_pyqt5_x86_dev.addStep(steps.ShellCommand(
 # scan new packages in apt repository
 factory_tnc_pyqt5_x86_dev.addStep(steps.ShellCommand(
     name="scan new packages in apt repository",
-    command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_trixie_dev.sh"],
+    command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_bookworm_dev.sh"],
     workdir="sources/"))
 
 
