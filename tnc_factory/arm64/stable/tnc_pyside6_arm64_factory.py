@@ -1,51 +1,50 @@
 # -*- python3 -*-
 # ex: set syntax=python3:
-#
-# TurBoNC VCP Develop Factory
-#
+
+# TNC Stable Factory pyside6 arm64
 
 from buildbot.plugins import steps, util
-from packaging.version import Version, parse
 
-factory_tnc_pi4 = util.BuildFactory()
+
+factory_tnc_pyside6_arm64 = util.BuildFactory()
 
 
 # download sources
-factory_tnc_pi4.addStep(steps.Git(name="download sources",
-                                     repourl='git@github.com:kcjengr/turbonc.git',
-                                     mode='full',
-                                     method="clean",
-                                     tags=True,
-                                     submodules=False,
-                                     workdir="sources/"))
+factory_tnc_pyside6_arm64.addStep(steps.Git(name="download sources",
+                                            repourl='git@github.com:kcjengr/turbonc.git',
+                                            mode='full',
+                                            method="clean",
+                                            tags=True,
+                                            submodules=False,
+                                            workdir="sources/"))
 # get git tag
-factory_tnc_pi4.addStep(steps.SetPropertyFromCommand(
+factory_tnc_pyside6_arm64.addStep(steps.SetPropertyFromCommand(
     name="get git tag",
     command=["git", "describe", "--abbrev=0", "--tags"],
     property="tag",
     workdir="sources/"))
 
 # get git commit count since last tag
-factory_tnc_pi4.addStep(steps.SetPropertyFromCommand(
+factory_tnc_pyside6_arm64.addStep(steps.SetPropertyFromCommand(
     name="get git commit count since last tag",
     command=["git", "rev-list", "--count", "--branches", util.Interpolate("^refs/tags/%(prop:tag)s")],
     property="minor_version",
     workdir="sources/"))
 # get git tag
-factory_tnc_pi4.addStep(steps.SetPropertyFromCommand(
+factory_tnc_pyside6_arm64.addStep(steps.SetPropertyFromCommand(
     name="get git tag",
     command=["git", "describe", "--abbrev=0", "--tags"],
     property="tag",
     workdir="sources/"))
 
 # compile resources
-factory_tnc_pi4.addStep(steps.ShellCommand(
+factory_tnc_pyside6_arm64.addStep(steps.ShellCommand(
     name="compile resources",
     command=["qcompile", "."],
     workdir="sources/"))
 
 # create changelog
-factory_tnc_pi4.addStep(steps.ShellCommand(
+factory_tnc_pyside6_arm64.addStep(steps.ShellCommand(
     name="create changelog",
     env={'EMAIL': "lcvette1@gmail.com"},
     command=["dch", "--create", "--distribution", "stable", "--package", "turbonc", "--newversion", util.Interpolate("%(prop:tag)s"), "Stable version."],
@@ -70,7 +69,7 @@ factory_tnc_pi4.addStep(steps.ShellCommand(
     # ~ workdir="sources/"))
 
 # build debs
-factory_tnc_pi4.addStep(steps.ShellCommand(
+factory_tnc_pyside6_arm64.addStep(steps.ShellCommand(
     name="build debs",
     env={'DEB_BUILD_OPTIONS': "nocheck"},
     command=["dpkg-buildpackage", "-b", "-uc"],
@@ -95,7 +94,7 @@ factory_tnc_pi4.addStep(steps.ShellCommand(
 #     workdir="sources/"))
 
 # move new files to the apt repo
-factory_tnc_pi4.addStep(steps.FileUpload(
+factory_tnc_pyside6_arm64.addStep(steps.FileUpload(
     name="move new files to the apt repo",
     workersrc=util.Interpolate("/home/buildbot/workdir/turbonc-pi4/python3-turbonc_%(prop:tag)s_arm64.deb"),
     masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/stable/python3-turbonc_%(prop:tag)s_arm64.deb")
@@ -109,7 +108,7 @@ factory_tnc_pi4.addStep(steps.FileUpload(
 #     workdir="sources/"))
 
 # scan new packages in apt repository
-factory_tnc_pi4.addStep(steps.MasterShellCommand(
+factory_tnc_pyside6_arm64.addStep(steps.MasterShellCommand(
     name="scan new packages in apt repository",
     command="/home/buildbot/buildbot/master/scripts/do_apt_stable.sh"
     )
