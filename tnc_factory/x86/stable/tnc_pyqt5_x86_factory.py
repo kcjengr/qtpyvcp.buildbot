@@ -5,40 +5,40 @@
 
 from buildbot.plugins import steps, util
 
-factory_tnc_pyqty5_x86 = util.BuildFactory()
+factory_tnc_pyqt5_x86 = util.BuildFactory()
 
 
 # download sources
-factory_tnc_pyqty5_x86.addStep(steps.GitHub(name="download sources",
-                                            repourl='git@github.com:kcjengr/turbonc.git',
-                                            mode='full',
-                                            method="clean",
-                                            tags=True,
-                                            submodules=False,
-                                            workdir="sources/"))
+factory_tnc_pyqt5_x86.addStep(steps.GitHub(name="download sources",
+                                           repourl='git@github.com:kcjengr/turbonc.git',
+                                           mode='full',
+                                           method="clean",
+                                           tags=True,
+                                           submodules=False,
+                                           workdir="sources/"))
 
 # get git tag
-factory_tnc_pyqty5_x86.addStep(steps.SetPropertyFromCommand(
+factory_tnc_pyqt5_x86.addStep(steps.SetPropertyFromCommand(
     name="get git tag",
     command=["git", "describe", "--abbrev=0", "--tags"],
     property="tag",
     workdir="sources/"))
 
 # get git commit count since last tag
-factory_tnc_pyqty5_x86.addStep(steps.SetPropertyFromCommand(
+factory_tnc_pyqt5_x86.addStep(steps.SetPropertyFromCommand(
     name="get git commit count since last tag",
     command=["git", "rev-list", "--count", "--branches", util.Interpolate("^refs/tags/%(prop:tag)s")],
     property="minor_version",
     workdir="sources/"))
 
 # get git tag
-factory_tnc_pyqty5_x86.addStep(steps.SetPropertyFromCommand(
+factory_tnc_pyqt5_x86.addStep(steps.SetPropertyFromCommand(
     name="get git tag",
     command=["git", "describe", "--abbrev=0", "--tags"],
     property="tag",
     workdir="sources/"))
 
-factory_tnc_pyqty5_x86.addStep(steps.ShellCommand(
+factory_tnc_pyqt5_x86.addStep(steps.ShellCommand(
         name="build wheel with poetry",
         command=["python3", "-m", "poetry", "build"],
         workdir="sources/"
@@ -53,14 +53,14 @@ factory_tnc_pyqty5_x86.addStep(steps.ShellCommand(
 #     workdir="sources/"))
 
 # delete previous changelog
-factory_tnc_pyqty5_x86.addStep(steps.ShellCommand(
+factory_tnc_pyqt5_x86.addStep(steps.ShellCommand(
     name="Delete previous changelog",
     env={},
     command=["rm", "-rf", "debian/changelog"],
     workdir="sources/"))
 
 # create changelog
-factory_tnc_pyqty5_x86.addStep(steps.ShellCommand(
+factory_tnc_pyqt5_x86.addStep(steps.ShellCommand(
     name="create changelog",
     env={'EMAIL': "j.l.toledano.l@gmail.com"},
     command=["dch", "--create", "--distribution", "stable", "--package", "turbonc", "--newversion", util.Interpolate("%(prop:tag)s"), "Stable version."],
@@ -79,14 +79,14 @@ factory_tnc_pyqty5_x86.addStep(steps.ShellCommand(
 #     workdir="sources/"))
 
 # build debs
-factory_tnc_pyqty5_x86.addStep(steps.ShellCommand(
+factory_tnc_pyqt5_x86.addStep(steps.ShellCommand(
     name="build debs",
     env={'DEB_BUILD_OPTIONS': "nocheck"},
     command=["dpkg-buildpackage", "-b", "-uc"],
     workdir="sources/"))
 
 # move new files to the apt repo
-factory_tnc_pyqty5_x86.addStep(steps.FileUpload(
+factory_tnc_pyqt5_x86.addStep(steps.FileUpload(
     name="move new files to the apt repo",
     workersrc=util.Interpolate("/home/buildbot/buildbot/worker/turbonc/python3-turbonc_%(prop:tag)s_amd64.deb"),
     masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/trixie/python3-turbonc_%(prop:tag)s_amd64.deb")
@@ -94,7 +94,7 @@ factory_tnc_pyqty5_x86.addStep(steps.FileUpload(
 )
 
 # scan new packages in apt repository
-factory_tnc_pyqty5_x86.addStep(steps.ShellCommand(
+factory_tnc_pyqt5_x86.addStep(steps.ShellCommand(
     name="scan new packages in apt repository",
     command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_trixie.sh"],
     workdir="sources/"))
