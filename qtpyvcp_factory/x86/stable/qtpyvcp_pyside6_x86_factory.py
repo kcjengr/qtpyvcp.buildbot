@@ -63,38 +63,38 @@ factory_qtpyvcp_pyside6_x86.addStep(steps.ShellCommand(
     command=["dpkg-buildpackage", "-b", "-uc"],
     workdir="sources/"))
 
-# copy files to the http repo
-factory_qtpyvcp_pyside6_x86.addStep(steps.ShellCommand(
-    name="copy files to the http repo",
-    command=["cp",
-             util.Interpolate("/home/buildbot/buildbot/worker/qtpyvcp/python3-qtpyvcp_%(prop:tag)s_amd64.deb"),
-             "/home/buildbot/repo/qtpyvcp/"],
-    workdir="sources/"))
-
-# disabled needs apt structure things
-# copy new files to the apt repo
-factory_qtpyvcp_pyside6_x86.addStep(steps.ShellCommand(
-    name="copy files to repo",
-    command=["cp",
-             util.Interpolate("/home/buildbot/buildbot/worker/qtpyvcp/python3-qtpyvcp_%(prop:tag)s_amd64.deb"),
-             "/home/buildbot/debian/apt/pool/main/trixie/"],
-    workdir="sources/"))
-
-# needs more testing
-# publish on github
-# factory_qtpyvcp.addStep(steps.ShellCommand(
-#     command=["/home/buildbot/buildbot/worker/qtpyvcp/sources/.scripts/publish_github_release.sh",
-#              "kcjengr/qtpyvcp", util.Property("branch")],
+# # copy files to the http repo
+# factory_qtpyvcp_pyside6_x86.addStep(steps.ShellCommand(
+#     name="copy files to the http repo",
+#     command=["cp",
+#              util.Interpolate("/home/buildbot/buildbot/worker/qtpyvcp/python3-qtpyvcp_%(prop:tag)s_amd64.deb"),
+#              "/home/buildbot/repo/qtpyvcp/"],
 #     workdir="sources/"))
-
-
-
-# more apt things
-# scan new packages in apt repository
-factory_qtpyvcp_pyside6_x86.addStep(steps.ShellCommand(
-    name="scan new packages in apt repository",
-    command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_trixie.sh"],
-    workdir="sources/"))
+#
+# # disabled needs apt structure things
+# # copy new files to the apt repo
+# factory_qtpyvcp_pyside6_x86.addStep(steps.ShellCommand(
+#     name="copy files to repo",
+#     command=["cp",
+#              util.Interpolate("/home/buildbot/buildbot/worker/qtpyvcp/python3-qtpyvcp_%(prop:tag)s_amd64.deb"),
+#              "/home/buildbot/debian/apt/pool/main/trixie/"],
+#     workdir="sources/"))
+#
+# # needs more testing
+# # publish on github
+# # factory_qtpyvcp.addStep(steps.ShellCommand(
+# #     command=["/home/buildbot/buildbot/worker/qtpyvcp/sources/.scripts/publish_github_release.sh",
+# #              "kcjengr/qtpyvcp", util.Property("branch")],
+# #     workdir="sources/"))
+#
+#
+#
+# # more apt things
+# # scan new packages in apt repository
+# factory_qtpyvcp_pyside6_x86.addStep(steps.ShellCommand(
+#     name="scan new packages in apt repository",
+#     command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_trixie.sh"],
+#     workdir="sources/"))
 
 # doc related things
 # # delete docs directory

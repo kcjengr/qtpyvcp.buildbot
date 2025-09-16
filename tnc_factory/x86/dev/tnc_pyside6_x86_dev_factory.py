@@ -87,45 +87,45 @@ factory_tnc_pyside6_x86_dev.addStep(steps.ShellCommand(
     },
     command=["debuild", "-b", "-uc", "-us"],
     workdir="sources/"))
-
-# copy files to the http repo
-factory_tnc_pyside6_x86_dev.addStep(steps.ShellCommand(
-    name="copy files to the http repo",
-    command=["cp",
-             util.Interpolate("/home/buildbot/buildbot/worker/turbonc-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb"),
-             "/home/buildbot/repo/turbonc-dev/"],
-    workdir="sources/"))
-
-
-# delete old files from apt directory
-# factory_tnc_dev.addStep(steps.ShellCommand(
-#     name="delete files from apt directory",
-#     command=["sh",
-#              "/home/buildbot/buildbot/master/scripts/clean_apt_develop.sh",
-#              util.Interpolate("python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb")
-#             ],
+#
+# # copy files to the http repo
+# factory_tnc_pyside6_x86_dev.addStep(steps.ShellCommand(
+#     name="copy files to the http repo",
+#     command=["cp",
+#              util.Interpolate("/home/buildbot/buildbot/worker/turbonc-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb"),
+#              "/home/buildbot/repo/turbonc-dev/"],
 #     workdir="sources/"))
-
-# move new files to the apt repo
-factory_tnc_pyside6_x86_dev.addStep(steps.ShellCommand(
-    name="move new files to the apt repo",
-    command=["mv",
-             util.Interpolate("/home/buildbot/buildbot/worker/turbonc-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb"),
-             "/home/buildbot/debian/apt/pool/main/trixie-dev/"],
-    workdir="sources/"))
-
-# delete files from build directory
-# factory_tnc_dev.addStep(steps.ShellCommand(
-#     name="delete files from build directory",
-#     command=["rm", util.Interpolate("/home/buildbot/buildbot/worker/turbonc-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb")],
+#
+#
+# # delete old files from apt directory
+# # factory_tnc_dev.addStep(steps.ShellCommand(
+# #     name="delete files from apt directory",
+# #     command=["sh",
+# #              "/home/buildbot/buildbot/master/scripts/clean_apt_develop.sh",
+# #              util.Interpolate("python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb")
+# #             ],
+# #     workdir="sources/"))
+#
+# # move new files to the apt repo
+# factory_tnc_pyside6_x86_dev.addStep(steps.ShellCommand(
+#     name="move new files to the apt repo",
+#     command=["mv",
+#              util.Interpolate("/home/buildbot/buildbot/worker/turbonc-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb"),
+#              "/home/buildbot/debian/apt/pool/main/trixie-dev/"],
 #     workdir="sources/"))
-
-# scan new packages in apt repository
-factory_tnc_pyside6_x86_dev.addStep(steps.ShellCommand(
-    name="scan new packages in apt repository",
-    command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_trixie_dev.sh"],
-    workdir="sources/"))
-
+#
+# # delete files from build directory
+# # factory_tnc_dev.addStep(steps.ShellCommand(
+# #     name="delete files from build directory",
+# #     command=["rm", util.Interpolate("/home/buildbot/buildbot/worker/turbonc-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb")],
+# #     workdir="sources/"))
+#
+# # scan new packages in apt repository
+# factory_tnc_pyside6_x86_dev.addStep(steps.ShellCommand(
+#     name="scan new packages in apt repository",
+#     command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_trixie_dev.sh"],
+#     workdir="sources/"))
+#
 
 
 # # delete docs directory

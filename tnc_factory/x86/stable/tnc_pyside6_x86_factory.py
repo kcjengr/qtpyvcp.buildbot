@@ -85,19 +85,19 @@ factory_tnc_pyside6_x86.addStep(steps.ShellCommand(
     command=["dpkg-buildpackage", "-b", "-uc"],
     workdir="sources/"))
 
-# move new files to the apt repo
-factory_tnc_pyside6_x86.addStep(steps.FileUpload(
-    name="move new files to the apt repo",
-    workersrc=util.Interpolate("/home/buildbot/buildbot/worker/turbonc/python3-turbonc_%(prop:tag)s_amd64.deb"),
-    masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/trixie/python3-turbonc_%(prop:tag)s_amd64.deb")
-    )
-)
-
-# scan new packages in apt repository
-factory_tnc_pyside6_x86.addStep(steps.ShellCommand(
-    name="scan new packages in apt repository",
-    command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_trixie.sh"],
-    workdir="sources/"))
+# # move new files to the apt repo
+# factory_tnc_pyside6_x86.addStep(steps.FileUpload(
+#     name="move new files to the apt repo",
+#     workersrc=util.Interpolate("/home/buildbot/buildbot/worker/turbonc/python3-turbonc_%(prop:tag)s_amd64.deb"),
+#     masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/trixie/python3-turbonc_%(prop:tag)s_amd64.deb")
+#     )
+# )
+#
+# # scan new packages in apt repository
+# factory_tnc_pyside6_x86.addStep(steps.ShellCommand(
+#     name="scan new packages in apt repository",
+#     command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_trixie.sh"],
+#     workdir="sources/"))
 
 #
 # factory_tnc.addStep(steps.GitHub(name="downlaod static docs",
