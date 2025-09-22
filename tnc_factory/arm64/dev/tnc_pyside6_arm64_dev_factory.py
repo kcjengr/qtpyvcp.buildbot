@@ -49,6 +49,13 @@ factory_tnc_pyside6_arm64_dev.addStep(steps.SetPropertyFromCommand(
 #     command=["/bin/sh", "-c", util.Interpolate('echo %(prop:tag)s-%(prop:minor_version)s > tnc_dev_version.txt')],
 #     workdir="/home/pi/buildbot/versions/"))
 
+# delete previous changelog
+factory_tnc_pyside6_arm64_dev.addStep(steps.ShellCommand(
+    name="Delete previous changelog",
+    env={},
+    command=["rm", "-rf", "debian/changelog"],
+    workdir="sources/"))
+
 # create changelog
 factory_tnc_pyside6_arm64_dev.addStep(steps.ShellCommand(
     name="create changelog",
