@@ -30,12 +30,13 @@ factory_tnc_pyqt5_arm64.addStep(steps.SetPropertyFromCommand(
     command=["git", "rev-list", "--count", "--branches", util.Interpolate("^refs/tags/%(prop:tag)s")],
     property="minor_version",
     workdir="sources/"))
+
 # get git tag
-factory_tnc_pyqt5_arm64.addStep(steps.SetPropertyFromCommand(
-    name="get git tag",
-    command=["git", "describe", "--abbrev=0", "--tags"],
-    property="tag",
-    workdir="sources/"))
+# factory_tnc_pyqt5_arm64.addStep(steps.SetPropertyFromCommand(
+#     name="get git tag",
+#     command=["git", "describe", "--abbrev=0", "--tags"],
+#     property="tag",
+#     workdir="sources/"))
 
 # compile resources
 factory_tnc_pyqt5_arm64.addStep(steps.ShellCommand(
@@ -46,7 +47,7 @@ factory_tnc_pyqt5_arm64.addStep(steps.ShellCommand(
 # create changelog
 factory_tnc_pyqt5_arm64.addStep(steps.ShellCommand(
     name="create changelog",
-    env={'EMAIL': "lcvette1@gmail.com"},
+    env={'EMAIL': "j.l.toledano.l@gmail.com"},
     command=["dch", "--create", "--distribution", "stable", "--package", "turbonc", "--newversion", util.Interpolate("%(prop:tag)s"), "Stable version."],
     workdir="sources/"))
 
@@ -94,12 +95,12 @@ factory_tnc_pyqt5_arm64.addStep(steps.ShellCommand(
 #     workdir="sources/"))
 
 # move new files to the apt repo
-factory_tnc_pyqt5_arm64.addStep(steps.FileUpload(
-    name="move new files to the apt repo",
-    workersrc=util.Interpolate("/home/buildbot/workdir/turbonc-pi4/python3-turbonc_%(prop:tag)s_arm64.deb"),
-    masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/stable/python3-turbonc_%(prop:tag)s_arm64.deb")
-    )
-)
+# factory_tnc_pyqt5_arm64.addStep(steps.FileUpload(
+#     name="move new files to the apt repo",
+#     workersrc=util.Interpolate("/home/buildbot/workdir/turbonc-pi4/python3-turbonc_%(prop:tag)s_arm64.deb"),
+#     masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/stable/python3-turbonc_%(prop:tag)s_arm64.deb")
+#     )
+# )
 
 # delete files from build directory
 # factory_tnc_pi4.addStep(steps.ShellCommand(
@@ -108,11 +109,11 @@ factory_tnc_pyqt5_arm64.addStep(steps.FileUpload(
 #     workdir="sources/"))
 
 # scan new packages in apt repository
-factory_tnc_pyqt5_arm64.addStep(steps.MasterShellCommand(
-    name="scan new packages in apt repository",
-    command="/home/buildbot/buildbot/master/scripts/do_apt_stable.sh"
-    )
-)
+# factory_tnc_pyqt5_arm64.addStep(steps.MasterShellCommand(
+#     name="scan new packages in apt repository",
+#     command="/home/buildbot/buildbot/master/scripts/do_apt_stable.sh"
+#     )
+# )
 
 
 

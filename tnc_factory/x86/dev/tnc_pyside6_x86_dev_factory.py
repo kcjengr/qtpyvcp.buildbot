@@ -32,11 +32,11 @@ factory_tnc_pyside6_x86_dev.addStep(steps.SetPropertyFromCommand(
     workdir="sources/"))
 
 # get git tag
-factory_tnc_pyside6_x86_dev.addStep(steps.SetPropertyFromCommand(
-    name="get git tag",
-    command=["git", "describe", "--abbrev=0", "--tags"],
-    property="tag",
-    workdir="sources/"))
+# factory_tnc_pyside6_x86_dev.addStep(steps.SetPropertyFromCommand(
+#     name="get git tag",
+#     command=["git", "describe", "--abbrev=0", "--tags"],
+#     property="tag",
+#     workdir="sources/"))
 
 # get git commit count since last tag
 factory_tnc_pyside6_x86_dev.addStep(steps.SetPropertyFromCommand(
@@ -46,10 +46,10 @@ factory_tnc_pyside6_x86_dev.addStep(steps.SetPropertyFromCommand(
     workdir="sources/"))
 
 # store version file
-factory_tnc_pyside6_x86_dev.addStep(steps.ShellCommand(
-    name="store version file",
-    command=["/bin/sh", "-c", util.Interpolate('echo %(prop:tag)s-%(prop:minor_version)s > tnc_dev_version.txt')],
-    workdir="/home/buildbot/versions/"))
+# factory_tnc_pyside6_x86_dev.addStep(steps.ShellCommand(
+#     name="store version file",
+#     command=["/bin/sh", "-c", util.Interpolate('echo %(prop:tag)s-%(prop:minor_version)s > tnc_dev_version.txt')],
+#     workdir="/home/bb/versions/"))
 
 # compile resources
 # disabled, done in deb build step
@@ -60,7 +60,7 @@ factory_tnc_pyside6_x86_dev.addStep(steps.ShellCommand(
 
 factory_tnc_pyside6_x86_dev.addStep(steps.ShellCommand(
         name="build wheel with poetry",
-        command=["/home/buildbot/pyside6_venv/bin/python3", "-m", "poetry", "build"],
+        command=["/home/bb/pyside6_venv/bin/python3", "-m", "poetry", "build"],
         workdir="sources/"
     )
 )
@@ -83,7 +83,7 @@ factory_tnc_pyside6_x86_dev.addStep(steps.ShellCommand(
     name="build debs",
     env={
         'DEB_BUILD_OPTIONS': "nocheck",
-        'PYTHONPATH': "/home/buildbot/pyside6_venv"
+        'PYTHONPATH': "/home/bb/.venv"
     },
     command=["debuild", "-b", "-uc", "-us"],
     workdir="sources/"))

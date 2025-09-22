@@ -31,10 +31,10 @@ factory_tnc_pyqt5_x86_dev.addStep(steps.SetPropertyFromCommand(
     workdir="sources/"))
 
 # store version file
-factory_tnc_pyqt5_x86_dev.addStep(steps.ShellCommand(
-    name="store version file",
-    command=["/bin/sh", "-c", util.Interpolate('echo %(prop:tag)s-%(prop:minor_version)s > tnc_dev_version.txt')],
-    workdir="/home/bb/versions/"))
+# factory_tnc_pyqt5_x86_dev.addStep(steps.ShellCommand(
+#     name="store version file",
+#     command=["/bin/sh", "-c", util.Interpolate('echo %(prop:tag)s-%(prop:minor_version)s > tnc_dev_version.txt')],
+#     workdir="/home/bb/versions/"))
 
 # compile resources
 # disabled, done in deb build step

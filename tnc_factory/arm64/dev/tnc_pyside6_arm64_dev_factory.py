@@ -30,11 +30,11 @@ factory_tnc_pyside6_arm64_dev.addStep(steps.SetPropertyFromCommand(
     workdir="sources/"))
 
 # get git tag
-factory_tnc_pyside6_arm64_dev.addStep(steps.SetPropertyFromCommand(
-    name="get git tag",
-    command=["git", "describe", "--abbrev=0", "--tags"],
-    property="tag",
-    workdir="sources/"))
+# factory_tnc_pyside6_arm64_dev.addStep(steps.SetPropertyFromCommand(
+#     name="get git tag",
+#     command=["git", "describe", "--abbrev=0", "--tags"],
+#     property="tag",
+#     workdir="sources/"))
 
 # get git commit count since last tag
 factory_tnc_pyside6_arm64_dev.addStep(steps.SetPropertyFromCommand(
