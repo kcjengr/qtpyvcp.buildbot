@@ -37,17 +37,17 @@ factory_tnc_pyside6_arm64_dev.addStep(steps.SetPropertyFromCommand(
 #     workdir="sources/"))
 
 # get git commit count since last tag
-factory_tnc_pyside6_arm64_dev.addStep(steps.SetPropertyFromCommand(
-    name="get git commit count since last tag",
-    command=["git", "rev-list", "--count", "--branches", util.Interpolate("^refs/tags/%(prop:tag)s")],
-    property="minor_version",
-    workdir="sources/"))
+# factory_tnc_pyside6_arm64_dev.addStep(steps.SetPropertyFromCommand(
+#     name="get git commit count since last tag",
+#     command=["git", "rev-list", "--count", "--branches", util.Interpolate("^refs/tags/%(prop:tag)s")],
+#     property="minor_version",
+#     workdir="sources/"))
 
-# store version file
-factory_tnc_pyside6_arm64_dev.addStep(steps.ShellCommand(
-    name="store version file",
-    command=["/bin/sh", "-c", util.Interpolate('echo %(prop:tag)s-%(prop:minor_version)s > tnc_dev_version.txt')],
-    workdir="/home/pi/buildbot/versions/"))
+# # store version file
+# factory_tnc_pyside6_arm64_dev.addStep(steps.ShellCommand(
+#     name="store version file",
+#     command=["/bin/sh", "-c", util.Interpolate('echo %(prop:tag)s-%(prop:minor_version)s > tnc_dev_version.txt')],
+#     workdir="/home/pi/buildbot/versions/"))
 
 # create changelog
 factory_tnc_pyside6_arm64_dev.addStep(steps.ShellCommand(
