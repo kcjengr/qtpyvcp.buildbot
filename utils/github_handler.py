@@ -24,8 +24,7 @@ class CustomGitHubEventHandler(GitHubEventHandler):
 
 
         if re.match(r"^refs/(heads)/(main)$", ref):
-            log.msg(f"Got Push to main in {repo}")
-
+            log.msg("Got Push to main")
             changes, vcs = super().handle_push(payload, event)
             return changes, vcs
 
