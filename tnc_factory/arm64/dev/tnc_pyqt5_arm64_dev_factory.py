@@ -56,12 +56,13 @@ factory_tnc_pyqt5_arm64_dev.addStep(steps.SetPropertyFromCommand(
 #     command=["qcompile", "."],
 #     workdir="sources/"))
 
-factory_tnc_pyqt5_arm64_dev.addStep(steps.ShellCommand(
-        name="build wheel with poetry",
-        command=["/home/bb/.venv/bin/python3", "-m", "poetry", "build"],
-        workdir="sources/"
-    )
-)
+# factory_tnc_pyqt5_arm64_dev.addStep(steps.ShellCommand(
+#         name="build wheel with poetry",
+#         command=["/home/bb/.venv/bin/python3", "-m", "poetry", "build"],
+#         workdir="sources/"
+#     )
+# )
+
 # delete previous changelog
 factory_tnc_pyqt5_arm64_dev.addStep(steps.ShellCommand(
     name="Delete previous changelog",
