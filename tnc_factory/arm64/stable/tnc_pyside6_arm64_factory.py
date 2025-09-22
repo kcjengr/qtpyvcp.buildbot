@@ -11,7 +11,7 @@ factory_tnc_pyside6_arm64 = util.BuildFactory()
 
 # download sources
 factory_tnc_pyside6_arm64.addStep(steps.Git(name="download sources",
-                                            repourl='git@github.com:kcjengr/turbonc.git',
+                                            repourl='https://github.com/kcjengr/turbonc.git',
                                             mode='full',
                                             method="clean",
                                             tags=True,
