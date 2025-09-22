@@ -37,11 +37,11 @@ factory_tnc_pyqt5_arm64_dev.addStep(steps.SetPropertyFromCommand(
 #     workdir="sources/"))
 
 # get git commit count since last tag
-factory_tnc_pyqt5_arm64_dev.addStep(steps.SetPropertyFromCommand(
-    name="get git commit count since last tag",
-    command=["git", "rev-list", "--count", "--branches", util.Interpolate("^refs/tags/%(prop:tag)s")],
-    property="minor_version",
-    workdir="sources/"))
+# factory_tnc_pyqt5_arm64_dev.addStep(steps.SetPropertyFromCommand(
+#     name="get git commit count since last tag",
+#     command=["git", "rev-list", "--count", "--branches", util.Interpolate("^refs/tags/%(prop:tag)s")],
+#     property="minor_version",
+#     workdir="sources/"))
 
 # store version file
 # factory_tnc_pyqt5_arm64_dev.addStep(steps.ShellCommand(
@@ -81,18 +81,18 @@ factory_tnc_pyqt5_arm64_dev.addStep(steps.ShellCommand(
     name="build debs",
     env={
         'DEB_BUILD_OPTIONS': "nocheck",
-        'PYTHONPATH': "/home/buildbot/pyside6_venv"
+        'PYTHONPATH': "/home/bb/.venv"
     },
     command=["debuild", "-b", "-uc", "-us"],
     workdir="sources/"))
 
 # copy files to the http repo
-factory_tnc_pyqt5_arm64_dev.addStep(steps.ShellCommand(
-    name="copy files to the http repo",
-    command=["cp",
-             util.Interpolate("/home/buildbot/buildbot/worker/turbonc-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb"),
-             "/home/buildbot/repo/turbonc-dev/"],
-    workdir="sources/"))
+# factory_tnc_pyqt5_arm64_dev.addStep(steps.ShellCommand(
+#     name="copy files to the http repo",
+#     command=["cp",
+#              util.Interpolate("/home/buildbot/buildbot/worker/turbonc-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb"),
+#              "/home/buildbot/repo/turbonc-dev/"],
+#     workdir="sources/"))
 
 
 # delete old files from apt directory
@@ -105,12 +105,12 @@ factory_tnc_pyqt5_arm64_dev.addStep(steps.ShellCommand(
 #     workdir="sources/"))
 
 # move new files to the apt repo
-factory_tnc_pyqt5_arm64_dev.addStep(steps.ShellCommand(
-    name="move new files to the apt repo",
-    command=["mv",
-             util.Interpolate("/home/buildbot/buildbot/worker/turbonc-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb"),
-             "/home/buildbot/debian/apt/pool/main/trixie-dev/"],
-    workdir="sources/"))
+# factory_tnc_pyqt5_arm64_dev.addStep(steps.ShellCommand(
+#     name="move new files to the apt repo",
+#     command=["mv",
+#              util.Interpolate("/home/buildbot/buildbot/worker/turbonc-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb"),
+#              "/home/buildbot/debian/apt/pool/main/trixie-dev/"],
+#     workdir="sources/"))
 
 # delete files from build directory
 # factory_tnc_dev.addStep(steps.ShellCommand(
@@ -119,10 +119,10 @@ factory_tnc_pyqt5_arm64_dev.addStep(steps.ShellCommand(
 #     workdir="sources/"))
 
 # scan new packages in apt repository
-factory_tnc_pyqt5_arm64_dev.addStep(steps.ShellCommand(
-    name="scan new packages in apt repository",
-    command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_trixie_dev.sh"],
-    workdir="sources/"))
+# factory_tnc_pyqt5_arm64_dev.addStep(steps.ShellCommand(
+#     name="scan new packages in apt repository",
+#     command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_trixie_dev.sh"],
+#     workdir="sources/"))
 
 
 
