@@ -39,11 +39,11 @@ factory_tnc_pyside6_x86_dev.addStep(steps.SetPropertyFromCommand(
 #     workdir="sources/"))
 
 # get git commit count since last tag
-factory_tnc_pyside6_x86_dev.addStep(steps.SetPropertyFromCommand(
-    name="get git commit count since last tag",
-    command=["git", "rev-list", "--count", "--branches", util.Interpolate("^refs/tags/%(prop:tag)s")],
-    property="minor_version",
-    workdir="sources/"))
+# factory_tnc_pyside6_x86_dev.addStep(steps.SetPropertyFromCommand(
+#     name="get git commit count since last tag",
+#     command=["git", "rev-list", "--count", "--branches", util.Interpolate("^refs/tags/%(prop:tag)s")],
+#     property="minor_version",
+#     workdir="sources/"))
 
 # store version file
 # factory_tnc_pyside6_x86_dev.addStep(steps.ShellCommand(
@@ -58,12 +58,13 @@ factory_tnc_pyside6_x86_dev.addStep(steps.SetPropertyFromCommand(
 #     command=["qcompile", "."],
 #     workdir="sources/"))
 
-factory_tnc_pyside6_x86_dev.addStep(steps.ShellCommand(
-        name="build wheel with poetry",
-        command=["/home/bb/pyside6_venv/bin/python3", "-m", "poetry", "build"],
-        workdir="sources/"
-    )
-)
+# factory_tnc_pyside6_x86_dev.addStep(steps.ShellCommand(
+#         name="build wheel with poetry",
+#         command=["/home/bb/.venv/bin/python3", "-m", "poetry", "build"],
+#         workdir="sources/"
+#     )
+# )
+
 # delete previous changelog
 factory_tnc_pyside6_x86_dev.addStep(steps.ShellCommand(
     name="Delete previous changelog",
