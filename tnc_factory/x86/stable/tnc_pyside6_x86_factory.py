@@ -32,18 +32,18 @@ factory_tnc_pyside6_x86.addStep(steps.SetPropertyFromCommand(
     workdir="sources/"))
 
 # get git tag
-factory_tnc_pyside6_x86.addStep(steps.SetPropertyFromCommand(
-    name="get git tag",
-    command=["git", "describe", "--abbrev=0", "--tags"],
-    property="tag",
-    workdir="sources/"))
+# factory_tnc_pyside6_x86.addStep(steps.SetPropertyFromCommand(
+#     name="get git tag",
+#     command=["git", "describe", "--abbrev=0", "--tags"],
+#     property="tag",
+#     workdir="sources/"))
 
-factory_tnc_pyside6_x86.addStep(steps.ShellCommand(
-        name="build wheel with poetry",
-        command=["python3", "-m", "poetry", "build"],
-        workdir="sources/"
-    )
-)
+# factory_tnc_pyside6_x86.addStep(steps.ShellCommand(
+#         name="build wheel with poetry",
+#         command=["python3", "-m", "poetry", "build"],
+#         workdir="sources/"
+#     )
+# )
 
 # compile resources
 # disabled, done in deb build step
