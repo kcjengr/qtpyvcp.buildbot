@@ -11,7 +11,7 @@ factory_qtpyvcp_pyqt5_arm64 = util.BuildFactory()
 
 # download sources
 factory_qtpyvcp_pyqt5_arm64.addStep(steps.GitHub(name="download sources",
-                                           repourl='git@github.com:kcjengr/qtpyvcp.git',
+                                           repourl='https://github.com/kcjengr/qtpyvcp.git',
                                            branch='main',
                                            mode='full',
                                            submodules=False,
@@ -43,11 +43,11 @@ factory_qtpyvcp_pyqt5_arm64.addStep(steps.SetPropertyFromCommand(
 #     property="minor_version",
 #     workdir="sources/"))
 
-# store version file
-factory_qtpyvcp_pyqt5_arm64.addStep(steps.ShellCommand(
-    name="store version file",
-    command=["/bin/sh", "-c", util.Interpolate('echo %(prop:tag)s > qtpyvcp_version.txt')],
-    workdir="/home/buildbot/versions/"))
+# # store version file
+# factory_qtpyvcp_pyqt5_arm64.addStep(steps.ShellCommand(
+#     name="store version file",
+#     command=["/bin/sh", "-c", util.Interpolate('echo %(prop:tag)s > qtpyvcp_version.txt')],
+#     workdir="/home/buildbot/versions/"))
 
 # create changelog
 factory_qtpyvcp_pyqt5_arm64.addStep(steps.ShellCommand(
@@ -63,28 +63,28 @@ factory_qtpyvcp_pyqt5_arm64.addStep(steps.ShellCommand(
     command=["dpkg-buildpackage", "-b", "-uc"],
     workdir="sources/"))
 
-# copy files to the http repo on .13 machine
-factory_qtpyvcp_pyqt5_arm64.addStep(steps.FileUpload(
-    name="copy files to the http repo",
-    workersrc=util.Interpolate("/home/buildbot/workdir/qtpyvcp-pi4/python3-qtpyvcp_%(prop:tag)s_arm64.deb"),
-    masterdest=util.Interpolate("/home/buildbot/repo/qtpyvcp/python3-qtpyvcp_%(prop:tag)s_arm64.deb")
-    )
-)
-
-
-# copy new files to the apt repo on .13 machine
-factory_qtpyvcp_pyqt5_arm64.addStep(steps.FileUpload(
-    name="copy files to apt stable repo",
-    workersrc=util.Interpolate("/home/buildbot/workdir/qtpyvcp-pi4/python3-qtpyvcp_%(prop:tag)s_arm64.deb"),
-    masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/stable/python3-qtpyvcp_%(prop:tag)s_arm64.deb")
-    )
-)
-
-
-#scan new packages in apt repository
-factory_qtpyvcp_pyqt5_arm64.addStep(steps.MasterShellCommand(
-    name="scan new packages in apt repository",
-    command="/home/buildbot/buildbot/master/scripts/do_apt_stable.sh"
-    )
-)
+# # copy files to the http repo on .13 machine
+# factory_qtpyvcp_pyqt5_arm64.addStep(steps.FileUpload(
+#     name="copy files to the http repo",
+#     workersrc=util.Interpolate("/home/buildbot/workdir/qtpyvcp-pi4/python3-qtpyvcp_%(prop:tag)s_arm64.deb"),
+#     masterdest=util.Interpolate("/home/buildbot/repo/qtpyvcp/python3-qtpyvcp_%(prop:tag)s_arm64.deb")
+#     )
+# )
+#
+#
+# # copy new files to the apt repo on .13 machine
+# factory_qtpyvcp_pyqt5_arm64.addStep(steps.FileUpload(
+#     name="copy files to apt stable repo",
+#     workersrc=util.Interpolate("/home/buildbot/workdir/qtpyvcp-pi4/python3-qtpyvcp_%(prop:tag)s_arm64.deb"),
+#     masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/stable/python3-qtpyvcp_%(prop:tag)s_arm64.deb")
+#     )
+# )
+#
+#
+# #scan new packages in apt repository
+# factory_qtpyvcp_pyqt5_arm64.addStep(steps.MasterShellCommand(
+#     name="scan new packages in apt repository",
+#     command="/home/buildbot/buildbot/master/scripts/do_apt_stable.sh"
+#     )
+# )
 
