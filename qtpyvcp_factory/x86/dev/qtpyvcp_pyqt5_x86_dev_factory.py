@@ -11,7 +11,7 @@ factory_qtpyvcp_pyqt5_x86_dev = util.BuildFactory()
 
 # download sources
 factory_qtpyvcp_pyqt5_x86_dev.addStep(steps.GitHub(name="download sources",
-                                                   repourl='git@github.com:kcjengr/qtpyvcp.git',
+                                                   repourl='https://github.com/kcjengr/qtpyvcp.git',
                                                    branch='main',
                                                    mode='full',
                                                    submodules=False,
