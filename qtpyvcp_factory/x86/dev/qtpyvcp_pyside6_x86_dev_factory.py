@@ -43,11 +43,11 @@ factory_qtpyvcp_pyside6_x86_dev.addStep(steps.SetPropertyFromCommand(
     property="minor_version",
     workdir="sources/"))
 
-# store version file
-factory_qtpyvcp_pyside6_x86_dev.addStep(steps.ShellCommand(
-    name="store version file",
-    command=["/bin/sh", "-c", util.Interpolate('echo %(prop:tag)s-%(prop:minor_version)s > qtpyvcp_dev_version.txt')],
-    workdir="/home/buildbot/versions/"))
+# # store version file
+# factory_qtpyvcp_pyside6_x86_dev.addStep(steps.ShellCommand(
+#     name="store version file",
+#     command=["/bin/sh", "-c", util.Interpolate('echo %(prop:tag)s-%(prop:minor_version)s > qtpyvcp_dev_version.txt')],
+#     workdir="/home/buildbot/versions/"))
 
 # create changelog
 factory_qtpyvcp_pyside6_x86_dev.addStep(steps.ShellCommand(
