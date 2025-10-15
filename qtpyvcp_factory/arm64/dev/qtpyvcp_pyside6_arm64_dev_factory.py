@@ -11,22 +11,11 @@ factory_qtpyvcp_pyside6_arm64_dev = util.BuildFactory()
 
 # download sources
 factory_qtpyvcp_pyside6_arm64_dev.addStep(steps.GitHub(name="download sources",
-                                                       repourl='git@github.com:kcjengr/qtpyvcp.git',
+                                                       repourl='https://github.com/kcjengr/qtpyvcp.git',
                                                        branch='main',
                                                        mode='full',
                                                        submodules=False,
                                                        workdir="sources/"))
-# git fetch
-factory_qtpyvcp_pyside6_arm64_dev.addStep(steps.ShellCommand(
-    name="git fetch",
-    command=["/bin/sh", "-c", "git fetch --all"],
-    workdir="sources/"))
-
-# git pull
-factory_qtpyvcp_pyside6_arm64_dev.addStep(steps.ShellCommand(
-    name="git pull",
-    command=["/bin/sh", "-c", "git pull origin main"],
-    workdir="sources/"))
 
 # get git tag
 factory_qtpyvcp_pyside6_arm64_dev.addStep(steps.SetPropertyFromCommand(
@@ -42,11 +31,6 @@ factory_qtpyvcp_pyside6_arm64_dev.addStep(steps.SetPropertyFromCommand(
     property="minor_version",
     workdir="sources/"))
 
-# store version file
-factory_qtpyvcp_pyside6_arm64_dev.addStep(steps.ShellCommand(
-    name="store version file",
-    command=["/bin/sh", "-c", util.Interpolate('echo %(prop:tag)s-%(prop:minor_version)s > qtpyvcp_dev_version.txt')],
-    workdir="/home/buildbot/versions/"))
 
 # create changelog
 factory_qtpyvcp_pyside6_arm64_dev.addStep(steps.ShellCommand(
