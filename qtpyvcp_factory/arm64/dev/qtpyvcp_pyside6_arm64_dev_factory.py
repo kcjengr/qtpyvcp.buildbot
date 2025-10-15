@@ -49,8 +49,8 @@ factory_qtpyvcp_pyside6_arm64_dev.addStep(steps.ShellCommand(
 # upload files to http server
 factory_qtpyvcp_pyside6_arm64_dev.addStep(steps.FileUpload(
     name="upload files to http server",
-    workersrc=util.Interpolate("/home/bb/work/qtpyvcp-pyside6-arm64-dev/python3-qtpyvcp%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb"),
-    masterdest=util.Interpolate("/home/buildbot/repo/qtpyvcp-pyside6-arm64-dev/python3-qtpyvcp%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb")))
+    workersrc=util.Interpolate("/home/bb/work/qtpyvcp-pyside6-arm64-dev/python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb"),
+    masterdest=util.Interpolate("/home/buildbot/repo/qtpyvcp-pyside6-arm64-dev/python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb")))
 
 # upload files to apt server
 # factory_qtpyvcp_pyside6_arm64_dev.addStep(steps.FileUpload(
