@@ -72,7 +72,7 @@ factory_qtpyvcp_pyqt5_x86_dev.addStep(steps.FileUpload(
 # upload files to apt server
 factory_qtpyvcp_pyqt5_x86_dev.addStep(steps.FileUpload(
     name="upload files to apt server",
-    workersrc=util.Interpolate("/home/bb/work/qtpyvcp-pyqt5-x86-dev/python3-qtpyvcp%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb"),
+    workersrc=util.Interpolate("/home/bb/work/qtpyvcp-pyqt5-x86-dev/python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb"),
     masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/bookworm-dev/python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb")))
 
 
