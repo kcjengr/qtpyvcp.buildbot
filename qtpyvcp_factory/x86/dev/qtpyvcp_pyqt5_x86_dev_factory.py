@@ -77,10 +77,10 @@ factory_qtpyvcp_pyqt5_x86_dev.addStep(steps.FileUpload(
 
 
 # scan new packages in apt repository
-factory_qtpyvcp_pyqt5_x86_dev.addStep(steps.ShellCommand(
+factory_qtpyvcp_pyqt5_x86_dev.addStep(steps.MasterShellCommand(
     name="scan new packages in apt repository",
     command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_bookworm_dev.sh"],
-    workdir="sources/"))
+    workdir="/home/buildbot/debian/apt"))
 
 
 #
