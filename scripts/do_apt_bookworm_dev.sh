@@ -18,6 +18,6 @@ cd /home/buildbot/debian/apt/dists/bookworm-dev
 export GPG_TTY=$(tty)
 export GNUPGHOME="/home/buildbot/debian/pgpkeys"
 
-cat /home/buildbot/debian/apt/dists/bookworm-dev/Release | gpg --default-key 2DEC041F290DF85A -abs > /home/buildbot/debian/apt/dists/bookworm-dev/Release.gpg 2>&1 >/dev/null
-cat /home/buildbot/debian/apt/dists/bookworm-dev/Release | gpg --default-key 2DEC041F290DF85A -abs --clearsign > /home/buildbot/debian/apt/dists/bookworm-dev/InRelease 2>&1 >/dev/null
+cat /home/buildbot/debian/apt/dists/bookworm-dev/Release | gpg --default-key 2DEC041F290DF85A -abs > /home/buildbot/debian/apt/dists/bookworm-dev/Release.gpg
+cat /home/buildbot/debian/apt/dists/bookworm-dev/Release | gpg --default-key 2DEC041F290DF85A -abs --clearsign > /home/buildbot/debian/apt/dists/bookworm-dev/InRelease
 
