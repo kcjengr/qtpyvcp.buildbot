@@ -73,6 +73,20 @@ factory_probe_basic_pyqt5_x86_dev.addStep(steps.FileUpload(
     workersrc=util.Interpolate("/home/bb/work/probe_basic-pyqt5-x86-dev/python3-probe-basic_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb"),
     masterdest=util.Interpolate("/home/buildbot/repo/probe_basic-pyqt5-x86-dev/python3-probe-basic_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb")))
 
+# upload files to apt server
+factory_probe_basic_pyqt5_x86_dev.addStep(steps.FileUpload(
+    name="upload files to apt server",
+    workersrc=util.Interpolate("/home/bb/work/probe_basic-pyqt5-x86-dev/python3-probe-basic%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb"),
+    masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/bookworm-dev/python3-probe-basic_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb")))
+
+
+# scan new packages in apt repository
+factory_probe_basic_pyqt5_x86_dev.addStep(steps.ShellCommand(
+    name="scan new packages in apt repository",
+    command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_bookworm_dev.sh"],
+    workdir="sources/"))
+
+
 # copy files to the http repo
 # factory_probe_basic_pyqt5_x86_dev.addStep(steps.ShellCommand(
 #     name="copy files to the http repo",
