@@ -63,6 +63,12 @@ factory_qtpyvcp_pyqt5_x86_dev.addStep(steps.ShellCommand(
     command=["dpkg-buildpackage", "-b", "-uc"],
     workdir="sources/"))
 
+# upload files to http server
+factory_qtpyvcp_pyqt5_x86_dev.addStep(steps.FileUpload(
+    name="upload files to http server",
+    workersrc=util.Interpolate("/home/bb/work/qtpyvcp-pyqt5-x86-dev/python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb"),
+    masterdest=util.Interpolate("/home/buildbot/repo/qtpyvcp-pyqt5-x86-dev/python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb")))
+
 # # copy files to the http repo
 # factory_qtpyvcp_pyqt5_x86_dev.addStep(steps.ShellCommand(
 #     name="copy files to the http repo",
