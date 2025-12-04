@@ -56,7 +56,7 @@ factory_qtpyvcp_pyside6_arm64_dev.addStep(steps.FileUpload(
 factory_qtpyvcp_pyside6_arm64_dev.addStep(steps.FileUpload(
     name="upload files to apt server",
     workersrc=util.Interpolate("/home/buildbot/workdir/qtpyvcp-pi4-dev/python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb"),
-    masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/develop/python3-turbonc-arm_64_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb")))
+    masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/develop/python3-qtpyvcp_-arm_64_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb")))
 
 
 

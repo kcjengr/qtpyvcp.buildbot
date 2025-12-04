@@ -67,14 +67,14 @@ factory_qtpyvcp_pyside6_x86_dev.addStep(steps.ShellCommand(
 factory_qtpyvcp_pyside6_x86_dev.addStep(steps.ShellCommand(
     name="upload files to http server",
     workersrc=util.Interpolate("/home/buildbot/buildbot/worker/qtpyvcp-dev/python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb"),
-    masterdest=util.Interpolate("/home/buildbot/repo/turbonc-pyside6-x86-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb")))
+    masterdest=util.Interpolate("/home/buildbot/repo/turbonc-pyside6-x86-dev/python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb")))
 
 
 # upload files to apt server
 factory_qtpyvcp_pyside6_x86_dev.addStep(steps.FileUpload(
     name="upload files to apt server",
     workersrc=util.Interpolate("/home/buildbot/buildbot/worker/qtpyvcp-dev/python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb"),
-    masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/bookworm-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb")))
+    masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/bookworm-dev/python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb")))
 
 # scan new packages in apt repository
 factory_qtpyvcp_pyside6_x86_dev.addStep(steps.MasterShellCommand(
