@@ -64,7 +64,7 @@ factory_qtpyvcp_pyside6_x86_dev.addStep(steps.ShellCommand(
     workdir="sources/"))
 
 # upload files to http server
-factory_qtpyvcp_pyside6_x86_dev.addStep(steps.ShellCommand(
+factory_qtpyvcp_pyside6_x86_dev.addStep(steps.FileUpload(
     name="upload files to http server",
     workersrc=util.Interpolate("/home/buildbot/buildbot/worker/qtpyvcp-dev/python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb"),
     masterdest=util.Interpolate("/home/buildbot/repo/turbonc-pyside6-x86-dev/python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb")))
