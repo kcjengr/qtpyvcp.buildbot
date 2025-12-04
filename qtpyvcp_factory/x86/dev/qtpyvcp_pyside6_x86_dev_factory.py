@@ -62,32 +62,27 @@ factory_qtpyvcp_pyside6_x86_dev.addStep(steps.ShellCommand(
     env={'DEB_BUILD_OPTIONS': "nocheck"},
     command=["dpkg-buildpackage", "-b", "-uc"],
     workdir="sources/"))
-#
-# # copy files to the http repo
-# factory_qtpyvcp_pyside6_x86_dev.addStep(steps.ShellCommand(
-#     name="copy files to the http repo",
-#     command=["cp",
-#              util.Interpolate("/home/buildbot/buildbot/worker/qtpyvcp-dev/python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb"),
-#              "/home/buildbot/repo/qtpyvcp-dev/"],
-#     workdir="sources/"))
-#
-#
-# # copy new files to the apt repo
-# factory_qtpyvcp_pyside6_x86_dev.addStep(steps.ShellCommand(
-#     name="copy files to repo",
-#     command=["cp",
-#              util.Interpolate("/home/buildbot/buildbot/worker/qtpyvcp-dev/python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb"),
-#              "/home/buildbot/debian/apt/pool/main/develop/"],
-#     workdir="sources/"))
-#
-#
-# # scan new packages in apt repository
-# factory_qtpyvcp_pyside6_x86_dev.addStep(steps.ShellCommand(
-#     name="scan new packages in apt repository",
-#     command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_develop.sh"],
-#     workdir="sources/"))
-#
-#
+
+# upload files to http server
+factory_qtpyvcp_pyside6_x86_dev.addStep(steps.ShellCommand(
+    name="upload files to http server",
+    workersrc=util.Interpolate("/home/buildbot/buildbot/worker/qtpyvcp-dev/python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb"),
+    masterdest=util.Interpolate("/home/buildbot/repo/turbonc-pyside6-x86-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb")))
+
+
+# upload files to apt server
+factory_qtpyvcp_pyside6_x86_dev.addStep(steps.FileUpload(
+    name="upload files to apt server",
+    workersrc=util.Interpolate("/home/buildbot/buildbot/worker/qtpyvcp-dev/python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb"),
+    masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/bookworm-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb")))
+
+# scan new packages in apt repository
+factory_qtpyvcp_pyside6_x86_dev.addStep(steps.MasterShellCommand(
+    name="scan new packages in apt repository",
+    command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_trixie_dev.sh"],
+    workdir="/home/buildbot/debian/apt"))
+
+
 #
 # # delete docs directory
 # factory_qtpyvcp_pyside6_x86_dev.addStep(steps.RemoveDirectory(name="delete docs directory", dir="docs/"))
