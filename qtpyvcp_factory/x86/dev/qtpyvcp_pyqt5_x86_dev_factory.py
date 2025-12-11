@@ -95,7 +95,7 @@ factory_qtpyvcp_pyqt5_x86_dev.addStep(
         sphinx_builddir="/home/bb/buildbot/worker/qtpyvcp-dev/docs",
         sphinx_sourcedir="/home/bb/buildbot/worker/qtpyvcp-dev/sources/docs/source/",
         strict_warnings=False,
-        env={"LANG": "en_EN.UTF-8"},
+        env={"LANG": "en_US.UTF-8"},
         workdir="/home/bb/work/qtpyvcp-pyqt5-x86-dev/sources/docs_src/source"
     )
 )
