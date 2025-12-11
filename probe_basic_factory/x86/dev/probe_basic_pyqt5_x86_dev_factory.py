@@ -83,7 +83,7 @@ factory_probe_basic_pyqt5_x86_dev.addStep(steps.MasterShellCommand(
 
 
 # delete docs directory
-factory_probe_basic_pyqt5_x86_dev.addStep(steps.RemoveDirectory(name="delete docs directory", dir="docs_src/"))
+# factory_probe_basic_pyqt5_x86_dev.addStep(steps.RemoveDirectory(name="delete docs directory", dir="docs_src/"))
 
 factory_probe_basic_pyqt5_x86_dev.addStep(
     steps.Sphinx(
