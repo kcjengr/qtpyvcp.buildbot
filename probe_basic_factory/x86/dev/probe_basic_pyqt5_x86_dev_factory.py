@@ -89,7 +89,7 @@ factory_probe_basic_pyqt5_x86_dev.addStep(
     steps.Sphinx(
         name="compile sphinx docs",
         haltOnFailure=True,
-        sphinx="sphinx-build",
+        sphinx="/home/bb/.venv/bin/sphinx-build",
         sphinx_builddir="/home/bb/work/probe_basic-pyqt5-x86-dev/sources/docs_src",
         sphinx_sourcedir="/home/bb/work/probe_basic-pyqt5-x86-dev/sources/docs_src/source",
         strict_warnings=False,
