@@ -102,9 +102,9 @@ factory_probe_basic_pyqt5_x86_dev.addStep(steps.ShellCommand(name="Initialize do
                                                command=["git", "init"],
                                                workdir="docs_src/"))
 
-factory_probe_basic_pyqt5_x86_dev.addStep(steps.ShellCommand(name="add remote repository",
-                                               command=["git", "remote", "add", "origin", "git@github.com:kcjengr/probe_basic.git"],
-                                               workdir="docs_src/"))
+# factory_probe_basic_pyqt5_x86_dev.addStep(steps.ShellCommand(name="add remote repository",
+#                                               command=["git", "remote", "add", "origin", "git@github.com:kcjengr/probe_basic.git"],
+#                                               workdir="docs_src/"))
 
 factory_probe_basic_pyqt5_x86_dev.addStep(steps.ShellCommand(name="switch branch",
                                                command=["git", "checkout", "-b", "gh-pages"],
