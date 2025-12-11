@@ -83,14 +83,14 @@ factory_probe_basic_pyqt5_x86_dev.addStep(steps.MasterShellCommand(
 
 
 # delete docs directory
-# factory_probe_basic_pyqt5_x86_dev.addStep(steps.RemoveDirectory(name="delete docs directory", dir="docs_src/"))
+factory_probe_basic_pyqt5_x86_dev.addStep(steps.RemoveDirectory(name="delete docs directory", dir="docs_src/"))
 
 factory_probe_basic_pyqt5_x86_dev.addStep(
     steps.Sphinx(
         name="compile sphinx docs",
         haltOnFailure=True,
         sphinx="/home/bb/.venv/bin/sphinx-build",
-        sphinx_builddir="/home/bb/work/probe_basic-pyqt5-x86-dev/sources/docs_src",
+        sphinx_builddir="/home/bb/work/probe_basic-pyqt5-x86-dev/docs_src",
         sphinx_sourcedir="/home/bb/work/probe_basic-pyqt5-x86-dev/sources/docs_src/source",
         strict_warnings=False,
         env={"LANG": "en_US.UTF-8"},
@@ -102,9 +102,9 @@ factory_probe_basic_pyqt5_x86_dev.addStep(steps.ShellCommand(name="Initialize do
                                                command=["git", "init"],
                                                workdir="docs_src/"))
 
-# factory_probe_basic_pyqt5_x86_dev.addStep(steps.ShellCommand(name="add remote repository",
-#                                               command=["git", "remote", "add", "origin", "git@github.com:kcjengr/probe_basic.git"],
-#                                               workdir="docs_src/"))
+factory_probe_basic_pyqt5_x86_dev.addStep(steps.ShellCommand(name="add remote repository",
+                                               command=["git", "remote", "add", "origin", "git@github.com:kcjengr/probe_basic.git"],
+                                               workdir="docs_src/"))
 
 factory_probe_basic_pyqt5_x86_dev.addStep(steps.ShellCommand(name="switch branch",
                                                command=["git", "checkout", "-b", "gh-pages"],
