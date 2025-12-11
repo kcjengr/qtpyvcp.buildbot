@@ -91,7 +91,7 @@ factory_qtpyvcp_pyqt5_x86_dev.addStep(
     steps.Sphinx(
         name="compile sphinx docs",
         haltOnFailure=True,
-        sphinx="/home/bb/venv/bin/sphinx-build",
+        sphinx="/home/bb/.venv/bin/sphinx-build",
         sphinx_builddir="/home/bb/buildbot/worker/qtpyvcp-dev/docs",
         sphinx_sourcedir="/home/bb/buildbot/worker/qtpyvcp-dev/sources/docs/source/",
         strict_warnings=False,
