@@ -84,10 +84,10 @@ factory_probe_basic_pyqt5_x86_dev.addStep(
         haltOnFailure=True,
         sphinx="sphinx-build",
         sphinx_builddir="/home/bb/work/probe_basic-pyqt5-x86-dev/sources/docs_src",
-        sphinx_sourcedir="/home/bb/work/probe_basic-pyqt5-x86-dev/sources/docs_src/source/",
+        sphinx_sourcedir="/home/bb/work/probe_basic-pyqt5-x86-dev/sources/docs_src/source",
         strict_warnings=False,
         env={"LANG": "en_EN.UTF-8"},
-        workdir="sources/docs_src/source/"
+        workdir="/home/bb/work/probe_basic-pyqt5-x86-dev/sources/docs_src/source"
     )
 )
 
