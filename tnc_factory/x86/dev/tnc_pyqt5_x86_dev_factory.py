@@ -1,8 +1,8 @@
 # -*- python3 -*-
 # ex: set syntax=python3:
-
+#
 # TNC Develop Factory x86
-
+#
 from buildbot.plugins import steps, util
 
 factory_tnc_pyqt5_x86_dev = util.BuildFactory()

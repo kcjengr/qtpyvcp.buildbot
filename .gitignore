@@ -11,3 +11,4 @@ state.sqlite
 /bot_config.py
 /.pydevproject
 /.project
+.settings

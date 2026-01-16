@@ -1,7 +1,7 @@
 # -*- python3 -*-
 # ex: set syntax=python3:
 #
-# ProbeBasic Develop Factory
+# Monokrom Develop Factory
 #
 
 from buildbot.plugins import steps, util
@@ -15,6 +15,8 @@ factory_monokrom.addStep(steps.GitHub(name="download sources",
                                              repourl='git@github.com:kcjengr/monokrom.git',
                                              branch='main',
                                              mode='full',
+                                             method="clean",
+                                             tags=True,
                                              submodules=False,
                                              workdir="sources/"))
 # git fetch
