@@ -71,7 +71,7 @@ factory_monokrom_pyqt5_x86_dev.addStep(steps.ShellCommand(
 # upload files to http server
 factory_monokrom_pyqt5_x86_dev.addStep(steps.FileUpload(
     name="upload files to http server",
-    workersrc=util.Interpolate("/home/bb/work/monokrom-pyqt5-x86-dev/python3-monokorm_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb"),
+    workersrc=util.Interpolate("/home/bb/work/monokrom-pyqt5-x86-dev/python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb"),
     masterdest=util.Interpolate("/home/buildbot/repo/monokrom-pyqt5-x86-dev/python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb")))
 
 # upload files to apt server
