@@ -48,7 +48,7 @@ factory_monokrom_pi4_dev.addStep(steps.SetPropertyFromCommand(
 factory_monokrom_pi4_dev.addStep(steps.ShellCommand(
     name="store version file",
     command=["/bin/sh", "-c", util.Interpolate('echo %(prop:tag)s-%(prop:minor_version)s > monokrom_dev_version.txt')],
-    workdir="/home/buildbot/versions/"))
+    workdir="/home/bb/versions/"))
 
 # create changelog
 factory_monokrom_pi4_dev.addStep(steps.ShellCommand(
