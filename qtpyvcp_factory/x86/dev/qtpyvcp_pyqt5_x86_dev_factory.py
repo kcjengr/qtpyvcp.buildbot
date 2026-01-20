@@ -29,6 +29,12 @@ factory_qtpyvcp_pyqt5_x86_dev.addStep(steps.ShellCommand(
     command=["/bin/sh", "-c", "git pull origin main"],
     workdir="sources/"))
 
+# update venv
+factory_qtpyvcp_pyqt5_x86_dev.addStep(steps.ShellCommand(
+    name="update venv",
+    command=["/home/bb/.venv/bin/python", "-m", "pip", "install", "-U", "-e", "."],
+    workdir="sources/"))
+
 # get git tag
 factory_qtpyvcp_pyqt5_x86_dev.addStep(steps.SetPropertyFromCommand(
     name="get git tag",
