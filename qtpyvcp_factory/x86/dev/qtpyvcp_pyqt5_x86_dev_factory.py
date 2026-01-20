@@ -11,7 +11,7 @@ factory_qtpyvcp_pyqt5_x86_dev = util.BuildFactory()
 
 # download sources
 factory_qtpyvcp_pyqt5_x86_dev.addStep(steps.GitHub(name="download sources",
-                                                   repourl='https://github.com/kcjengr/qtpyvcp.git',
+                                                   repourl='git@github.com:kcjengr/qtpyvcp.git',
                                                    branch='main',
                                                    mode='full',
                                                    submodules=False,
@@ -85,41 +85,41 @@ factory_qtpyvcp_pyqt5_x86_dev.addStep(steps.MasterShellCommand(
 
 
 # delete docs directory
-# factory_qtpyvcp_pyqt5_x86_dev.addStep(steps.RemoveDirectory(name="delete docs directory", dir="docs/"))
-#
-# factory_qtpyvcp_pyqt5_x86_dev.addStep(
-#     steps.Sphinx(
-#         name="compile sphinx docs",
-#         haltOnFailure=True,
-#         sphinx="/home/bb/.venv/bin/sphinx-build",
-#         sphinx_builddir="/home/bb/work/qtpyvcp-pyqt5-x86-dev/docs",
-#         sphinx_sourcedir="/home/bb/work/qtpyvcp-pyqt5-x86-dev//sources/docs/source/",
-#         strict_warnings=False,
-#         env={"LANG": "en_US.UTF-8"},
-#         workdir="/home/bb/work/qtpyvcp-pyqt5-x86-dev/sources/docs_src/source"
-#     )
-# )
-#
-# factory_qtpyvcp_pyqt5_x86_dev.addStep(steps.ShellCommand(name="Initialize docs repository",
-#                                                          command=["git", "init"],
-#                                                          workdir="docs/"))
-#
-# factory_qtpyvcp_pyqt5_x86_dev.addStep(steps.ShellCommand(name="add remote repository",
-#                                                          command=["git", "remote", "add", "origin", "git@github.com:kcjengr/qtpyvcp.git"],
-#                                                          workdir="docs/"))
-#
-# factory_qtpyvcp_pyqt5_x86_dev.addStep(steps.ShellCommand(name="switch branch",
-#                                                          command=["git", "checkout", "-b", "gh-pages"],
-#                                                          workdir="docs/"))
-#
-# factory_qtpyvcp_pyqt5_x86_dev.addStep(steps.ShellCommand(name="add docs",
-#                                                          command=["git", "add", "."],
-#                                                          workdir="docs/"))
-#
-# factory_qtpyvcp_pyqt5_x86_dev.addStep(steps.ShellCommand(name="commit docs",
-#                                                          command=["git", "commit", "-m", "Deploy docs"],
-#                                                          workdir="docs/"))
-#
-# factory_qtpyvcp_pyqt5_x86_dev.addStep(steps.ShellCommand(name="push docs",
-#                                                          command=["git", "push", "--force", "origin", "gh-pages"],
-#                                                          workdir="docs/"))
+factory_qtpyvcp_pyqt5_x86_dev.addStep(steps.RemoveDirectory(name="delete docs directory", dir="docs/"))
+
+factory_qtpyvcp_pyqt5_x86_dev.addStep(
+    steps.Sphinx(
+        name="compile sphinx docs",
+        haltOnFailure=True,
+        sphinx="/home/bb/.venv/bin/sphinx-build",
+        sphinx_builddir="/home/bb/work/qtpyvcp-pyqt5-x86-dev/docs",
+        sphinx_sourcedir="/home/bb/work/qtpyvcp-pyqt5-x86-dev//sources/docs/source/",
+        strict_warnings=False,
+        env={"LANG": "en_US.UTF-8"},
+        workdir="/home/bb/work/qtpyvcp-pyqt5-x86-dev/sources/docs_src/source"
+    )
+)
+
+factory_qtpyvcp_pyqt5_x86_dev.addStep(steps.ShellCommand(name="Initialize docs repository",
+                                                         command=["git", "init"],
+                                                         workdir="docs/"))
+
+factory_qtpyvcp_pyqt5_x86_dev.addStep(steps.ShellCommand(name="add remote repository",
+                                                         command=["git", "remote", "add", "origin", "git@github.com:kcjengr/qtpyvcp.git"],
+                                                         workdir="docs/"))
+
+factory_qtpyvcp_pyqt5_x86_dev.addStep(steps.ShellCommand(name="switch branch",
+                                                         command=["git", "checkout", "-b", "gh-pages"],
+                                                         workdir="docs/"))
+
+factory_qtpyvcp_pyqt5_x86_dev.addStep(steps.ShellCommand(name="add docs",
+                                                         command=["git", "add", "."],
+                                                         workdir="docs/"))
+
+factory_qtpyvcp_pyqt5_x86_dev.addStep(steps.ShellCommand(name="commit docs",
+                                                         command=["git", "commit", "-m", "Deploy docs"],
+                                                         workdir="docs/"))
+
+factory_qtpyvcp_pyqt5_x86_dev.addStep(steps.ShellCommand(name="push docs",
+                                                         command=["git", "push", "--force", "origin", "gh-pages"],
+                                                         workdir="docs/"))
