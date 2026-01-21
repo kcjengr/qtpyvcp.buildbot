@@ -128,10 +128,6 @@ factory_qtpyvcp_pyqt5_x86_dev.addStep(steps.ShellCommand(name="commit docs",
                                                          command=["git", "commit", "-m", "Deploy docs"],
                                                          workdir="docs/"))
 
-factory_qtpyvcp_pyqt5_x86_dev.addStep(steps.ShellCommand(name="Pull docs",
-                                                         command=["git", "pull", "origin", "gh-pages"],
-                                                         workdir="docs/"))
-
 factory_qtpyvcp_pyqt5_x86_dev.addStep(steps.ShellCommand(name="push docs",
                                                          command=["git", "push", "--force", "origin", "gh-pages"],
                                                          workdir="docs/"))
