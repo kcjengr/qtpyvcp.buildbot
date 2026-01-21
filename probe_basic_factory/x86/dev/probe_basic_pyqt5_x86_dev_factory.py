@@ -12,7 +12,7 @@ factory_probe_basic_pyqt5_x86_dev = util.BuildFactory()
 
 # download sources
 factory_probe_basic_pyqt5_x86_dev.addStep(steps.GitHub(name="download sources",
-                                             repourl='https://github.com/kcjengr/probe_basic.git',
+                                             repourl='git@github.com:kcjengr/probe_basic.git',
                                              branch='main',
                                              mode='full',
                                              submodules=False,
@@ -99,25 +99,25 @@ factory_probe_basic_pyqt5_x86_dev.addStep(
 )
 
 factory_probe_basic_pyqt5_x86_dev.addStep(steps.ShellCommand(name="Initialize docs repository",
-                                               command=["git", "init"],
+                                               command=["bash", "-c", "git init"],
                                                workdir="docs_src/"))
 
 factory_probe_basic_pyqt5_x86_dev.addStep(steps.ShellCommand(name="add remote repository",
-                                               command=["git", "remote", "add", "origin", "git@github.com:kcjengr/probe_basic.git"],
+                                               command=["bash", "-c", "git remote add origin git@github.com:kcjengr/probe_basic.git"],
                                                workdir="docs_src/"))
 
 factory_probe_basic_pyqt5_x86_dev.addStep(steps.ShellCommand(name="switch branch",
-                                               command=["git", "checkout", "-b", "gh-pages"],
+                                               command=["bash", "-c", "git checkout -b gh-pages"],
                                                workdir="docs_src/"))
 
 factory_probe_basic_pyqt5_x86_dev.addStep(steps.ShellCommand(name="add docs",
-                                               command=["git", "add", "."],
+                                               command=["bash", "-c", "git add"],
                                                workdir="docs_src/"))
 
 factory_probe_basic_pyqt5_x86_dev.addStep(steps.ShellCommand(name="commit docs",
-                                               command=["git", "commit", "-m", "Deploy docs"],
+                                               command=["bash", "-c", "git commit -m Deploy docs"],
                                                workdir="docs_src/"))
 
 factory_probe_basic_pyqt5_x86_dev.addStep(steps.ShellCommand(name="push docs",
-                                               command=["git", "push", "--force", "origin", "gh-pages"],
+                                               command=["bash", "-c", "git push --force origin gh-pages"],
                                                workdir="docs_src/"))
