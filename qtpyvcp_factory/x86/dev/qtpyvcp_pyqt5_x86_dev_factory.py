@@ -124,7 +124,7 @@ factory_qtpyvcp_pyqt5_x86_dev.addStep(steps.ShellCommand(name="add docs",
                                                          workdir="docs/"))
 
 factory_qtpyvcp_pyqt5_x86_dev.addStep(steps.ShellCommand(name="commit docs",
-                                                         command=["bash", "-c", "git commit -m eploy docs"],
+                                                         command=["bash", "-c", "git commit -m \"Deploy docs\""],
                                                          workdir="docs/"))
 
 factory_qtpyvcp_pyqt5_x86_dev.addStep(steps.ShellCommand(name="push docs",
