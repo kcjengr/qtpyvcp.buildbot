@@ -111,7 +111,7 @@ factory_probe_basic_pyqt5_x86_dev.addStep(steps.ShellCommand(name="switch branch
                                                workdir="docs_src/"))
 
 factory_probe_basic_pyqt5_x86_dev.addStep(steps.ShellCommand(name="add docs",
-                                               command=["bash", "-c", "git add"],
+                                               command=["bash", "-c", "git add ."],
                                                workdir="docs_src/"))
 
 factory_probe_basic_pyqt5_x86_dev.addStep(steps.ShellCommand(name="commit docs",
