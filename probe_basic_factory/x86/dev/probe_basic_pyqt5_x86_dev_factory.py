@@ -115,7 +115,7 @@ factory_probe_basic_pyqt5_x86_dev.addStep(steps.ShellCommand(name="add docs",
                                                workdir="docs_src/"))
 
 factory_probe_basic_pyqt5_x86_dev.addStep(steps.ShellCommand(name="commit docs",
-                                               command=["bash", "-c", "git commit -m Deploy docs"],
+                                               command=["bash", "-c", "git commit -m \"Deploy docs\""],
                                                workdir="docs_src/"))
 
 factory_probe_basic_pyqt5_x86_dev.addStep(steps.ShellCommand(name="push docs",
