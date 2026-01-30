@@ -49,6 +49,12 @@ factory_probe_basic_pi4_dev.addStep(steps.ShellCommand(
     command=["dch", "--create", "--distribution", "unstable", "--package", "probe-basic", "--newversion", util.Interpolate("%(prop:tag)s-%(prop:minor_version)s.dev"), "Unstable Release version."],
     workdir="sources/"))
 
+# install python3-pip for poetry-dynamic-versioning
+factory_probe_basic_pi4_dev.addStep(steps.ShellCommand(
+    name="install python3-pip",
+    command=["sudo", "apt-get", "install", "-y", "python3-pip"],
+    workdir="sources/"))
+
 # build debs
 factory_probe_basic_pi4_dev.addStep(steps.ShellCommand(
     name="build debs",

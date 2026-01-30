@@ -55,6 +55,12 @@ factory_qtpyvcp_pyqt5_arm64_dev.addStep(steps.ShellCommand(
     command=["dch", "--create", "--distribution", "unstable", "--package", "qtpyvcp", "--newversion", util.Interpolate("%(prop:tag)s-%(prop:minor_version)s.dev"), "Development version."],
     workdir="sources/"))
 
+# install python3-pip for poetry-dynamic-versioning
+factory_qtpyvcp_pyqt5_arm64_dev.addStep(steps.ShellCommand(
+    name="install python3-pip",
+    command=["sudo", "apt-get", "install", "-y", "python3-pip"],
+    workdir="sources/"))
+
 # build debs
 factory_qtpyvcp_pyqt5_arm64_dev.addStep(steps.ShellCommand(
     name="build debs",
