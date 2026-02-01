@@ -12,7 +12,7 @@ factory_probe_basic_pyqt5_x86 = util.BuildFactory()
 
 # download sources
 factory_probe_basic_pyqt5_x86.addStep(steps.GitHub(name="download sources",
-                                             repourl='https://github.com/kcjengr/probe_basic.git',
+                                             repourl='git@github.com:kcjengr/probe_basic.git',
                                              branch='main',
                                              mode='full',
                                              submodules=False,
