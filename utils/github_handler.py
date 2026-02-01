@@ -46,6 +46,9 @@ class CustomGitHubEventHandler(GitHubEventHandler):
             payload["release"] = version
 
             changes, vcs = super().handle_push(payload, event)
+            # Set category='tag' so stable builders trigger
+            for change in changes:
+                change['category'] = 'tag'
             return changes, vcs
 
         return [], 'git'
