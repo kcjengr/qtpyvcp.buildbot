@@ -7,11 +7,11 @@
 from buildbot.plugins import steps, util
 from packaging.version import Version, parse
 
-factory_probe_basic_arm64 = util.BuildFactory()
+factory_probe_basic_pyqt5_arm64 = util.BuildFactory()
 
 
 # download sources
-factory_probe_basic_arm64.addStep(steps.GitHub(name="download sources",
+factory_probe_basic_pyqt5_arm64.addStep(steps.GitHub(name="download sources",
                                              repourl='git@github.com:kcjengr/probe_basic.git',
                                              branch='main',
                                              mode='full',
@@ -19,46 +19,46 @@ factory_probe_basic_arm64.addStep(steps.GitHub(name="download sources",
                                              workdir="sources/"))
 
 # git fetch
-factory_probe_basic_arm64.addStep(steps.ShellCommand(
+factory_probe_basic_pyqt5_arm64.addStep(steps.ShellCommand(
     name="git fetch",
     command=["/bin/sh", "-c", "git fetch --all"],
     workdir="sources/"))
 
 # git pull
-factory_probe_basic_arm64.addStep(steps.ShellCommand(
+factory_probe_basic_pyqt5_arm64.addStep(steps.ShellCommand(
     name="git pull",
     command=["/bin/sh", "-c", "git pull origin main"],
     workdir="sources/"))
 
 # get git tag
-factory_probe_basic_arm64.addStep(steps.SetPropertyFromCommand(
+factory_probe_basic_pyqt5_arm64.addStep(steps.SetPropertyFromCommand(
     name="get git tag",
     command=["git", "describe", "--abbrev=0", "--tags"],
     property="tag",
     workdir="sources/"))
 
 # compile resources
-factory_probe_basic_arm64.addStep(steps.ShellCommand(
+factory_probe_basic_pyqt5_arm64.addStep(steps.ShellCommand(
     name="compile resources",
     command=["qcompile", "."],
     workdir="sources/"))
 
 # create changelog
-factory_probe_basic_arm64.addStep(steps.ShellCommand(
+factory_probe_basic_pyqt5_arm64.addStep(steps.ShellCommand(
     name="create changelog",
     env={'EMAIL': "lcvette1@gmail.com"},
     command=["dch", "--create", "--distribution", "stable", "--package", "probe-basic", "--newversion", util.Interpolate("%(prop:tag)s"), "Stable version."],
     workdir="sources/"))
 
 # build debs
-factory_probe_basic_arm64.addStep(steps.ShellCommand(
+factory_probe_basic_pyqt5_arm64.addStep(steps.ShellCommand(
     name="build debs",
     env={'DEB_BUILD_OPTIONS': "nocheck"},
     command=["dpkg-buildpackage", "-b", "-uc"],
     workdir="sources/"))
 
 # copy files to the http repo
-factory_probe_basic_arm64.addStep(steps.FileUpload(
+factory_probe_basic_pyqt5_arm64.addStep(steps.FileUpload(
     name="copy files to the http repo",
     workersrc=util.Interpolate("/home/buildbot/workdir/probe_basic-pi4/python3-probe-basic_%(prop:tag)s_arm64.deb"),
      masterdest=util.Interpolate("/home/buildbot/repo/probe-basic-pi4/python3-probe-basic_%(prop:tag)s_arm64.deb")
@@ -76,7 +76,7 @@ factory_probe_basic_arm64.addStep(steps.FileUpload(
 #     workdir="sources/"))
 
 # move new files to the apt repo
-factory_probe_basic_arm64.addStep(steps.FileUpload(
+factory_probe_basic_pyqt5_arm64.addStep(steps.FileUpload(
     name="move new files to the apt repo",
     workersrc=util.Interpolate("/home/buildbot/workdir/probe_basic-pi4/python3-probe-basic_%(prop:tag)s_arm64.deb"),
     masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/stable/python3-probe-basic_%(prop:tag)s_arm64.deb")
@@ -90,7 +90,7 @@ factory_probe_basic_arm64.addStep(steps.FileUpload(
 #     workdir="sources/"))
 
 # scan new packages in apt repository
-factory_probe_basic_arm64.addStep(steps.MasterShellCommand(
+factory_probe_basic_pyqt5_arm64.addStep(steps.MasterShellCommand(
     name="scan new packages in apt repository",
     command="/home/buildbot/buildbot/master/scripts/do_apt_stable.sh"
     )
