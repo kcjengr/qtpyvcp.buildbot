@@ -31,7 +31,6 @@ factory_probe_basic_pyqt5_x86_dev.addStep(steps.SetPropertyFromCommand(
     property="tag",
     workdir="sources/"))
 
-
 # get git commit count since last tag
 factory_probe_basic_pyqt5_x86_dev.addStep(steps.SetPropertyFromCommand(
     name="get git commit count since last tag",
@@ -44,7 +43,6 @@ factory_probe_basic_pyqt5_x86_dev.addStep(steps.ShellCommand(
     name="store version file",
     command=["/bin/sh", "-c", util.Interpolate('echo %(prop:tag)s-%(prop:minor_version)s > pb_dev_version.txt')],
     workdir="/home/bb/versions/"))
-
 
 # create changelog
 factory_probe_basic_pyqt5_x86_dev.addStep(steps.ShellCommand(

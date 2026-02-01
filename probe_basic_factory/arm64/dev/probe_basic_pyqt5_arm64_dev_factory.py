@@ -17,11 +17,13 @@ factory_probe_basic_pyqt5_arm64_dev.addStep(steps.GitHub(name="download sources"
                                              mode='full',
                                              submodules=False,
                                              workdir="sources/"))
+
 # git fetch
 factory_probe_basic_pyqt5_arm64_dev.addStep(steps.ShellCommand(
     name="git fetch",
     command=["/bin/sh", "-c", "git fetch --all"],
     workdir="sources/"))
+
 # get git tag
 factory_probe_basic_pyqt5_arm64_dev.addStep(steps.SetPropertyFromCommand(
     name="get git tag",
@@ -40,7 +42,7 @@ factory_probe_basic_pyqt5_arm64_dev.addStep(steps.SetPropertyFromCommand(
 factory_probe_basic_pyqt5_arm64_dev.addStep(steps.ShellCommand(
     name="store version file",
     command=["/bin/sh", "-c", util.Interpolate('echo %(prop:tag)s-%(prop:minor_version)s > pb_dev_version.txt')],
-    workdir="/home/buildbot/versions/"))
+    workdir="/home/bb/versions/"))
 
 # create changelog
 factory_probe_basic_pyqt5_arm64_dev.addStep(steps.ShellCommand(
