@@ -17,17 +17,11 @@ factory_probe_basic_pyqt5_x86.addStep(steps.GitHub(name="download sources",
                                              mode='full',
                                              submodules=False,
                                              workdir="sources/"))
+
 # git fetch
 factory_probe_basic_pyqt5_x86.addStep(steps.ShellCommand(
     name="git fetch",
     command=["/bin/sh", "-c", "git fetch --all"],
-    workdir="sources/"))
-
-
-# git pull
-factory_probe_basic_pyqt5_x86.addStep(steps.ShellCommand(
-    name="git pull",
-    command=["/bin/sh", "-c", "git pull origin main"],
     workdir="sources/"))
 
 # get git tag
@@ -38,10 +32,16 @@ factory_probe_basic_pyqt5_x86.addStep(steps.SetPropertyFromCommand(
     workdir="sources/"))
 
 # compile resources
-factory_probe_basic_pyqt5_x86.addStep(steps.ShellCommand(
-    name="compile resources",
-    command=["qcompile", "."],
-    workdir="sources/"))
+# factory_probe_basic_pyqt5_x86.addStep(steps.ShellCommand(
+#    name="compile resources",
+#    command=["qcompile", "."],
+#    workdir="sources/"))
+
+# store version file
+factory_probe_basic_pyqt5_x86_dev.addStep(steps.ShellCommand(
+    name="store version file",
+    command=["/bin/sh", "-c", util.Interpolate('echo %(prop:tag)s-%(prop:minor_version)s > pb_stable_version.txt')],
+    workdir="/home/bb/versions/"))
 
 # create changelog
 factory_probe_basic_pyqt5_x86.addStep(steps.ShellCommand(
