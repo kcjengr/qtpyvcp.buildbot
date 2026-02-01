@@ -38,7 +38,7 @@ factory_probe_basic_pyqt5_x86.addStep(steps.SetPropertyFromCommand(
 #    workdir="sources/"))
 
 # store version file
-factory_probe_basic_pyqt5_x86_dev.addStep(steps.ShellCommand(
+factory_probe_basic_pyqt5_x86.addStep(steps.ShellCommand(
     name="store version file",
     command=["/bin/sh", "-c", util.Interpolate('echo %(prop:tag)s-%(prop:minor_version)s > pb_stable_version.txt')],
     workdir="/home/bb/versions/"))
