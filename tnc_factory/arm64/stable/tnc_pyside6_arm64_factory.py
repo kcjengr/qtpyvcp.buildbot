@@ -11,7 +11,7 @@ factory_tnc_pyside6_arm64 = util.BuildFactory()
 
 # download sources
 factory_tnc_pyside6_arm64.addStep(steps.Git(name="download sources",
-                                            repourl='https://github.com/kcjengr/turbonc.git',
+                                            repourl='git@github.com:kcjengr/turbonc.git',
                                             mode='full',
                                             method="clean",
                                             tags=True,
@@ -30,6 +30,7 @@ factory_tnc_pyside6_arm64.addStep(steps.SetPropertyFromCommand(
     command=["git", "rev-list", "--count", "--branches", util.Interpolate("^refs/tags/%(prop:tag)s")],
     property="minor_version",
     workdir="sources/"))
+
 # get git tag
 factory_tnc_pyside6_arm64.addStep(steps.SetPropertyFromCommand(
     name="get git tag",
@@ -41,6 +42,13 @@ factory_tnc_pyside6_arm64.addStep(steps.SetPropertyFromCommand(
 factory_tnc_pyside6_arm64.addStep(steps.ShellCommand(
     name="compile resources",
     command=["qcompile", "."],
+    workdir="sources/"))
+
+# delete previous changelog
+factory_tnc_pyside6_arm64.addStep(steps.ShellCommand(
+    name="Delete previous changelog",
+    env={},
+    command=["rm", "-rf", "debian/changelog"],
     workdir="sources/"))
 
 # create changelog
