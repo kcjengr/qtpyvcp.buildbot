@@ -24,12 +24,6 @@ factory_probe_basic_pyqt5_arm64.addStep(steps.ShellCommand(
     command=["/bin/sh", "-c", "git fetch --all"],
     workdir="sources/"))
 
-# git pull
-factory_probe_basic_pyqt5_arm64.addStep(steps.ShellCommand(
-    name="git pull",
-    command=["/bin/sh", "-c", "git pull origin main"],
-    workdir="sources/"))
-
 # get git tag
 factory_probe_basic_pyqt5_arm64.addStep(steps.SetPropertyFromCommand(
     name="get git tag",
@@ -37,11 +31,11 @@ factory_probe_basic_pyqt5_arm64.addStep(steps.SetPropertyFromCommand(
     property="tag",
     workdir="sources/"))
 
-# compile resources
+# store version file
 factory_probe_basic_pyqt5_arm64.addStep(steps.ShellCommand(
-    name="compile resources",
-    command=["qcompile", "."],
-    workdir="sources/"))
+    name="store version file",
+    command=["/bin/sh", "-c", util.Interpolate('echo %(prop:tag)s > pb_stable_version.txt')],
+    workdir="/home/bb/versions/"))
 
 # create changelog
 factory_probe_basic_pyqt5_arm64.addStep(steps.ShellCommand(
@@ -57,44 +51,24 @@ factory_probe_basic_pyqt5_arm64.addStep(steps.ShellCommand(
     command=["dpkg-buildpackage", "-b", "-uc"],
     workdir="sources/"))
 
-# copy files to the http repo
+
+# upload files to http server
 factory_probe_basic_pyqt5_arm64.addStep(steps.FileUpload(
-    name="copy files to the http repo",
-    workersrc=util.Interpolate("/home/buildbot/workdir/probe_basic-pi4/python3-probe-basic_%(prop:tag)s_arm64.deb"),
-     masterdest=util.Interpolate("/home/buildbot/repo/probe-basic-pi4/python3-probe-basic_%(prop:tag)s_arm64.deb")
-    )
-)
+    name="upload files to http server",
+    workersrc=util.Interpolate("/home/bb/work/probe_basic-pyqt5-arm64/python3-probe-basic_%(prop:tag)s_arm64.deb"),
+    masterdest=util.Interpolate("/home/buildbot/repo/probe_basic-pyqt5-arm64/python3-probe-basic_%(prop:tag)s_arm64.deb")))
 
-
-# delete old files from apt directory
-# factory_probe_basic_pi4.addStep(steps.ShellCommand(
-#     name="delete files from apt directory",
-#     command=["sh",
-#              "/home/buildbot/buildbot/master/scripts/clean_apt_develop.sh",
-#              util.Interpolate("python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb")
-#             ],
-#     workdir="sources/"))
-
-# move new files to the apt repo
+# upload files to apt server
 factory_probe_basic_pyqt5_arm64.addStep(steps.FileUpload(
-    name="move new files to the apt repo",
-    workersrc=util.Interpolate("/home/buildbot/workdir/probe_basic-pi4/python3-probe-basic_%(prop:tag)s_arm64.deb"),
-    masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/stable/python3-probe-basic_%(prop:tag)s_arm64.deb")
-    )
-)
-
-# delete files from build directory
-# factory_probe_basic_pi4.addStep(steps.ShellCommand(
-#     name="delete files from build directory",
-#     command=["rm", util.Interpolate("/home/buildbot/buildbot/worker/monokrom-dev/python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb")],
-#     workdir="sources/"))
+    name="upload files to apt server",
+    workersrc=util.Interpolate("/home/bb/work/probe_basic-pyqt5-arm64/python3-probe-basic_%(prop:tag)s_arm64.deb"),
+    masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/bookworm/python3-probe-basic_%(prop:tag)s_arm64.deb")))
 
 # scan new packages in apt repository
 factory_probe_basic_pyqt5_arm64.addStep(steps.MasterShellCommand(
     name="scan new packages in apt repository",
-    command="/home/buildbot/buildbot/master/scripts/do_apt_stable.sh"
-    )
-)
+    command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_bookworm.sh"],
+    workdir="/home/buildbot/debian/apt"))
 
 
 
