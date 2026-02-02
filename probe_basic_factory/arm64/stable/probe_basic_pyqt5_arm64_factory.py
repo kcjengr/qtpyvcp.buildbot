@@ -1,7 +1,7 @@
 # -*- python3 -*-
 # ex: set syntax=python3:
 #
-# ProbeBasic Develop Factory
+# ProbeBasic Stable Factory
 #
 
 from buildbot.plugins import steps, util

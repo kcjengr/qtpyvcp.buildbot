@@ -57,29 +57,34 @@ factory_probe_basic_pyqt5_x86.addStep(steps.ShellCommand(
     command=["dpkg-buildpackage", "-b", "-uc"],
     workdir="sources/"))
 
-# copy new files to the http repo
-# factory_probe_basic_pyqt5_x86.addStep(steps.ShellCommand(
-#     name="copy files to http repo",
-#     command=["cp",
-#              util.Interpolate("/home/buildbot/buildbot/worker/probe_basic/python3-probe-basic_%(prop:tag)s_amd64.deb"),
-#              "/home/buildbot/repo/probe-basic/"],
-#     workdir="sources/"))
-#
-# # copy new files to the apt repo
-# factory_probe_basic_pyqt5_x86.addStep(steps.ShellCommand(
-#     name="copy files to apt repo",
-#     command=["cp",
-#              util.Interpolate("/home/buildbot/buildbot/worker/probe_basic/python3-probe-basic_%(prop:tag)s_amd64.deb"),
-#              "/home/buildbot/debian/apt/pool/main/stable/"],
-#     workdir="sources/"))
-#
-# # more apt things
-# # scan new packages in apt repository
-# factory_probe_basic_pyqt5_x86.addStep(steps.ShellCommand(
-#     name="scan new packages in apt repository",
-#     command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_stable.sh"],
-#     workdir="sources/"))
-#
+
+
+
+
+
+
+# upload files to http server
+factory_probe_basic_pyqt5_x86_dev.addStep(steps.FileUpload(
+    name="upload files to http server",
+    workersrc=util.Interpolate("/home/bb/work/probe_basic-pyqt5-x86/python3-probe-basic_%(prop:tag)s-%(prop:minor_version)s_amd64.deb"),
+    masterdest=util.Interpolate("/home/buildbot/repo/probe_basic-pyqt5-x86/python3-probe-basic_%(prop:tag)s-%(prop:minor_version)s_amd64.deb")))
+
+# upload files to apt server
+factory_probe_basic_pyqt5_x86_dev.addStep(steps.FileUpload(
+    name="upload files to apt server",
+    workersrc=util.Interpolate("/home/bb/work/probe_basic-pyqt5-x86/python3-probe-basic_%(prop:tag)s-%(prop:minor_version)s_amd64.deb"),
+    masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/bookworm/python3-probe-basic_%(prop:tag)s-%(prop:minor_version)s_amd64.deb")))
+
+
+# scan new packages in apt repository
+factory_probe_basic_pyqt5_x86_dev.addStep(steps.MasterShellCommand(
+    name="scan new packages in apt repository",
+    command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_bookworm.sh"],
+    workdir="/home/buildbot/debian/apt"))
+
+
+
+
 # factory_probe_basic_pyqt5_x86.addStep(steps.GitHub(name="downlaod static docs",
 #                                              repourl='git@github.com:kcjengr/probe_basic.git',
 #                                              origin="origin",
