@@ -31,16 +31,10 @@ factory_probe_basic_pyqt5_x86.addStep(steps.SetPropertyFromCommand(
     property="tag",
     workdir="sources/"))
 
-# compile resources
-# factory_probe_basic_pyqt5_x86.addStep(steps.ShellCommand(
-#    name="compile resources",
-#    command=["qcompile", "."],
-#    workdir="sources/"))
-
 # store version file
 factory_probe_basic_pyqt5_x86.addStep(steps.ShellCommand(
     name="store version file",
-    command=["/bin/sh", "-c", util.Interpolate('echo %(prop:tag)s-%(prop:minor_version)s > pb_stable_version.txt')],
+    command=["/bin/sh", "-c", util.Interpolate('echo %(prop:tag)s > pb_stable_version.txt')],
     workdir="/home/bb/versions/"))
 
 # create changelog
@@ -58,22 +52,17 @@ factory_probe_basic_pyqt5_x86.addStep(steps.ShellCommand(
     workdir="sources/"))
 
 
-
-
-
-
-
 # upload files to http server
 factory_probe_basic_pyqt5_x86.addStep(steps.FileUpload(
     name="upload files to http server",
-    workersrc=util.Interpolate("/home/bb/work/probe_basic-pyqt5-x86/python3-probe-basic_%(prop:tag)s-%(prop:minor_version)s_amd64.deb"),
-    masterdest=util.Interpolate("/home/buildbot/repo/probe_basic-pyqt5-x86/python3-probe-basic_%(prop:tag)s-%(prop:minor_version)s_amd64.deb")))
+    workersrc=util.Interpolate("/home/bb/work/probe_basic-pyqt5-x86/python3-probe-basic_%(prop:tag)s_amd64.deb"),
+    masterdest=util.Interpolate("/home/buildbot/repo/probe_basic-pyqt5-x86/python3-probe-basic_%(prop:tag)s_amd64.deb")))
 
 # upload files to apt server
 factory_probe_basic_pyqt5_x86.addStep(steps.FileUpload(
     name="upload files to apt server",
-    workersrc=util.Interpolate("/home/bb/work/probe_basic-pyqt5-x86/python3-probe-basic_%(prop:tag)s-%(prop:minor_version)s_amd64.deb"),
-    masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/bookworm/python3-probe-basic_%(prop:tag)s-%(prop:minor_version)s_amd64.deb")))
+    workersrc=util.Interpolate("/home/bb/work/probe_basic-pyqt5-x86/python3-probe-basic_%(prop:tag)s_amd64.deb"),
+    masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/bookworm/python3-probe-basic_%(prop:tag)s_amd64.deb")))
 
 
 # scan new packages in apt repository
