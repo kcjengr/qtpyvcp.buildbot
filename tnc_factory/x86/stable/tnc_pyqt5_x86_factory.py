@@ -23,12 +23,11 @@ factory_tnc_pyqt5_x86.addStep(steps.SetPropertyFromCommand(
     property="tag",
     workdir="sources/"))
 
-# get git commit count since last tag
-factory_tnc_pyqt5_x86.addStep(steps.SetPropertyFromCommand(
-    name="get git commit count since last tag",
-    command=["git", "rev-list", "--count", "--branches", util.Interpolate("^refs/tags/%(prop:tag)s")],
-    property="minor_version",
-    workdir="sources/"))
+# store version file
+factory_tnc_pyqt5_x86.addStep(steps.ShellCommand(
+    name="store version file",
+    command=["/bin/sh", "-c", util.Interpolate('echo %(prop:tag)s > tnc_stable_version.txt')],
+    workdir="/home/bb/versions/"))
 
 # factory_tnc_pyqt5_x86.addStep(steps.ShellCommand(
 #         name="build wheel with poetry",
@@ -55,7 +54,7 @@ factory_tnc_pyqt5_x86.addStep(steps.ShellCommand(
 factory_tnc_pyqt5_x86.addStep(steps.ShellCommand(
     name="create changelog",
     env={'EMAIL': "j.l.toledano.l@gmail.com"},
-    command=["dch", "--create", "--distribution", "stable", "--package", "turbonc", "--newversion", util.Interpolate("%(prop:tag)s"), "Stable version."],
+    command=["dch", "--create", "--distribution", "stable", "--package", "turbonc", "--newversion", util.Interpolate("%(prop:tag)s"), "Stable Release version."],
     workdir="sources/"))
 
 # build pypi
@@ -80,20 +79,24 @@ factory_tnc_pyqt5_x86.addStep(steps.ShellCommand(
     workdir="sources/"))
 
 
+# upload files to http server
+factory_tnc_pyqt5_x86.addStep(steps.FileUpload(
+    name="upload files to http server",
+    workersrc=util.Interpolate("/home/bb/work/turbonc-pyqt5-x86/python3-turbonc_%(prop:tag)s_amd64.deb"),
+    masterdest=util.Interpolate("/home/buildbot/repo/turbonc-pyqt5-x86/python3-turbonc_%(prop:tag)s_amd64.deb")))
 
-# move new files to the apt repo
-# factory_tnc_pyqt5_x86.addStep(steps.FileUpload(
-#     name="move new files to the apt repo",
-#     workersrc=util.Interpolate("/home/buildbot/buildbot/worker/turbonc/python3-turbonc_%(prop:tag)s_amd64.deb"),
-#     masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/trixie/python3-turbonc_%(prop:tag)s_amd64.deb")
-#     )
-# )
-#
-# # scan new packages in apt repository
-# factory_tnc_pyqt5_x86.addStep(steps.ShellCommand(
-#     name="scan new packages in apt repository",
-#     command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_trixie.sh"],
-#     workdir="sources/"))
+# upload files to apt server
+factory_tnc_pyqt5_x86.addStep(steps.FileUpload(
+    name="upload files to apt server",
+    workersrc=util.Interpolate("/home/bb/work/turbonc-pyqt5-x86/python3-turbonc_%(prop:tag)s_amd64.deb"),
+    masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/bookworm/python3-turbonc_%(prop:tag)s_amd64.deb")))
+
+
+# scan new packages in apt repository
+factory_tnc_pyqt5_x86.addStep(steps.MasterShellCommand(
+    name="scan new packages in apt repository",
+    command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_bookworm.sh"],
+    workdir="/home/buildbot/debian/apt"))
 
 #
 # factory_tnc.addStep(steps.GitHub(name="downlaod static docs",

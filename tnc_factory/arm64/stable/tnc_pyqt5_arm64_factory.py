@@ -24,31 +24,17 @@ factory_tnc_pyqt5_arm64.addStep(steps.SetPropertyFromCommand(
     property="tag",
     workdir="sources/"))
 
-# get git commit count since last tag
-factory_tnc_pyqt5_arm64.addStep(steps.SetPropertyFromCommand(
-    name="get git commit count since last tag",
-    command=["git", "rev-list", "--count", "--branches", util.Interpolate("^refs/tags/%(prop:tag)s")],
-    property="minor_version",
-    workdir="sources/"))
-
-# get git tag
-# factory_tnc_pyqt5_arm64.addStep(steps.SetPropertyFromCommand(
-#     name="get git tag",
-#     command=["git", "describe", "--abbrev=0", "--tags"],
-#     property="tag",
-#     workdir="sources/"))
-
-# compile resources
+# store version file
 factory_tnc_pyqt5_arm64.addStep(steps.ShellCommand(
-    name="compile resources",
-    command=["qcompile", "."],
-    workdir="sources/"))
+    name="store version file",
+    command=["/bin/sh", "-c", util.Interpolate('echo %(prop:tag)s > tnc_stable_version.txt')],
+    workdir="/home/bb/versions/"))
 
 # create changelog
 factory_tnc_pyqt5_arm64.addStep(steps.ShellCommand(
     name="create changelog",
     env={'EMAIL': "j.l.toledano.l@gmail.com"},
-    command=["dch", "--create", "--distribution", "stable", "--package", "turbonc", "--newversion", util.Interpolate("%(prop:tag)s"), "Stable version."],
+    command=["dch", "--create", "--distribution", "stable", "--package", "turbonc", "--newversion", util.Interpolate("%(prop:tag)s"), "Stable Release version."],
     workdir="sources/"))
 
 # ~ # set poetry version number for wheel build
@@ -76,44 +62,25 @@ factory_tnc_pyqt5_arm64.addStep(steps.ShellCommand(
     command=["dpkg-buildpackage", "-b", "-uc"],
     workdir="sources/"))
 
-# copy files to the http repo
-# factory_tnc_pi4.addStep(steps.FileUpload(
-#     name="copy files to the http repo",
-#     workersrc=util.Interpolate("/home/buildbot/workdir/turbonc-pi4/python3-turbonc_%(prop:tag)s_arm64.deb"),
-#      masterdest=util.Interpolate("/home/buildbot/repo/turbonc/python3-turbonc_%(prop:tag)s_arm64.deb")
-#     )
-# )
 
+# upload files to http server
+factory_tnc_pyqt5_arm64.addStep(steps.FileUpload(
+    name="upload files to http server",
+    workersrc=util.Interpolate("/home/bb/work/turbonc-pyqt5-arm64/python3-turbonc_%(prop:tag)s_arm64.deb"),
+    masterdest=util.Interpolate("/home/buildbot/repo/turbonc-pyqt5-arm64/python3-turbonc_%(prop:tag)s_arm64.deb")))
 
-# delete old files from apt directory
-# factory_tnc_pi4.addStep(steps.ShellCommand(
-#     name="delete files from apt directory",
-#     command=["sh",
-#              "/home/buildbot/buildbot/master/scripts/clean_apt_develop.sh",
-#              util.Interpolate("python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb")
-#             ],
-#     workdir="sources/"))
+# upload files to apt server
+factory_tnc_pyqt5_arm64.addStep(steps.FileUpload(
+    name="upload files to apt server",
+    workersrc=util.Interpolate("/home/bb/work/turbonc-pyqt5-arm64/python3-turbonc_%(prop:tag)s_arm64.deb"),
+    masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/bookworm/python3-turbonc_%(prop:tag)s_arm64.deb")))
 
-# move new files to the apt repo
-# factory_tnc_pyqt5_arm64.addStep(steps.FileUpload(
-#     name="move new files to the apt repo",
-#     workersrc=util.Interpolate("/home/buildbot/workdir/turbonc-pi4/python3-turbonc_%(prop:tag)s_arm64.deb"),
-#     masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/stable/python3-turbonc_%(prop:tag)s_arm64.deb")
-#     )
-# )
-
-# delete files from build directory
-# factory_tnc_pi4.addStep(steps.ShellCommand(
-#     name="delete files from build directory",
-#     command=["rm", util.Interpolate("/home/buildbot/buildbot/worker/monokrom-dev/python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb")],
-#     workdir="sources/"))
 
 # scan new packages in apt repository
-# factory_tnc_pyqt5_arm64.addStep(steps.MasterShellCommand(
-#     name="scan new packages in apt repository",
-#     command="/home/buildbot/buildbot/master/scripts/do_apt_stable.sh"
-#     )
-# )
+factory_tnc_pyqt5_arm64.addStep(steps.MasterShellCommand(
+    name="scan new packages in apt repository",
+    command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_bookworm.sh"],
+    workdir="/home/buildbot/debian/apt"))
 
 
 

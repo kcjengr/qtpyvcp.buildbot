@@ -87,43 +87,24 @@ factory_tnc_pyqt5_arm64_dev.addStep(steps.ShellCommand(
     command=["debuild", "-b", "-uc", "-us"],
     workdir="sources/"))
 
-# copy files to the http repo
-# factory_tnc_pyqt5_arm64_dev.addStep(steps.ShellCommand(
-#     name="copy files to the http repo",
-#     command=["cp",
-#              util.Interpolate("/home/buildbot/buildbot/worker/turbonc-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb"),
-#              "/home/buildbot/repo/turbonc-dev/"],
-#     workdir="sources/"))
+# upload files to http server
+factory_tnc_pyqt5_arm64_dev.addStep(steps.FileUpload(
+    name="upload files to http server",
+    workersrc=util.Interpolate("/home/bb/work/turbonc-pyqt5-arm64-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb"),
+    masterdest=util.Interpolate("/home/buildbot/repo/turbonc-pyqt5-arm64-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb")))
 
+# upload files to apt server
+factory_tnc_pyqt5_arm64_dev.addStep(steps.FileUpload(
+    name="upload files to apt server",
+    workersrc=util.Interpolate("/home/bb/work/turbonc-pyqt5-arm64-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb"),
+    masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/bookworm-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb")))
 
-# delete old files from apt directory
-# factory_tnc_dev.addStep(steps.ShellCommand(
-#     name="delete files from apt directory",
-#     command=["sh",
-#              "/home/buildbot/buildbot/master/scripts/clean_apt_develop.sh",
-#              util.Interpolate("python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb")
-#             ],
-#     workdir="sources/"))
-
-# move new files to the apt repo
-# factory_tnc_pyqt5_arm64_dev.addStep(steps.ShellCommand(
-#     name="move new files to the apt repo",
-#     command=["mv",
-#              util.Interpolate("/home/buildbot/buildbot/worker/turbonc-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb"),
-#              "/home/buildbot/debian/apt/pool/main/trixie-dev/"],
-#     workdir="sources/"))
-
-# delete files from build directory
-# factory_tnc_dev.addStep(steps.ShellCommand(
-#     name="delete files from build directory",
-#     command=["rm", util.Interpolate("/home/buildbot/buildbot/worker/turbonc-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb")],
-#     workdir="sources/"))
 
 # scan new packages in apt repository
-# factory_tnc_pyqt5_arm64_dev.addStep(steps.ShellCommand(
-#     name="scan new packages in apt repository",
-#     command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_trixie_dev.sh"],
-#     workdir="sources/"))
+factory_tnc_pyqt5_arm64_dev.addStep(steps.MasterShellCommand(
+    name="scan new packages in apt repository",
+    command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_bookworm_dev.sh"],
+    workdir="/home/buildbot/debian/apt"))
 
 
 
