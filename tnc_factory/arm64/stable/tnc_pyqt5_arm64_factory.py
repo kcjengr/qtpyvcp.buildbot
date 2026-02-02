@@ -30,6 +30,13 @@ factory_tnc_pyqt5_arm64.addStep(steps.ShellCommand(
     command=["/bin/sh", "-c", util.Interpolate('echo %(prop:tag)s > tnc_stable_version.txt')],
     workdir="/home/bb/versions/"))
 
+# delete previous changelog
+factory_tnc_pyqt5_arm64.addStep(steps.ShellCommand(
+    name="Delete previous changelog",
+    env={},
+    command=["rm", "-rf", "debian/changelog"],
+    workdir="sources/"))
+
 # create changelog
 factory_tnc_pyqt5_arm64.addStep(steps.ShellCommand(
     name="create changelog",
