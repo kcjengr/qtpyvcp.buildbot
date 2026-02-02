@@ -60,15 +60,16 @@ class CustomGitHubEventHandler(GitHubEventHandler):
                 log.msg(f"Got new tag RELEASE: {version} (no base_ref in payload)")
             
             payload["release"] = version
-            
-            # If we identified the branch, set it in the payload
-            # This ensures the change will have the correct branch
-            if branch:
-                # Store original ref and override with branch for proper filtering
-                payload["tag_ref"] = ref
-                payload["ref"] = f"refs/heads/{branch}"
 
+            # Process the tag normally to get changes with category='tag'
             changes, vcs = super().handle_push(payload, event)
+            
+            # Now update the branch in all changes to match where the tag was created
+            if branch and changes:
+                for change in changes:
+                    change['branch'] = branch
+                    log.msg(f"Set branch to '{branch}' for tag change")
+            
             return changes, vcs
 
         return [], 'git'
