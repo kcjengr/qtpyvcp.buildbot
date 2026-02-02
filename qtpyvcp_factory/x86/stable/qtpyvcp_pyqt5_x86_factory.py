@@ -22,12 +22,6 @@ factory_qtpyvcp_pyqt5_x86.addStep(steps.ShellCommand(
     command=["/bin/sh", "-c", "git fetch --all"],
     workdir="sources/"))
 
-# git pull
-factory_qtpyvcp_pyqt5_x86.addStep(steps.ShellCommand(
-    name="git pull",
-    command=["/bin/sh", "-c", "git pull origin main"],
-    workdir="sources/"))
-
 # get git tag
 factory_qtpyvcp_pyqt5_x86.addStep(steps.SetPropertyFromCommand(
     name="get git tag",
@@ -46,14 +40,14 @@ factory_qtpyvcp_pyqt5_x86.addStep(steps.SetPropertyFromCommand(
 # store version file
 factory_qtpyvcp_pyqt5_x86.addStep(steps.ShellCommand(
     name="store version file",
-    command=["/bin/sh", "-c", util.Interpolate('echo %(prop:tag)s > qtpyvcp_version.txt')],
-    workdir="/home/buildbot/versions/"))
+    command=["/bin/sh", "-c", util.Interpolate('echo %(prop:tag)s > qtpyvcp_stable_version.txt')],
+    workdir="/home/bb/versions/"))
 
 # create changelog
 factory_qtpyvcp_pyqt5_x86.addStep(steps.ShellCommand(
     name="create changelog",
     env={'EMAIL': "j.l.toledano.l@gmail.com"},
-    command=["dch", "--create", "--distribution", "trixie", "--package", "qtpyvcp", "--newversion", util.Interpolate("%(prop:tag)s"), "Trixie version."],
+    command=["dch", "--create", "--distribution", "stable", "--package", "qtpyvcp", "--newversion", util.Interpolate("%(prop:tag)s"), "Stable Release version."],
     workdir="sources/"))
 
 # build debs
@@ -63,38 +57,25 @@ factory_qtpyvcp_pyqt5_x86.addStep(steps.ShellCommand(
     command=["dpkg-buildpackage", "-b", "-uc"],
     workdir="sources/"))
 
-# copy files to the http repo
-# factory_qtpyvcp_pyqt5_x86.addStep(steps.ShellCommand(
-#     name="copy files to the http repo",
-#     command=["cp",
-#              util.Interpolate("/home/buildbot/buildbot/worker/qtpyvcp/python3-qtpyvcp_%(prop:tag)s_amd64.deb"),
-#              "/home/buildbot/repo/qtpyvcp/"],
-#     workdir="sources/"))
-#
-# # disabled needs apt structure things
-# # copy new files to the apt repo
-# factory_qtpyvcp_pyqt5_x86.addStep(steps.ShellCommand(
-#     name="copy files to repo",
-#     command=["cp",
-#              util.Interpolate("/home/buildbot/buildbot/worker/qtpyvcp/python3-qtpyvcp_%(prop:tag)s_amd64.deb"),
-#              "/home/buildbot/debian/apt/pool/main/trixie/"],
-#     workdir="sources/"))
 
-# needs more testing
-# publish on github
-# factory_qtpyvcp.addStep(steps.ShellCommand(
-#     command=["/home/buildbot/buildbot/worker/qtpyvcp/sources/.scripts/publish_github_release.sh",
-#              "kcjengr/qtpyvcp", util.Property("branch")],
-#     workdir="sources/"))
+# upload files to http server
+factory_qtpyvcp_pyqt5_x86.addStep(steps.FileUpload(
+    name="upload files to http server",
+    workersrc=util.Interpolate("/home/bb/work/qtpyvcp-pyqt5-x86/python3-qtpyvcp_%(prop:tag)s_amd64.deb"),
+    masterdest=util.Interpolate("/home/buildbot/repo/qtpyvcp-pyqt5-x86/python3-qtpyvcp_%(prop:tag)s_amd64.deb")))
+
+# upload files to apt server
+factory_qtpyvcp_pyqt5_x86.addStep(steps.FileUpload(
+    name="upload files to apt server",
+    workersrc=util.Interpolate("/home/bb/work/qtpyvcp-pyqt5-x86/python3-qtpyvcp_%(prop:tag)s_amd64.deb"),
+    masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/bookworm/python3-qtpyvcp_%(prop:tag)s_amd64.deb")))
 
 
-
-# more apt things
 # scan new packages in apt repository
-# factory_qtpyvcp_pyqt5_x86.addStep(steps.ShellCommand(
-#     name="scan new packages in apt repository",
-#     command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_trixie.sh"],
-#     workdir="sources/"))
+factory_qtpyvcp_pyqt5_x86.addStep(steps.MasterShellCommand(
+    name="scan new packages in apt repository",
+    command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_bookworm.sh"],
+    workdir="/home/buildbot/debian/apt"))
 
 # doc related things
 # # delete docs directory
