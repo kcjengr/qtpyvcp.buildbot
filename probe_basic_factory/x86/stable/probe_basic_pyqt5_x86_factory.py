@@ -64,20 +64,20 @@ factory_probe_basic_pyqt5_x86.addStep(steps.ShellCommand(
 
 
 # upload files to http server
-factory_probe_basic_pyqt5_x86_dev.addStep(steps.FileUpload(
+factory_probe_basic_pyqt5_x86.addStep(steps.FileUpload(
     name="upload files to http server",
     workersrc=util.Interpolate("/home/bb/work/probe_basic-pyqt5-x86/python3-probe-basic_%(prop:tag)s-%(prop:minor_version)s_amd64.deb"),
     masterdest=util.Interpolate("/home/buildbot/repo/probe_basic-pyqt5-x86/python3-probe-basic_%(prop:tag)s-%(prop:minor_version)s_amd64.deb")))
 
 # upload files to apt server
-factory_probe_basic_pyqt5_x86_dev.addStep(steps.FileUpload(
+factory_probe_basic_pyqt5_x86.addStep(steps.FileUpload(
     name="upload files to apt server",
     workersrc=util.Interpolate("/home/bb/work/probe_basic-pyqt5-x86/python3-probe-basic_%(prop:tag)s-%(prop:minor_version)s_amd64.deb"),
     masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/bookworm/python3-probe-basic_%(prop:tag)s-%(prop:minor_version)s_amd64.deb")))
 
 
 # scan new packages in apt repository
-factory_probe_basic_pyqt5_x86_dev.addStep(steps.MasterShellCommand(
+factory_probe_basic_pyqt5_x86.addStep(steps.MasterShellCommand(
     name="scan new packages in apt repository",
     command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_bookworm.sh"],
     workdir="/home/buildbot/debian/apt"))
