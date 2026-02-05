@@ -62,7 +62,8 @@ factory_qtpyvcp_pyqt5_x86.addStep(steps.ShellCommand(
 factory_qtpyvcp_pyqt5_x86.addStep(steps.FileUpload(
     name="upload files to http server",
     workersrc=util.Interpolate("/home/bb/work/qtpyvcp-pyqt5-x86/python3-qtpyvcp_%(prop:tag)s_amd64.deb"),
-    masterdest=util.Interpolate("/home/buildbot/repo/qtpyvcp-pyqt5-x86/python3-qtpyvcp_%(prop:tag)s_amd64.deb")))
+    masterdest=util.Interpolate("/home/buildbot/repo/qtpyvcp-pyqt5-x86/python3-qtpyvcp_%(prop:tag)s_amd64.deb"),
+    mode=0o644))
 
 # upload files to apt server
 factory_qtpyvcp_pyqt5_x86.addStep(steps.FileUpload(

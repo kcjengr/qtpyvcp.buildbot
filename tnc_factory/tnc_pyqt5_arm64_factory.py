@@ -74,7 +74,8 @@ factory_tnc_pyqt5_arm64.addStep(steps.ShellCommand(
 factory_tnc_pyqt5_arm64.addStep(steps.FileUpload(
     name="upload files to http server",
     workersrc=util.Interpolate("/home/bb/work/turbonc-pyqt5-arm64/python3-turbonc_%(prop:tag)s_arm64.deb"),
-    masterdest=util.Interpolate("/home/buildbot/repo/turbonc-pyqt5-arm64/python3-turbonc_%(prop:tag)s_arm64.deb")))
+    masterdest=util.Interpolate("/home/buildbot/repo/turbonc-pyqt5-arm64/python3-turbonc_%(prop:tag)s_arm64.deb"),
+    mode=0o644))
 
 # upload files to apt server
 factory_tnc_pyqt5_arm64.addStep(steps.FileUpload(

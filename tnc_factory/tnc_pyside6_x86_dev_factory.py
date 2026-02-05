@@ -93,7 +93,8 @@ factory_tnc_pyside6_x86_dev.addStep(steps.ShellCommand(
 factory_tnc_pyside6_x86_dev.addStep(steps.FileUpload(
     name="upload files to http server",
     workersrc=util.Interpolate("/home/bb/work/turbonc-pyside6-x86-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb"),
-    masterdest=util.Interpolate("/home/buildbot/repo/turbonc-pyside6-x86-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb")))
+    masterdest=util.Interpolate("/home/buildbot/repo/tnc-pyside6-x86-dev/python3-qtpyvcp.tnc_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb"),
+    mode=0o644))
 
 # upload files to apt server
 factory_tnc_pyside6_x86_dev.addStep(steps.FileUpload(
