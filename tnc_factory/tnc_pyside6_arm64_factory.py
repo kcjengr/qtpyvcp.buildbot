@@ -87,8 +87,8 @@ factory_tnc_pyside6_arm64.addStep(steps.ShellCommand(
 # factory_tnc_pi4.addStep(steps.FileUpload(
 #     name="copy files to the http repo",
 #     workersrc=util.Interpolate("/home/buildbot/workdir/turbonc-pi4/python3-turbonc_%(prop:tag)s_arm64.deb"),
-#      masterdest=util.Interpolate("/home/buildbot/repo/turbonc/python3-turbonc_%(prop:tag)s_arm64.deb")
-#     )
+#      masterdest=util.Interpolate("/home/buildbot/repo/turbonc/python3-turbonc_%(prop:tag)s_arm64.deb"),
+#     mode=0o644)
 # )
 
 
