@@ -63,14 +63,13 @@ factory_qtpyvcp_pyside6_x86.addStep(steps.ShellCommand(
     command=["dpkg-buildpackage", "-b", "-uc"],
     workdir="sources/"))
 
-# # copy files to the http repo
-# factory_qtpyvcp_pyside6_x86.addStep(steps.ShellCommand(
-#     name="copy files to the http repo",
-#     command=["cp",
-#              util.Interpolate("/home/buildbot/buildbot/worker/qtpyvcp/python3-qtpyvcp_%(prop:tag)s_amd64.deb"),
-#              "/home/buildbot/repo/qtpyvcp/"],
-#     workdir="sources/"))
-#
+# upload files to http server
+factory_qtpyvcp_pyside6_x86.addStep(steps.FileUpload(
+    name="upload files to http server",
+    workersrc=util.Interpolate("/home/bb/work/qtpyvcp-pyside6-x86/python3-qtpyvcp_%(prop:tag)s_amd64.deb"),
+    masterdest=util.Interpolate("/home/buildbot/repo/qtpyvcp-pyside6-x86/python3-qtpyvcp_%(prop:tag)s_amd64.deb"),
+    mode=0o644))
+
 # # disabled needs apt structure things
 # # copy new files to the apt repo
 # factory_qtpyvcp_pyside6_x86.addStep(steps.ShellCommand(

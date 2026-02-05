@@ -59,13 +59,12 @@ factory_monokrom_pyqt5_x86.addStep(steps.ShellCommand(
     command=["dpkg-buildpackage", "-b", "-uc"],
     workdir="sources/"))
 
-# move files to repo
-factory_monokrom_pyqt5_x86.addStep(steps.ShellCommand(
-    name="move files to repo",
-    command=["mv",
-             util.Interpolate("/home/buildbot/buildbot/worker/monokrom-dev/python3-probe-basic_%(prop:tag)s_all.deb"),
-             "/home/buildbot/repo/probe-basic-dev/"],
-    workdir="sources/"))
+# upload files to http server
+factory_monokrom_pyqt5_x86.addStep(steps.FileUpload(
+    name="upload files to http server",
+    workersrc=util.Interpolate("/home/bb/work/monokrom-pyqt5-x86/python3-qtpyvcp.monokrom_%(prop:tag)s_all.deb"),
+    masterdest=util.Interpolate("/home/buildbot/repo/monokrom-pyqt5-x86/python3-qtpyvcp.monokrom_%(prop:tag)s_all.deb"),
+    mode=0o644))
 
 factory_monokrom_pyqt5_x86.addStep(steps.GitHub(name="downlaod static docs",
                                              repourl='git@github.com:kcjengr/monokrom.git',
