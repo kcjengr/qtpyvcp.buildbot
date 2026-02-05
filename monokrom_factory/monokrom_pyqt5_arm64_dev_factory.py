@@ -68,8 +68,8 @@ factory_monokrom_pyqt5_arm64_dev.addStep(steps.ShellCommand(
 factory_monokrom_pyqt5_arm64_dev.addStep(steps.FileUpload(
     name="copy files to the http repo",
     workersrc=util.Interpolate("/home/buildbot/workdir/monokrom-pi4-dev/python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb"),
-     masterdest=util.Interpolate("/home/buildbot/repo/monokrom-dev/python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb")
-    )
+     masterdest=util.Interpolate("/home/buildbot/repo/monokrom-dev/python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb"),
+    mode=0o644)
 )
 
 

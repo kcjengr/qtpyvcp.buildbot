@@ -67,8 +67,8 @@ factory_qtpyvcp_pyside6_arm64.addStep(steps.ShellCommand(
 factory_qtpyvcp_pyside6_arm64.addStep(steps.FileUpload(
     name="copy files to the http repo",
     workersrc=util.Interpolate("/home/buildbot/workdir/qtpyvcp-pi4/python3-qtpyvcp_%(prop:tag)s_arm64.deb"),
-    masterdest=util.Interpolate("/home/buildbot/repo/qtpyvcp/python3-qtpyvcp_%(prop:tag)s_arm64.deb")
-    )
+    masterdest=util.Interpolate("/home/buildbot/repo/qtpyvcp/python3-qtpyvcp_%(prop:tag)s_arm64.deb"),
+    mode=0o644)
 )
 
 
