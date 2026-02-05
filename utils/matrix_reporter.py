@@ -50,7 +50,30 @@ class MatrixReporter(ReporterBase):
 
     def _create_default_generators(self):
         """Create default message generator for build status updates"""
-        formatter = MessageFormatterRenderable("Build {{ build['builder']['name'] }} #{{ build['number'] }}: {{ build['state_string'] }}")
+        # Use a function to format the message from build context
+        def format_message(context):
+            build = context.get('build', {})
+            builder_name = build.get('builder', {}).get('name', 'Unknown')
+            build_number = build.get('number', '?')
+            state_string = build.get('state_string', 'unknown')
+            results = build.get('results', -1)
+            
+            # Map results to emoji/status
+            status_map = {
+                0: "✅ SUCCESS",
+                1: "⚠️ WARNINGS", 
+                2: "❌ FAILURE",
+                3: "⏭️ SKIPPED",
+                4: "⚠️ EXCEPTION",
+                5: "🚫 CANCELLED",
+                6: "⏸️ RETRY"
+            }
+            status = status_map.get(results, "❓ UNKNOWN")
+            
+            return f"{status}: {builder_name} #{build_number} - {state_string}"
+        
+        from buildbot.reporters.message import MessageFormatterFunction
+        formatter = MessageFormatterFunction(format_message, 'plain')
         return [BuildStatusGenerator(message_formatter=formatter)]
 
     @defer.inlineCallbacks
@@ -61,13 +84,8 @@ class MatrixReporter(ReporterBase):
         build_results = merge_reports_prop_take_first(reports, 'results')
         builds = merge_reports_prop(reports, 'builds')
 
-        # Format message
-        if body:
-            message = body
-        elif subject:
-            message = subject
-        else:
-            message = "Build status update"
+        # Use body (formatted by our function) as the message
+        message = body if body else subject if subject else "Build status update"
 
         if self.debug:
             log.debug("=" * 50)
