@@ -9,7 +9,7 @@ factory_tnc_pyqt5_x86 = util.BuildFactory()
 
 # download sources
 factory_tnc_pyqt5_x86.addStep(steps.GitHub(name="download sources",
-                                           repourl='https://github.com/kcjengr/turbonc.git',
+                                           repourl='git@github.com:kcjengr/turbonc.git',
                                            branch='pyqt5',
                                            mode='full',
                                            method="clean",

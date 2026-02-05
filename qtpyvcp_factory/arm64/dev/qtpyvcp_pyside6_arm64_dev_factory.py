@@ -11,7 +11,7 @@ factory_qtpyvcp_pyside6_arm64_dev = util.BuildFactory()
 
 # download sources
 factory_qtpyvcp_pyside6_arm64_dev.addStep(steps.GitHub(name="download sources",
-                                                       repourl='https://github.com/kcjengr/qtpyvcp.git',
+                                                       repourl='git@github.com:kcjengr/qtpyvcp.git',
                                                        branch='main',
                                                        mode='full',
                                                        submodules=False,
