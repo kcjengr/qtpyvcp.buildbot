@@ -87,6 +87,8 @@ class MatrixReporter(ReporterBase):
         # Use body (formatted by our function) as the message
         message = body if body else subject if subject else "Build status update"
 
+        log.info(f"MatrixReporter sendMessage called: results={build_results}, message='{message}'")
+
         if self.debug:
             log.debug("=" * 50)
             log.debug(f"Subject: {subject}")
