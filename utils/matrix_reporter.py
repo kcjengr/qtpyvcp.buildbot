@@ -13,6 +13,9 @@ from buildbot.reporters.utils import merge_reports_prop, merge_reports_prop_take
 class BuildStartGenerator:
     """Custom generator for build start notifications"""
     
+    # Tell buildbot we want to listen to build started events
+    wanted_event_keys = [('builds', None, 'started')]
+    
     def __init__(self, message_formatter):
         self.message_formatter = message_formatter
     
