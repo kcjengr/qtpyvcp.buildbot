@@ -61,6 +61,7 @@ class MatrixReporter(ReporterBase):
     def reconfigService(self, serverUrl, userName=None, userToken=None, roomID=None,
                         debug=False, generators=None, **kwargs):
         
+        log.info("MatrixReporter: reconfigService called")
         self.server_url = serverUrl
         self.user_name = userName
         self.user_token = userToken
@@ -69,14 +70,17 @@ class MatrixReporter(ReporterBase):
 
         if generators is None:
             generators = self._create_default_generators()
-
+        
+        log.info(f"MatrixReporter: Calling parent reconfigService with {len(generators)} generators")
         yield super().reconfigService(generators=generators, **kwargs)
+        log.info("MatrixReporter: reconfigService completed")
 
         if self.debug:
             log.info(f"MatrixReporter configured for {self.server_url}, room: {self.room_id}")
 
     def _create_default_generators(self):
         """Create default message generators for build start and finish"""
+        log.info("MatrixReporter: Creating default generators")
         # Formatter for build start
         def format_start_message(context):
             build = context.get('build', {})
@@ -165,10 +169,14 @@ class MatrixReporter(ReporterBase):
         
         finish_formatter = MessageFormatterFunction(format_message, 'plain')
         
-        return [
+        generators = [
             BuildStartGenerator(message_formatter=start_formatter),
             BuildStatusGenerator(message_formatter=finish_formatter)
         ]
+        log.info(f"MatrixReporter: Created {len(generators)} generators")
+        for i, gen in enumerate(generators):
+            log.info(f"  Generator {i}: {gen.__class__.__name__} - wanted_event_keys: {getattr(gen, 'wanted_event_keys', 'NOT SET')}")
+        return generators
 
     @defer.inlineCallbacks
     def sendMessage(self, reports):
