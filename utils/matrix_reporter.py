@@ -60,10 +60,13 @@ class MatrixReporter(ReporterBase):
                 build_type = "COMMIT"
             else:
                 properties = build.get('properties', {})
-                if properties.get('rebuild'):
+                reason = properties.get('reason', '').lower()
+                if 'rebuild' in reason:
                     build_type = "REBUILD"
-                else:
+                elif 'force' in reason:
                     build_type = "FORCE"
+                else:
+                    build_type = "MANUAL"
             
             # Calculate duration
             started_at = build.get('started_at')
