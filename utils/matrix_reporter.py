@@ -4,11 +4,26 @@ import base64
 
 from nio import AsyncClient
 
-from twisted.internet import defer, threads
-from buildbot.reporters.generators.build import BuildStatusGenerator
-from buildbot.reporters.message import MessageFormatterFunction
-from buildbot.reporters.base import ReporterBase
-from buildbot.reporters.utils import merge_reports_prop, merge_reports_prop_take_first
+from twisted.internet import defer
+
+class BuildStartGenerator:
+    """Custom generator for build start notifications"""
+    
+    def __init__(self, message_formatter):
+        self.message_formatter = message_formatter
+    
+    @defer.inlineCallbacks
+    def generate(self, master, reporter, key, message):
+        if key[2] == 'started':
+            build = message['build']
+            try:
+                msgdict = yield self.message_formatter.render_message_dict(master, {'build': build})
+                body = msgdict.get('body', '')
+                subject = msgdict.get('subject', '')
+                return [{'body': body, 'subject': subject, 'type': 'plain', 'results': None, 'builds': [build], 'users': [], 'patches': [], 'logs': []}]
+            except Exception as e:
+                log.error(f"Error generating start message: {e}")
+        return []
 
 log = logging.getLogger(__name__)
 
@@ -44,7 +59,16 @@ class MatrixReporter(ReporterBase):
             log.info(f"MatrixReporter configured for {self.server_url}, room: {self.room_id}")
 
     def _create_default_generators(self):
-        """Create default message generator for build status updates"""
+        """Create default message generators for build start and finish"""
+        # Formatter for build start
+        def format_start_message(context):
+            build = context.get('build', {})
+            builder_name = build.get('builder', {}).get('name', 'Unknown')
+            build_number = build.get('number', '?')
+            return f"🔄 BUILD STARTED: {builder_name} #{build_number}"
+        
+        start_formatter = MessageFormatterFunction(format_start_message, 'plain')
+        
         # Formatter for build finish with details
         def format_message(context):
             build = context.get('build', {})
@@ -122,8 +146,12 @@ class MatrixReporter(ReporterBase):
             
             return f"{status} ({build_type}): {builder_name} #{build_number} - {state_string}{duration_str}{failure_info}"
         
-        formatter = MessageFormatterFunction(format_message, 'plain')
-        return [BuildStatusGenerator(message_formatter=formatter)]
+        finish_formatter = MessageFormatterFunction(format_message, 'plain')
+        
+        return [
+            BuildStartGenerator(message_formatter=start_formatter),
+            BuildStatusGenerator(message_formatter=finish_formatter)
+        ]
 
     @defer.inlineCallbacks
     def sendMessage(self, reports):
