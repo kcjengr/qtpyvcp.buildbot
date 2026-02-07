@@ -5,10 +5,29 @@ import base64
 from nio import AsyncClient
 
 from twisted.internet import defer, threads
-from buildbot.reporters.generators.build import BuildStatusGenerator, BuildStartStatusGenerator
+from buildbot.reporters.generators.build import BuildStatusGenerator
 from buildbot.reporters.message import MessageFormatterFunction
 from buildbot.reporters.base import ReporterBase
 from buildbot.reporters.utils import merge_reports_prop, merge_reports_prop_take_first
+
+class BuildStartGenerator:
+    """Custom generator for build start notifications"""
+    
+    def __init__(self, message_formatter):
+        self.message_formatter = message_formatter
+    
+    @defer.inlineCallbacks
+    def generate(self, master, reporter, key, message):
+        if key[2] == 'started':
+            build = message['build']
+            try:
+                msgdict = yield self.message_formatter.render_message_dict(master, {'build': build})
+                body = msgdict.get('body', '')
+                subject = msgdict.get('subject', '')
+                return [{'body': body, 'subject': subject, 'type': 'plain', 'results': None, 'builds': [build], 'users': [], 'patches': [], 'logs': []}]
+            except Exception as e:
+                log.error(f"Error generating start message: {e}")
+        return []
 
 log = logging.getLogger(__name__)
 
@@ -134,7 +153,7 @@ class MatrixReporter(ReporterBase):
         finish_formatter = MessageFormatterFunction(format_message, 'plain')
         
         return [
-            BuildStartStatusGenerator(message_formatter=start_formatter),
+            BuildStartGenerator(message_formatter=start_formatter),
             BuildStatusGenerator(message_formatter=finish_formatter)
         ]
 
