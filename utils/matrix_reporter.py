@@ -25,15 +25,21 @@ class BuildStartGenerator:
     
     @defer.inlineCallbacks
     def generate(self, master, reporter, key, message):
+        log.info(f"BuildStartGenerator.generate called with key: {key}")
         if key[2] == 'started':
+            log.info("Processing 'started' event")
             build = message['build']
             try:
+                log.info(f"Formatting start message for build: {build.get('builder', {}).get('name', 'Unknown')} #{build.get('number', '?')}")
                 msgdict = yield self.message_formatter.render_message_dict(master, {'build': build})
                 body = msgdict.get('body', '')
                 subject = msgdict.get('subject', '')
+                log.info(f"Start message formatted: {body or subject}")
                 return [{'body': body, 'subject': subject, 'type': 'plain', 'results': None, 'builds': [build], 'users': [], 'patches': [], 'logs': []}]
             except Exception as e:
-                log.error(f"Error generating start message: {e}")
+                log.error(f"Error generating start message: {e}", exc_info=True)
+        else:
+            log.info(f"Ignoring non-started event: {key[2]}")
         return []
 
 log = logging.getLogger(__name__)
