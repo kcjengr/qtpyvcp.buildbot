@@ -70,8 +70,8 @@ class MatrixReporter(ReporterBase):
             finished_at = build.get('finished_at') or build.get('complete_at')
             duration_str = ""
             if started_at and finished_at:
-                duration = finished_at - started_at
-                hours, remainder = divmod(int(duration), 3600)
+                duration_seconds = (finished_at - started_at).total_seconds()
+                hours, remainder = divmod(int(duration_seconds), 3600)
                 minutes, seconds = divmod(remainder, 60)
                 if hours > 0:
                     duration_str = f" in {hours}h {minutes}m {seconds}s"
