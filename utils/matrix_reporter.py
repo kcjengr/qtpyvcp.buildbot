@@ -39,12 +39,6 @@ class MatrixReporter(ReporterBase):
 
         yield super().reconfigService(generators=generators, **kwargs)
 
-        # Initialize Matrix client
-        self._client = AsyncClient(self.server_url, self.user_name)
-        self._client.access_token = self.user_token
-        self._client.user_id = self.user_name
-        self._client.device_id = "buildbot"
-
         if self.debug:
             log.info(f"MatrixReporter configured for {self.server_url}, room: {self.room_id}")
 
@@ -109,8 +103,14 @@ class MatrixReporter(ReporterBase):
         asyncio.set_event_loop(loop)
         
         try:
+            # Create a new client for each send to avoid state issues
+            client = AsyncClient(self.server_url, self.user_name)
+            client.access_token = self.user_token
+            client.user_id = self.user_name
+            client.device_id = "buildbot"
+            
             result = loop.run_until_complete(
-                self._client.room_send(
+                client.room_send(
                     room_id=self.room_id,
                     message_type="m.room.message",
                     content={"msgtype": "m.text", "body": str(message)}
@@ -119,7 +119,12 @@ class MatrixReporter(ReporterBase):
             
             if self.debug:
                 log.debug(f"Matrix send result: {result}")
+            else:
+                log.info(f"Matrix message sent: {message[:50]}...")
                 
             return result
+        except Exception as e:
+            log.error(f"Error sending Matrix message: {e}")
+            raise
         finally:
             loop.close()
