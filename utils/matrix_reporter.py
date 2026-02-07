@@ -4,7 +4,7 @@ import logging
 from nio import AsyncClient
 
 from twisted.internet import defer, threads
-from buildbot.reporters.generators.build import BuildStatusGenerator
+from buildbot.reporters.generators.build import BuildStatusGenerator, BuildStartStatusGenerator
 from buildbot.reporters.message import MessageFormatterRenderable
 from buildbot.reporters.base import ReporterBase
 from buildbot.reporters.utils import merge_reports_prop, merge_reports_prop_take_first
@@ -43,14 +43,35 @@ class MatrixReporter(ReporterBase):
             log.info(f"MatrixReporter configured for {self.server_url}, room: {self.room_id}")
 
     def _create_default_generators(self):
-        """Create default message generator for build status updates"""
-        # Use a function to format the message from build context
-        def format_message(context):
+        """Create default message generators for build start and finish"""
+        # Formatter for build start
+        def format_start_message(context):
+            build = context.get('build', {})
+            builder_name = build.get('builder', {}).get('name', 'Unknown')
+            build_number = build.get('number', '?')
+            return f"🔄 BUILD STARTED: {builder_name} #{build_number}"
+        
+        start_formatter = MessageFormatterFunction(format_start_message, 'plain')
+        
+        # Formatter for build finish (existing, with type added)
+        def format_finish_message(context):
             build = context.get('build', {})
             builder_name = build.get('builder', {}).get('name', 'Unknown')
             build_number = build.get('number', '?')
             state_string = build.get('state_string', 'unknown')
             results = build.get('results', -1)
+            changes = build.get('changes', [])
+            
+            # Determine build type
+            if changes:
+                build_type = "COMMIT"
+            else:
+                # Check for rebuild vs force
+                properties = build.get('properties', {})
+                if properties.get('rebuild'):
+                    build_type = "REBUILD"
+                else:
+                    build_type = "FORCE"
             
             # Map results to emoji/status
             status_map = {
@@ -64,11 +85,14 @@ class MatrixReporter(ReporterBase):
             }
             status = status_map.get(results, "❓ UNKNOWN")
             
-            return f"{status}: {builder_name} #{build_number} - {state_string}"
+            return f"{status} ({build_type}): {builder_name} #{build_number} - {state_string}"
         
-        from buildbot.reporters.message import MessageFormatterFunction
-        formatter = MessageFormatterFunction(format_message, 'plain')
-        return [BuildStatusGenerator(message_formatter=formatter)]
+        finish_formatter = MessageFormatterFunction(format_finish_message, 'plain')
+        
+        return [
+            BuildStartStatusGenerator(message_formatter=start_formatter),
+            BuildStatusGenerator(message_formatter=finish_formatter)
+        ]
 
     @defer.inlineCallbacks
     def sendMessage(self, reports):
