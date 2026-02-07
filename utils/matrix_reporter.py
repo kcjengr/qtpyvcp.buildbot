@@ -1,6 +1,5 @@
 import asyncio
-import logging
-
+import loggingimport base64
 from nio import AsyncClient
 
 from twisted.internet import defer, threads
@@ -108,6 +107,22 @@ class MatrixReporter(ReporterBase):
                     if step.get('results') not in (0, 1, 3):  # Not success, warnings, skipped
                         step_name = step.get('name', 'Unknown')
                         failure_info = f" at step '{step_name}'"
+                        
+                        # Get error snippet from stdio log
+                        logs = step.get('logs', [])
+                        for log in logs:
+                            if log.get('name') == 'stdio':
+                                content_b64 = log.get('content', '')
+                                if content_b64:
+                                    try:
+                                        content = base64.b64decode(content_b64).decode('utf-8', errors='ignore')
+                                        # Take last 200 chars, remove newlines
+                                        snippet = content[-200:].replace('\n', ' ').replace('\r', ' ').strip()
+                                        if snippet:
+                                            failure_info += f" - Error: {snippet}"
+                                    except Exception:
+                                        pass  # Ignore decoding errors
+                                break
                         break
             
             return f"{status} ({build_type}): {builder_name} #{build_number} - {state_string}{duration_str}{failure_info}"
