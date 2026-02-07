@@ -16,6 +16,10 @@ class BuildStartGenerator:
     def __init__(self, message_formatter):
         self.message_formatter = message_formatter
     
+    def check(self):
+        """Configuration check method required by buildbot"""
+        pass
+    
     @defer.inlineCallbacks
     def generate(self, master, reporter, key, message):
         if key[2] == 'started':
