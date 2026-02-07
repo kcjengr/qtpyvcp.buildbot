@@ -61,6 +61,7 @@ class MatrixReporter(ReporterBase):
             state_string = build.get('state_string', 'unknown')
             results = build.get('results', -1)
             changes = build.get('changes', [])
+            steps = build.get('steps', [])
             
             # Determine build type
             if changes:
@@ -72,6 +73,21 @@ class MatrixReporter(ReporterBase):
                     build_type = "REBUILD"
                 else:
                     build_type = "FORCE"
+            
+            # Calculate duration
+            started_at = build.get('started_at')
+            finished_at = build.get('finished_at') or build.get('complete_at')
+            duration_str = ""
+            if started_at and finished_at:
+                duration = finished_at - started_at
+                hours, remainder = divmod(int(duration), 3600)
+                minutes, seconds = divmod(remainder, 60)
+                if hours > 0:
+                    duration_str = f" in {hours}h {minutes}m {seconds}s"
+                elif minutes > 0:
+                    duration_str = f" in {minutes}m {seconds}s"
+                else:
+                    duration_str = f" in {seconds}s"
             
             # Map results to emoji/status
             status_map = {
@@ -85,7 +101,16 @@ class MatrixReporter(ReporterBase):
             }
             status = status_map.get(results, "❓ UNKNOWN")
             
-            return f"{status} ({build_type}): {builder_name} #{build_number} - {state_string}"
+            # Failure details
+            failure_info = ""
+            if results in (2, 4):  # FAILURE or EXCEPTION
+                for step in steps:
+                    if step.get('results') not in (0, 1, 3):  # Not success, warnings, skipped
+                        step_name = step.get('name', 'Unknown')
+                        failure_info = f" at step '{step_name}'"
+                        break
+            
+            return f"{status} ({build_type}): {builder_name} #{build_number} - {state_string}{duration_str}{failure_info}"
         
         finish_formatter = MessageFormatterFunction(format_finish_message, 'plain')
         
