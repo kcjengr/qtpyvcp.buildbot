@@ -35,6 +35,12 @@ factory_qtpyvcp_pyside6_x86.addStep(steps.SetPropertyFromCommand(
     property="tag",
     workdir="sources/"))
 
+# checkout the tag
+factory_qtpyvcp_pyside6_x86.addStep(steps.ShellCommand(
+    name="checkout tag",
+    command=["git", "checkout", util.Interpolate("%(prop:tag)s")],
+    workdir="sources/"))
+
 # not needed by release
 # # get git commit count since last tag
 # factory_qtpyvcp.addStep(steps.SetPropertyFromCommand(

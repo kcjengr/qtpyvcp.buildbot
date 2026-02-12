@@ -63,7 +63,7 @@ factory_probe_basic_pyqt5_x86_dev.addStep(steps.ShellCommand(
 factory_probe_basic_pyqt5_x86_dev.addStep(steps.FileUpload(
     name="upload files to http server",
     workersrc=util.Interpolate("/home/bb/work/probe_basic-pyqt5-x86-dev/python3-probe-basic_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb"),
-    masterdest=util.Interpolate("/home/buildbot/repo/probe-basic-pyqt5-x86-dev/python3-probe-basic_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb"),
+    masterdest=util.Interpolate("/home/buildbot/repo/probe_basic-pyqt5-x86-dev/python3-probe-basic_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb"),
     mode=0o644))
 
 # upload files to apt server

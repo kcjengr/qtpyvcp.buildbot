@@ -32,6 +32,12 @@ factory_monokrom_pyqt5_x86.addStep(steps.SetPropertyFromCommand(
     property="tag",
     workdir="sources/"))
 
+# checkout the tag
+factory_monokrom_pyqt5_x86.addStep(steps.ShellCommand(
+    name="checkout tag",
+    command=["git", "checkout", util.Interpolate("%(prop:tag)s")],
+    workdir="sources/"))
+
 # get git tag
 factory_monokrom_pyqt5_x86.addStep(steps.SetPropertyFromCommand(
     name="get git tag",
@@ -49,7 +55,7 @@ factory_monokrom_pyqt5_x86.addStep(steps.ShellCommand(
 factory_monokrom_pyqt5_x86.addStep(steps.ShellCommand(
     name="create changelog",
     env={'EMAIL': "lcvette1@gmail.com"},
-    command=["dch", "--create", "--distribution", "stable", "--package", "probe-basic", "--newversion", util.Interpolate("%(prop:tag)s"), "Stable version."],
+    command=["dch", "--create", "--distribution", "stable", "--package", "monokrom", "--newversion", util.Interpolate("%(prop:tag)s"), "Stable version."],
     workdir="sources/"))
 
 # build debs

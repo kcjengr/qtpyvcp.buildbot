@@ -24,6 +24,12 @@ factory_tnc_pyqt5_arm64.addStep(steps.SetPropertyFromCommand(
     property="tag",
     workdir="sources/"))
 
+# checkout the tag
+factory_tnc_pyqt5_arm64.addStep(steps.ShellCommand(
+    name="checkout tag",
+    command=["git", "checkout", util.Interpolate("%(prop:tag)s")],
+    workdir="sources/"))
+
 # store version file
 factory_tnc_pyqt5_arm64.addStep(steps.ShellCommand(
     name="store version file",
