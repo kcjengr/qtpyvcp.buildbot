@@ -99,20 +99,7 @@ class MatrixReporter(ReporterBase):
             results = build.get('results', -1)
             changes = build.get('changes', [])
             steps = build.get('steps', [])
-            
-            # Determine build type
-            if changes:
-                build_type = "COMMIT"
-            else:
-                properties = build.get('properties', {})
-                reason = properties.get('reason', '').lower()
-                if 'rebuild' in reason:
-                    build_type = "REBUILD"
-                elif 'force' in reason:
-                    build_type = "FORCE"
-                else:
-                    build_type = "MANUAL"
-            
+
             # Calculate duration
             started_at = build.get('started_at')
             finished_at = build.get('finished_at') or build.get('complete_at')
@@ -165,7 +152,7 @@ class MatrixReporter(ReporterBase):
                                 break
                         break
             
-            return f"{status} ({build_type}): {builder_name} #{build_number} - {state_string}{duration_str}{failure_info}"
+            return f"{status}: {builder_name} #{build_number} - {state_string}{duration_str}{failure_info}"
         
         finish_formatter = MessageFormatterFunction(format_message, 'plain')
         
