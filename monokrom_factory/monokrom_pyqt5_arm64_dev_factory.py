@@ -47,7 +47,7 @@ factory_monokrom_pyqt5_arm64_dev.addStep(steps.ShellCommand(
     workdir="/home/bb/versions/"))
 
 # delete previous changelog
-factory_monokrom_pyqt5_x86_dev.addStep(steps.ShellCommand(
+factory_monokrom_pyqt5_arm64_dev.addStep(steps.ShellCommand(
     name="Delete previous changelog",
     env={},
     command=["rm", "-rf", "debian/changelog"],
