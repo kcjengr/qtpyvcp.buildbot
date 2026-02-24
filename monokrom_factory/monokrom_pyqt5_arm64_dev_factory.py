@@ -15,19 +15,15 @@ factory_monokrom_pyqt5_arm64_dev.addStep(steps.GitHub(name="download sources",
                                              repourl='git@github.com:kcjengr/monokrom.git',
                                              branch='main',
                                              mode='full',
+                                             method="clean",
+                                             tags=True,
                                              submodules=False,
                                              workdir="sources/"))
+
 # git fetch
 factory_monokrom_pyqt5_arm64_dev.addStep(steps.ShellCommand(
     name="git fetch",
     command=["/bin/sh", "-c", "git fetch --all"],
-    workdir="sources/"))
-
-# get git tag
-factory_monokrom_pyqt5_arm64_dev.addStep(steps.SetPropertyFromCommand(
-    name="get git tag",
-    command=["git", "describe", "--abbrev=0", "--tags"],
-    property="tag",
     workdir="sources/"))
 
 # get git tag
@@ -50,6 +46,13 @@ factory_monokrom_pyqt5_arm64_dev.addStep(steps.ShellCommand(
     command=["/bin/sh", "-c", util.Interpolate('echo %(prop:tag)s-%(prop:minor_version)s > monokrom_dev_version.txt')],
     workdir="/home/bb/versions/"))
 
+# delete previous changelog
+factory_monokrom_pyqt5_x86_dev.addStep(steps.ShellCommand(
+    name="Delete previous changelog",
+    env={},
+    command=["rm", "-rf", "debian/changelog"],
+    workdir="sources/"))
+
 # create changelog
 factory_monokrom_pyqt5_arm64_dev.addStep(steps.ShellCommand(
     name="create changelog",
@@ -64,46 +67,31 @@ factory_monokrom_pyqt5_arm64_dev.addStep(steps.ShellCommand(
     command=["dpkg-buildpackage", "-b", "-uc"],
     workdir="sources/"))
 
-# copy files to the http repo
+
+# upload files to http server
 factory_monokrom_pyqt5_arm64_dev.addStep(steps.FileUpload(
-    name="copy files to the http repo",
-    workersrc=util.Interpolate("/home/buildbot/workdir/monokrom-pi4-dev/python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb"),
-     masterdest=util.Interpolate("/home/buildbot/repo/monokrom-dev/python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb"),
-    mode=0o644)
-)
+    name="upload files to http server",
+    workersrc=util.Interpolate("/home/bb/work/monokrom-pyqt5-x86-dev/python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb"),
+    masterdest=util.Interpolate("/home/buildbot/repo/monokrom-pyqt5-x86-dev/python3-qtpyvcp.monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb"),
+    mode=0o644))
 
-
-# delete old files from apt directory
-# factory_monokrom_pyqt5_arm64_dev.addStep(steps.ShellCommand(
-#     name="delete files from apt directory",
-#     command=["sh",
-#              "/home/buildbot/buildbot/master/scripts/clean_apt_develop.sh",
-#              util.Interpolate("python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb")
-#             ],
-#     workdir="sources/"))
-
-# move new files to the apt repo
+# upload files to apt server
 factory_monokrom_pyqt5_arm64_dev.addStep(steps.FileUpload(
-    name="move new files to the apt repo",
-    workersrc=util.Interpolate("/home/buildbot/workdir/monokrom-pi4-dev/python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb"),
-    masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/develop/python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb")
-    )
-)
+    name="upload files to apt server",
+    workersrc=util.Interpolate("/home/bb/work/monokrom-pyqt5-x86-dev/python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb"),
+    masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/bookworm-dev/python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb")))
 
-# delete files from build directory
-# factory_monokrom_pyqt5_arm64_dev.addStep(steps.ShellCommand(
-#     name="delete files from build directory",
-#     command=["rm", util.Interpolate("/home/buildbot/buildbot/worker/monokrom-dev/python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb")],
-#     workdir="sources/"))
 
 # scan new packages in apt repository
 factory_monokrom_pyqt5_arm64_dev.addStep(steps.MasterShellCommand(
     name="scan new packages in apt repository",
-    command="/home/buildbot/buildbot/master/scripts/do_apt_develop.sh"
-    )
-)
+    command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_bookworm_dev.sh"],
+    workdir="/home/buildbot/debian/apt"))
 
 
+#
+# Docs
+#
 
 # factory_monokrom_pyqt5_arm64_dev.addStep(steps.GitHub(name="downlaod static docs",
 #                                              repourl='git@github.com:kcjengr/probe_basic.git',

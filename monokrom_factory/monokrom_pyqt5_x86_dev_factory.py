@@ -89,37 +89,6 @@ factory_monokrom_pyqt5_x86_dev.addStep(steps.MasterShellCommand(
     workdir="/home/buildbot/debian/apt"))
 
 
-
-# delete old files from apt directory
-# factory_monokrom_pyqt5_x86_dev.addStep(steps.ShellCommand(
-#     name="delete files from apt directory",
-#     command=["sh",
-#              "/home/buildbot/buildbot/master/scripts/clean_apt_develop.sh",
-#              util.Interpolate("python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb")
-#             ],
-#     workdir="sources/"))
-
-# move new files to the apt repo
-# factory_monokrom_pyqt5_x86_dev.addStep(steps.ShellCommand(
-#     name="move new files to the apt repo",
-#     command=["mv",
-#              util.Interpolate("/home/buildbot/buildbot/worker/monokrom-dev/python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb"),
-#              "/home/buildbot/debian/apt/pool/main/develop/"],
-#     workdir="sources/"))
-
-# delete files from build directory
-# factory_monokrom_pyqt5_x86_dev.addStep(steps.ShellCommand(
-#     name="delete files from build directory",
-#     command=["rm", util.Interpolate("/home/buildbot/buildbot/worker/monokrom-dev/python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb")],
-#     workdir="sources/"))
-
-# scan new packages in apt repository
-# factory_monokrom_pyqt5_x86_dev.addStep(steps.ShellCommand(
-#     name="scan new packages in apt repository",
-#     command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_develop.sh"],
-#     workdir="sources/"))
-
-
 #
 # Docs
 #
