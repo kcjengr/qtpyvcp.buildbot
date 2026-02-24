@@ -7,13 +7,13 @@
 from buildbot.plugins import steps, util
 from packaging.version import Version, parse
 
-factory_monokrom_pyqt5_x86_dev = util.BuildFactory()
+factory_monokrom_pyside6_x86_dev = util.BuildFactory()
 
 
 # download sources
-factory_monokrom_pyqt5_x86_dev.addStep(steps.GitHub(name="download sources",
+factory_monokrom_pyside6_x86_dev.addStep(steps.GitHub(name="download sources",
                                              repourl='git@github.com:kcjengr/monokrom.git',
-                                             branch='main',
+                                             branch='pyside6',
                                              mode='full',
                                              method="clean",
                                              tags=True,
@@ -21,41 +21,41 @@ factory_monokrom_pyqt5_x86_dev.addStep(steps.GitHub(name="download sources",
                                              workdir="sources/"))
 
 # get git tag
-factory_monokrom_pyqt5_x86_dev.addStep(steps.SetPropertyFromCommand(
+factory_monokrom_pyside6_x86_dev.addStep(steps.SetPropertyFromCommand(
     name="get git tag",
     command=["git", "describe", "--abbrev=0", "--tags"],
     property="tag",
     workdir="sources/"))
 
 # get git commit count since last tag
-factory_monokrom_pyqt5_x86_dev.addStep(steps.SetPropertyFromCommand(
+factory_monokrom_pyside6_x86_dev.addStep(steps.SetPropertyFromCommand(
     name="get git commit count since last tag",
     command=["git", "rev-list", "--count", "--branches", util.Interpolate("^refs/tags/%(prop:tag)s")],
     property="minor_version",
     workdir="sources/"))
 
 # store version file
-factory_monokrom_pyqt5_x86_dev.addStep(steps.ShellCommand(
+factory_monokrom_pyside6_x86_dev.addStep(steps.ShellCommand(
     name="store version file",
     command=["/bin/sh", "-c", util.Interpolate('echo %(prop:tag)s-%(prop:minor_version)s > monokrom_dev_version.txt')],
     workdir="/home/bb/versions/"))
 
 # delete previous changelog
-factory_monokrom_pyqt5_x86_dev.addStep(steps.ShellCommand(
+factory_monokrom_pyside6_x86_dev.addStep(steps.ShellCommand(
     name="Delete previous changelog",
     env={},
     command=["rm", "-rf", "debian/changelog"],
     workdir="sources/"))
 
 # create changelog
-factory_monokrom_pyqt5_x86_dev.addStep(steps.ShellCommand(
+factory_monokrom_pyside6_x86_dev.addStep(steps.ShellCommand(
     name="create changelog",
     env={'EMAIL': "james@snaggingpixels.com"},
     command=["dch", "--create", "--distribution", "unstable", "--package", "monokrom", "--newversion", util.Interpolate("%(prop:tag)s-%(prop:minor_version)s.dev"), "Develop version."],
     workdir="sources/"))
 
 # build debs
-factory_monokrom_pyqt5_x86_dev.addStep(steps.ShellCommand(
+factory_monokrom_pyside6_x86_dev.addStep(steps.ShellCommand(
     name="build debs",
     env={'DEB_BUILD_OPTIONS': "nocheck"},
     command=["dpkg-buildpackage", "-b", "-uc"],
@@ -63,23 +63,23 @@ factory_monokrom_pyqt5_x86_dev.addStep(steps.ShellCommand(
 
 
 # upload files to http server
-factory_monokrom_pyqt5_x86_dev.addStep(steps.FileUpload(
+factory_monokrom_pyside6_x86_dev.addStep(steps.FileUpload(
     name="upload files to http server",
-    workersrc=util.Interpolate("/home/bb/work/monokrom-pyqt5-x86-dev/python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb"),
-    masterdest=util.Interpolate("/home/buildbot/repo/monokrom-pyqt5-x86-dev/python3-qtpyvcp.monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb"),
+    workersrc=util.Interpolate("/home/bb/work/monokrom-pyside6-x86-dev/python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb"),
+    masterdest=util.Interpolate("/home/buildbot/repo/monokrom-pyside6-x86-dev/python3-qtpyvcp.monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb"),
     mode=0o644))
 
 # upload files to apt server
-factory_monokrom_pyqt5_x86_dev.addStep(steps.FileUpload(
+factory_monokrom_pyside6_x86_dev.addStep(steps.FileUpload(
     name="upload files to apt server",
-    workersrc=util.Interpolate("/home/bb/work/monokrom-pyqt5-x86-dev/python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb"),
-    masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/bookworm-dev/python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb")))
+    workersrc=util.Interpolate("/home/bb/work/monokrom-pyside6-x86-dev/python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb"),
+    masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/trixie-dev/python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb")))
 
 
 # scan new packages in apt repository
-factory_monokrom_pyqt5_x86_dev.addStep(steps.MasterShellCommand(
+factory_monokrom_pyside6_x86_dev.addStep(steps.MasterShellCommand(
     name="scan new packages in apt repository",
-    command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_bookworm_dev.sh"],
+    command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_trixie_dev.sh"],
     workdir="/home/buildbot/debian/apt"))
 
 
@@ -87,26 +87,26 @@ factory_monokrom_pyqt5_x86_dev.addStep(steps.MasterShellCommand(
 # Docs
 #
 
-# factory_monokrom_pyqt5_x86_dev.addStep(steps.GitHub(name="downlaod static docs",
+# factory_monokrom_pyside6_x86_dev.addStep(steps.GitHub(name="downlaod static docs",
 #                                              repourl='git@github.com:kcjengr/probe_basic.git',
 #                                              origin="origin",
 #                                              branch="gh-pages",
 #                                              mode='full',
 #                                              workdir="docs/"))
 #
-# factory_monokrom_pyqt5_x86_dev.addStep(steps.ShellCommand(name="reset gh-pages",
+# factory_monokrom_pyside6_x86_dev.addStep(steps.ShellCommand(name="reset gh-pages",
 #                                                    command=["git", "symbolic-ref", "HEAD", "refs/heads/gh-pages"],
 #                                                    workdir="docs/"))
 #
-# factory_monokrom_pyqt5_x86_dev.addStep(steps.ShellCommand(name="delete git index",
+# factory_monokrom_pyside6_x86_dev.addStep(steps.ShellCommand(name="delete git index",
 #                                                    command=["rm", ".git/index"],
 #                                                    workdir="docs/"))
 #
-# factory_monokrom_pyqt5_x86_dev.addStep(steps.ShellCommand(name="clean gh-pages",
+# factory_monokrom_pyside6_x86_dev.addStep(steps.ShellCommand(name="clean gh-pages",
 #                                                    command=["git", "clean", "-fdx"],
 #                                                    workdir="docs/"))
 #
-# factory_monokrom_pyqt5_x86_dev.addStep(
+# factory_monokrom_pyside6_x86_dev.addStep(
 #     steps.Sphinx(
 #         name="compile sphinx docs",
 #         haltOnFailure=True,
@@ -117,6 +117,6 @@ factory_monokrom_pyqt5_x86_dev.addStep(steps.MasterShellCommand(
 #         env={"LANG": "en_EN.UTF-8"},
 #         workdir="docs/"))
 #
-# factory_monokrom_pyqt5_x86_dev.addStep(steps.ShellCommand(name="add doc files", command=["git", "add", "."], workdir="docs/"))
-# factory_monokrom_pyqt5_x86_dev.addStep(steps.ShellCommand(name="commit doc files", command=["git", "commit", "-a", "-m", "deploy gh-pages"], workdir="docs/"))
-# factory_monokrom_pyqt5_x86_dev.addStep(steps.ShellCommand(name="push docs", command=["git", "push", "--force", "origin", "gh-pages"], workdir="docs/"))
+# factory_monokrom_pyside6_x86_dev.addStep(steps.ShellCommand(name="add doc files", command=["git", "add", "."], workdir="docs/"))
+# factory_monokrom_pyside6_x86_dev.addStep(steps.ShellCommand(name="commit doc files", command=["git", "commit", "-a", "-m", "deploy gh-pages"], workdir="docs/"))
+# factory_monokrom_pyside6_x86_dev.addStep(steps.ShellCommand(name="push docs", command=["git", "push", "--force", "origin", "gh-pages"], workdir="docs/"))
