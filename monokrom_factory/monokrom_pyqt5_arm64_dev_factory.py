@@ -1,7 +1,7 @@
 # -*- python3 -*-
 # ex: set syntax=python3:
 #
-# MonoKrom VCP Develop Factory
+# MonoKrom VCP Develop arm64 Factory
 #
 
 from buildbot.plugins import steps, util
@@ -19,12 +19,6 @@ factory_monokrom_pyqt5_arm64_dev.addStep(steps.GitHub(name="download sources",
                                              tags=True,
                                              submodules=False,
                                              workdir="sources/"))
-
-# git fetch
-factory_monokrom_pyqt5_arm64_dev.addStep(steps.ShellCommand(
-    name="git fetch",
-    command=["/bin/sh", "-c", "git fetch --all"],
-    workdir="sources/"))
 
 # get git tag
 factory_monokrom_pyqt5_arm64_dev.addStep(steps.SetPropertyFromCommand(
