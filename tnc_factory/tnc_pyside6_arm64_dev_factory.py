@@ -77,58 +77,24 @@ factory_tnc_pyside6_arm64_dev.addStep(steps.ShellCommand(
 factory_tnc_pyside6_arm64_dev.addStep(steps.FileUpload(
     name="upload files to http server",
     workersrc=util.Interpolate("/home/bb/work/turbonc-pyside6-arm64-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb"),
-    masterdest=util.Interpolate("/home/buildbot/repo/tnc-pyside6-arm64-dev/python3-qtpyvcp.tnc_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb"),
+    masterdest=util.Interpolate("/home/buildbot/repo/tnc-pyside6-arm64-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb"),
     mode=0o644))
 
 # upload files to apt server
-# factory_tnc_pyside6_arm64_dev.addStep(steps.FileUpload(
-#     name="upload files to apt server",
-#     workersrc=util.Interpolate("/home/bb/work/turbonc-pyside6-arm64-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb"),
-#     masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/develop/python3-turbonc-arm_64_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb")))
+factory_tnc_pyside6_arm64_dev.addStep(steps.FileUpload(
+    name="upload files to apt server",
+    workersrc=util.Interpolate("/home/bb/work/turbonc-pyside6-arm64-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb"),
+    masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/develop/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb")))
 
 
 
+# scan new packages in apt repository
+factory_tnc_pyside6_arm64_dev.addStep(steps.MasterShellCommand(
+    name="scan new packages in apt repository",
+    command="/home/buildbot/buildbot/master/scripts/do_apt_trixie_dev.sh"
+    )
+)
 
-
-# # copy files to the http repo
-# factory_tnc_arm64.addStep(steps.FileUpload(
-#     name="copy files to the http repo",
-#     workersrc=util.Interpolate("/home/buildbot/workdir/turbonc-arm64_dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb"),
-#     masterdest=util.Interpolate("/home/buildbot/repo/turbonc-arm64_dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb"),
-#     mode=0o644)
-# )
-#
-#
-# # delete old files from apt directory
-# # factory_tnc_arm64.addStep(steps.ShellCommand(
-# #     name="delete files from apt directory",
-# #     command=["sh",
-# #              "/home/buildbot/buildbot/master/scripts/clean_apt_develop.sh",
-# #              util.Interpolate("python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb")
-# #             ],
-# #     workdir="sources/"))
-#
-# # move new files to the apt repo
-# factory_tnc_arm64.addStep(steps.FileUpload(
-#     name="move new files to the apt repo",
-#     workersrc=util.Interpolate("/home/buildbot/workdir/turbonc-arm64_dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb"),
-#     masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/develop/python3-turbonc-arm_64_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb")
-#     )
-# )
-#
-# # delete files from build directory
-# # factory_tnc_arm64.addStep(steps.ShellCommand(
-# #     name="delete files from build directory",
-# #     command=["rm", util.Interpolate("/home/buildbot/buildbot/worker/monokrom-dev/python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb")],
-# #     workdir="sources/"))
-#
-# # scan new packages in apt repository
-# factory_tnc_arm64.addStep(steps.MasterShellCommand(
-#     name="scan new packages in apt repository",
-#     command="/home/buildbot/buildbot/master/scripts/do_apt_develop.sh"
-#     )
-# )
-#
 
 
 # factory_tnc_arm64.addStep(steps.GitHub(name="downlaod static docs",
