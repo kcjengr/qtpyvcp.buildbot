@@ -33,7 +33,7 @@ factory_qtpyvcp_pyside6_x86.addStep(
 factory_qtpyvcp_pyside6_x86.addStep(
     steps.ShellCommand(
         name="git pull",
-        command=["/bin/sh", "-c", "git pull origin main"],
+        command=["/bin/sh", "-c", "git pull --no-rebase origin main"],
         workdir="sources/",
     )
 )
