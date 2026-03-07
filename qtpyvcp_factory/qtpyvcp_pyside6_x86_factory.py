@@ -129,7 +129,7 @@ factory_qtpyvcp_pyside6_x86.addStep(
         command=[
             "cp",
             util.Interpolate(
-                "/home/bb/worker/qtpyvcp/python3-qtpyvcp_%(prop:tag)s_amd64.deb"
+                "/home/bb/work/qtpyvcp-pyside6-x86/python3-qtpyvcp_%(prop:tag)s_amd64.deb"
             ),
             "/home/buildbot/debian/apt/pool/main/trixie/",
         ],
