@@ -122,18 +122,16 @@ factory_qtpyvcp_pyside6_x86.addStep(
     )
 )
 
-# copy new files to the apt repo
+
 factory_qtpyvcp_pyside6_x86.addStep(
-    steps.ShellCommand(
-        name="copy files to apt repo",
-        command=[
-            "cp",
-            util.Interpolate(
-                "/home/bb/work/qtpyvcp-pyside6-x86/python3-qtpyvcp_%(prop:tag)s_amd64.deb"
-            ),
-            "/home/buildbot/debian/apt/pool/main/trixie/",
-        ],
-        workdir="sources/",
+    steps.FileUpload(
+        name="upload files to apt server",
+        workersrc=util.Interpolate(
+            "/home/bb/work/qtpyvcp-pyside6-x86/python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.amd64.deb"
+        ),
+        masterdest=util.Interpolate(
+            "/home/buildbot/debian/apt/pool/main/trixie/python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.amd64.deb"
+        ),
     )
 )
 
