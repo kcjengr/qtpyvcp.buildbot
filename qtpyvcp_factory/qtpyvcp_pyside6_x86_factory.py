@@ -14,7 +14,7 @@ factory_qtpyvcp_pyside6_x86.addStep(
     steps.GitHub(
         name="download sources",
         repourl="git@github.com:kcjengr/qtpyvcp.git",
-        branch="main",
+        branch="pyside6",
         mode="full",
         submodules=False,
         workdir="sources/",
@@ -33,7 +33,7 @@ factory_qtpyvcp_pyside6_x86.addStep(
 factory_qtpyvcp_pyside6_x86.addStep(
     steps.ShellCommand(
         name="git pull",
-        command=["/bin/sh", "-c", "git pull --no-rebase origin main"],
+        command=["/bin/sh", "-c", "git pull --no-rebase origin pyside6"],
         workdir="sources/",
     )
 )
@@ -59,11 +59,20 @@ factory_qtpyvcp_pyside6_x86.addStep(
 
 # not needed by release
 # # get git commit count since last tag
-# factory_qtpyvcp.addStep(steps.SetPropertyFromCommand(
-#     name="get git commit count since last tag",
-#     command=["git", "rev-list", "--count", "--branches", util.Interpolate("^refs/tags/%(prop:tag)s")],
-#     property="minor_version",
-#     workdir="sources/"))
+# factory_qtpyvcp_pyside6_x86.addStep(
+#     steps.SetPropertyFromCommand(
+#         name="get git commit count since last tag",
+#         command=[
+#             "git",
+#             "rev-list",
+#             "--count",
+#             "--branches",
+#             util.Interpolate("^refs/tags/%(prop:tag)s"),
+#         ],
+#         property="minor_version",
+#         workdir="sources/",
+#     )
+# )
 
 # store version file
 # factory_qtpyvcp_pyside6_x86.addStep(
@@ -149,25 +158,36 @@ factory_qtpyvcp_pyside6_x86.addStep(
 #
 # # needs more testing
 # # publish on github
-# # factory_qtpyvcp.addStep(steps.ShellCommand(
-# #     command=["/home/buildbot/buildbot/worker/qtpyvcp/sources/.scripts/publish_github_release.sh",
-# #              "kcjengr/qtpyvcp", util.Property("branch")],
-# #     workdir="sources/"))
+# # factory_qtpyvcp_pyside6_x86.addStep(
+# #     steps.ShellCommand(
+# #         command=[
+# #             "/home/buildbot/buildbot/worker/qtpyvcp/sources/.scripts/publish_github_release.sh",
+# #             "kcjengr/qtpyvcp",
+# #             util.Property("branch"),
+# #         ],
+# #         workdir="sources/",
+# #     )
+# # )
 #
 #
 #
 # # more apt things
 # # scan new packages in apt repository
-# factory_qtpyvcp_pyside6_x86.addStep(steps.ShellCommand(
-#     name="scan new packages in apt repository",
-#     command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_trixie.sh"],
-#     workdir="sources/"))
+# factory_qtpyvcp_pyside6_x86.addStep(
+#     steps.ShellCommand(
+#         name="scan new packages in apt repository",
+#         command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_trixie.sh"],
+#         workdir="sources/",
+#     )
+# )
 
 # doc related things
 # # delete docs directory
-# factory_qtpyvcp.addStep(steps.RemoveDirectory(name="delete docs directory", dir="docs/"))
+# factory_qtpyvcp_pyside6_x86.addStep(
+#     steps.RemoveDirectory(name="delete docs directory", dir="docs/")
+# )
 #
-# factory_qtpyvcp.addStep(
+# factory_qtpyvcp_pyside6_x86.addStep(
 #     steps.Sphinx(
 #         name="compile sphinx docs",
 #         haltOnFailure=True,
@@ -176,30 +196,54 @@ factory_qtpyvcp_pyside6_x86.addStep(
 #         sphinx_sourcedir="/home/buildbot/buildbot/worker/qtpyvcp/sources/docs/source/",
 #         strict_warnings=False,
 #         env={"LANG": "en_EN.UTF-8"},
-#         workdir="sources/docs/source/"
+#         workdir="sources/docs/source/",
 #     )
 # )
 #
-# factory_qtpyvcp.addStep(steps.ShellCommand(name="Initialize docs repository",
-#                                                command=["git", "init"],
-#                                                workdir="docs/"))
+# factory_qtpyvcp_pyside6_x86.addStep(
+#     steps.ShellCommand(
+#         name="Initialize docs repository",
+#         command=["git", "init"],
+#         workdir="docs/",
+#     )
+# )
 #
-# factory_qtpyvcp.addStep(steps.ShellCommand(name="add remote repository",
-#                                                command=["git", "remote", "add", "origin", "git@github.com:kcjengr/qtpyvcp.git"],
-#                                                workdir="docs/"))
+# factory_qtpyvcp_pyside6_x86.addStep(
+#     steps.ShellCommand(
+#         name="add remote repository",
+#         command=["git", "remote", "add", "origin", "git@github.com:kcjengr/qtpyvcp.git"],
+#         workdir="docs/",
+#     )
+# )
 #
-# factory_qtpyvcp.addStep(steps.ShellCommand(name="switch branch",
-#                                                command=["git", "checkout", "-b", "gh-pages"],
-#                                                workdir="docs/"))
+# factory_qtpyvcp_pyside6_x86.addStep(
+#     steps.ShellCommand(
+#         name="switch branch",
+#         command=["git", "checkout", "-b", "gh-pages"],
+#         workdir="docs/",
+#     )
+# )
 #
-# factory_qtpyvcp.addStep(steps.ShellCommand(name="add docs",
-#                                                command=["git", "add", "."],
-#                                                workdir="docs/"))
+# factory_qtpyvcp_pyside6_x86.addStep(
+#     steps.ShellCommand(
+#         name="add docs",
+#         command=["git", "add", "."],
+#         workdir="docs/",
+#     )
+# )
 #
-# factory_qtpyvcp.addStep(steps.ShellCommand(name="commit docs",
-#                                                command=["git", "commit", "-m", "Deploy docs"],
-#                                                workdir="docs/"))
+# factory_qtpyvcp_pyside6_x86.addStep(
+#     steps.ShellCommand(
+#         name="commit docs",
+#         command=["git", "commit", "-m", "Deploy docs"],
+#         workdir="docs/",
+#     )
+# )
 #
-# factory_qtpyvcp.addStep(steps.ShellCommand(name="push docs",
-#                                                command=["git", "push", "--force", "origin", "gh-pages"],
-#                                                workdir="docs/"))
+# factory_qtpyvcp_pyside6_x86.addStep(
+#     steps.ShellCommand(
+#         name="push docs",
+#         command=["git", "push", "--force", "origin", "gh-pages"],
+#         workdir="docs/",
+#     )
+# )

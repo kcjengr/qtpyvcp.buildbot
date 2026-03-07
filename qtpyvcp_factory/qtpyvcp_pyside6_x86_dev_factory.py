@@ -39,6 +39,15 @@ factory_qtpyvcp_pyside6_x86_dev.addStep(
     )
 )
 
+# update venv
+factory_qtpyvcp_pyside6_x86_dev.addStep(
+    steps.ShellCommand(
+        name="update venv",
+        command=["/home/bb/.venv/bin/python", "-m", "pip", "install", "-U", "-e", "."],
+        workdir="sources/",
+    )
+)
+
 # get git tag
 factory_qtpyvcp_pyside6_x86_dev.addStep(
     steps.SetPropertyFromCommand(
@@ -65,11 +74,30 @@ factory_qtpyvcp_pyside6_x86_dev.addStep(
     )
 )
 
-# # store version file
-# factory_qtpyvcp_pyside6_x86_dev.addStep(steps.ShellCommand(
-#     name="store version file",
-#     command=["/bin/sh", "-c", util.Interpolate('echo %(prop:tag)s-%(prop:minor_version)s > qtpyvcp_dev_version.txt')],
-#     workdir="/home/buildbot/versions/"))
+# store version file
+factory_qtpyvcp_pyside6_x86_dev.addStep(
+    steps.ShellCommand(
+        name="store version file",
+        command=[
+            "/bin/sh",
+            "-c",
+            util.Interpolate(
+                "echo %(prop:tag)s-%(prop:minor_version)s > qtpyvcp_dev_version.txt"
+            ),
+        ],
+        workdir="/home/buildbot/versions/",
+    )
+)
+
+# delete previous changelog
+factory_qtpyvcp_pyside6_x86_dev.addStep(
+    steps.ShellCommand(
+        name="Delete previous changelog",
+        env={},
+        command=["rm", "-rf", "debian/changelog"],
+        workdir="sources/",
+    )
+)
 
 # create changelog
 factory_qtpyvcp_pyside6_x86_dev.addStep(
@@ -115,7 +143,6 @@ factory_qtpyvcp_pyside6_x86_dev.addStep(
     )
 )
 
-
 # upload files to apt server
 factory_qtpyvcp_pyside6_x86_dev.addStep(
     steps.FileUpload(
@@ -137,11 +164,11 @@ factory_qtpyvcp_pyside6_x86_dev.addStep(
         workdir="/home/buildbot/debian/apt",
     )
 )
-
-
 #
 # # delete docs directory
-# factory_qtpyvcp_pyside6_x86_dev.addStep(steps.RemoveDirectory(name="delete docs directory", dir="docs/"))
+# factory_qtpyvcp_pyside6_x86_dev.addStep(
+#     steps.RemoveDirectory(name="delete docs directory", dir="docs/")
+# )
 #
 # factory_qtpyvcp_pyside6_x86_dev.addStep(
 #     steps.Sphinx(
@@ -152,30 +179,54 @@ factory_qtpyvcp_pyside6_x86_dev.addStep(
 #         sphinx_sourcedir="/home/buildbot/buildbot/worker/qtpyvcp-dev/sources/docs/source/",
 #         strict_warnings=False,
 #         env={"LANG": "en_EN.UTF-8"},
-#         workdir="sources/docs/source/"
+#         workdir="sources/docs/source/",
 #     )
 # )
 #
-# factory_qtpyvcp_pyside6_x86_dev.addStep(steps.ShellCommand(name="Initialize docs repository",
-#                                                    command=["git", "init"],
-#                                                    workdir="docs/"))
+# factory_qtpyvcp_pyside6_x86_dev.addStep(
+#     steps.ShellCommand(
+#         name="Initialize docs repository",
+#         command=["git", "init"],
+#         workdir="docs/",
+#     )
+# )
 #
-# factory_qtpyvcp_pyside6_x86_dev.addStep(steps.ShellCommand(name="add remote repository",
-#                                                    command=["git", "remote", "add", "origin", "git@github.com:kcjengr/qtpyvcp.git"],
-#                                                    workdir="docs/"))
+# factory_qtpyvcp_pyside6_x86_dev.addStep(
+#     steps.ShellCommand(
+#         name="add remote repository",
+#         command=["git", "remote", "add", "origin", "git@github.com:kcjengr/qtpyvcp.git"],
+#         workdir="docs/",
+#     )
+# )
 #
-# factory_qtpyvcp_pyside6_x86_dev.addStep(steps.ShellCommand(name="switch branch",
-#                                                    command=["git", "checkout", "-b", "gh-pages"],
-#                                                    workdir="docs/"))
+# factory_qtpyvcp_pyside6_x86_dev.addStep(
+#     steps.ShellCommand(
+#         name="switch branch",
+#         command=["git", "checkout", "-b", "gh-pages"],
+#         workdir="docs/",
+#     )
+# )
 #
-# factory_qtpyvcp_pyside6_x86_dev.addStep(steps.ShellCommand(name="add docs",
-#                                                    command=["git", "add", "."],
-#                                                    workdir="docs/"))
+# factory_qtpyvcp_pyside6_x86_dev.addStep(
+#     steps.ShellCommand(
+#         name="add docs",
+#         command=["git", "add", "."],
+#         workdir="docs/",
+#     )
+# )
 #
-# factory_qtpyvcp_pyside6_x86_dev.addStep(steps.ShellCommand(name="commit docs",
-#                                                    command=["git", "commit", "-m", "Deploy docs"],
-#                                                    workdir="docs/"))
+# factory_qtpyvcp_pyside6_x86_dev.addStep(
+#     steps.ShellCommand(
+#         name="commit docs",
+#         command=["git", "commit", "-m", "Deploy docs"],
+#         workdir="docs/",
+#     )
+# )
 #
-# factory_qtpyvcp_pyside6_x86_dev.addStep(steps.ShellCommand(name="push docs",
-#                                                    command=["git", "push", "--force", "origin", "gh-pages"],
-#                                                    workdir="docs/"))
+# factory_qtpyvcp_pyside6_x86_dev.addStep(
+#     steps.ShellCommand(
+#         name="push docs",
+#         command=["git", "push", "--force", "origin", "gh-pages"],
+#         workdir="docs/",
+#     )
+# )
