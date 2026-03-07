@@ -20,6 +20,7 @@ factory_qtpyvcp_pyqt5_arm64_dev.addStep(
         workdir="sources/",
     )
 )
+
 # git fetch
 factory_qtpyvcp_pyqt5_arm64_dev.addStep(
     steps.ShellCommand(

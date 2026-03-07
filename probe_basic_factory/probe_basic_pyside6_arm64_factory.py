@@ -1,20 +1,21 @@
 # -*- python3 -*-
 # ex: set syntax=python3:
-
-# QtPyVCP Stable Factory arm64
-
-import os
+#
+# ProbeBasic Stable Factory pyside6 arm64
+#
 
 from buildbot.plugins import steps, util
+from packaging.version import Version, parse
 
-factory_qtpyvcp_pyqt5_arm64 = util.BuildFactory()
+factory_probe_basic_pyside6_arm64 = util.BuildFactory()
+
 
 # download sources
-factory_qtpyvcp_pyqt5_arm64.addStep(
+factory_probe_basic_pyside6_arm64.addStep(
     steps.GitHub(
         name="download sources",
-        repourl="git@github.com:kcjengr/qtpyvcp.git",
-        branch="main",
+        repourl="git@github.com:kcjengr/probe_basic.git",
+        branch="pyside6",
         mode="full",
         submodules=False,
         workdir="sources/",
@@ -22,7 +23,7 @@ factory_qtpyvcp_pyqt5_arm64.addStep(
 )
 
 # git fetch
-factory_qtpyvcp_pyqt5_arm64.addStep(
+factory_probe_basic_pyside6_arm64.addStep(
     steps.ShellCommand(
         name="git fetch",
         command=["/bin/sh", "-c", "git fetch --all"],
@@ -31,7 +32,7 @@ factory_qtpyvcp_pyqt5_arm64.addStep(
 )
 
 # get git tag
-factory_qtpyvcp_pyqt5_arm64.addStep(
+factory_probe_basic_pyside6_arm64.addStep(
     steps.SetPropertyFromCommand(
         name="get git tag",
         command=["git", "describe", "--abbrev=0", "--tags"],
@@ -41,7 +42,7 @@ factory_qtpyvcp_pyqt5_arm64.addStep(
 )
 
 # checkout the tag
-factory_qtpyvcp_pyqt5_arm64.addStep(
+factory_probe_basic_pyside6_arm64.addStep(
     steps.ShellCommand(
         name="checkout tag",
         command=["git", "checkout", util.Interpolate("%(prop:tag)s")],
@@ -50,40 +51,40 @@ factory_qtpyvcp_pyqt5_arm64.addStep(
 )
 
 # store version file
-factory_qtpyvcp_pyqt5_arm64.addStep(
+factory_probe_basic_pyside6_arm64.addStep(
     steps.ShellCommand(
         name="store version file",
         command=[
             "/bin/sh",
             "-c",
-            util.Interpolate("echo %(prop:tag)s > qtpyvcp_stable_version.txt"),
+            util.Interpolate("echo %(prop:tag)s > pb_stable_version.txt"),
         ],
         workdir="/home/bb/versions/",
     )
 )
 
 # create changelog
-factory_qtpyvcp_pyqt5_arm64.addStep(
+factory_probe_basic_pyside6_arm64.addStep(
     steps.ShellCommand(
         name="create changelog",
-        env={"EMAIL": "j.l.toledano.l@gmail.com"},
+        env={"EMAIL": "lcvette1@gmail.com"},
         command=[
             "dch",
             "--create",
             "--distribution",
-            "stable",
+            "trixie",
             "--package",
-            "qtpyvcp",
+            "probe-basic",
             "--newversion",
             util.Interpolate("%(prop:tag)s"),
-            "Stable Release version.",
+            "Trixie version.",
         ],
         workdir="sources/",
     )
 )
 
 # build debs
-factory_qtpyvcp_pyqt5_arm64.addStep(
+factory_probe_basic_pyside6_arm64.addStep(
     steps.ShellCommand(
         name="build debs",
         env={"DEB_BUILD_OPTIONS": "nocheck"},
@@ -93,38 +94,37 @@ factory_qtpyvcp_pyqt5_arm64.addStep(
 )
 
 # upload files to http server
-factory_qtpyvcp_pyqt5_arm64.addStep(
+factory_probe_basic_pyside6_arm64.addStep(
     steps.FileUpload(
         name="upload files to http server",
         workersrc=util.Interpolate(
-            "/home/bb/work/qtpyvcp-pyqt5-arm64/python3-qtpyvcp_%(prop:tag)s_arm64.deb"
+            "/home/bb/work/probe_basic-pyside6-arm64/python3-probe-basic_%(prop:tag)s_arm64.deb"
         ),
         masterdest=util.Interpolate(
-            "/home/buildbot/repo/qtpyvcp-pyqt5-arm64/python3-qtpyvcp_%(prop:tag)s_arm64.deb"
+            "/home/buildbot/repo/probe_basic-pyside6-arm64/python3-probe-basic_%(prop:tag)s_arm64.deb"
         ),
         mode=0o644,
     )
 )
 
 # upload files to apt server
-factory_qtpyvcp_pyqt5_arm64.addStep(
+factory_probe_basic_pyside6_arm64.addStep(
     steps.FileUpload(
         name="upload files to apt server",
         workersrc=util.Interpolate(
-            "/home/bb/work/qtpyvcp-pyqt5-arm64/python3-qtpyvcp_%(prop:tag)s_arm64.deb"
+            "/home/bb/work/probe_basic-pyside6-arm64/python3-probe-basic_%(prop:tag)s_arm64.deb"
         ),
         masterdest=util.Interpolate(
-            "/home/buildbot/debian/apt/pool/main/bookworm/python3-qtpyvcp_%(prop:tag)s_arm64.deb"
+            "/home/buildbot/debian/apt/pool/main/trixie/python3-probe-basic_%(prop:tag)s_arm64.deb"
         ),
     )
 )
 
-
 # scan new packages in apt repository
-factory_qtpyvcp_pyqt5_arm64.addStep(
+factory_probe_basic_pyside6_arm64.addStep(
     steps.MasterShellCommand(
         name="scan new packages in apt repository",
-        command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_bookworm.sh"],
+        command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_trixie.sh"],
         workdir="/home/buildbot/debian/apt",
     )
 )

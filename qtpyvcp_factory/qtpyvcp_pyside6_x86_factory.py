@@ -20,6 +20,7 @@ factory_qtpyvcp_pyside6_x86.addStep(
         workdir="sources/",
     )
 )
+
 # git fetch
 factory_qtpyvcp_pyside6_x86.addStep(
     steps.ShellCommand(
@@ -131,7 +132,6 @@ factory_qtpyvcp_pyside6_x86.addStep(
     )
 )
 
-
 factory_qtpyvcp_pyside6_x86.addStep(
     steps.FileUpload(
         name="upload files to apt server",
@@ -144,7 +144,6 @@ factory_qtpyvcp_pyside6_x86.addStep(
     )
 )
 
-
 # scan new packages in apt repository
 factory_qtpyvcp_pyside6_x86.addStep(
     steps.MasterShellCommand(
@@ -153,7 +152,6 @@ factory_qtpyvcp_pyside6_x86.addStep(
         workdir="/home/buildbot/debian/apt",
     )
 )
-
 
 #
 # # needs more testing
@@ -180,7 +178,7 @@ factory_qtpyvcp_pyside6_x86.addStep(
 #         workdir="sources/",
 #     )
 # )
-
+#
 # doc related things
 # # delete docs directory
 # factory_qtpyvcp_pyside6_x86.addStep(
