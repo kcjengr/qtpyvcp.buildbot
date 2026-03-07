@@ -122,14 +122,32 @@ factory_qtpyvcp_pyside6_x86.addStep(
     )
 )
 
-# # disabled needs apt structure things
-# # copy new files to the apt repo
-# factory_qtpyvcp_pyside6_x86.addStep(steps.ShellCommand(
-#     name="copy files to repo",
-#     command=["cp",
-#              util.Interpolate("/home/buildbot/buildbot/worker/qtpyvcp/python3-qtpyvcp_%(prop:tag)s_amd64.deb"),
-#              "/home/buildbot/debian/apt/pool/main/trixie/"],
-#     workdir="sources/"))
+# copy new files to the apt repo
+factory_qtpyvcp_pyside6_x86.addStep(
+    steps.ShellCommand(
+        name="copy files to apt repo",
+        command=[
+            "cp",
+            util.Interpolate(
+                "/home/bb/worker/qtpyvcp/python3-qtpyvcp_%(prop:tag)s_amd64.deb"
+            ),
+            "/home/buildbot/debian/apt/pool/main/trixie/",
+        ],
+        workdir="sources/",
+    )
+)
+
+
+# scan new packages in apt repository
+factory_qtpyvcp_pyside6_x86.addStep(
+    steps.MasterShellCommand(
+        name="scan new packages in apt repository",
+        command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_trixie.sh"],
+        workdir="/home/buildbot/debian/apt",
+    )
+)
+
+
 #
 # # needs more testing
 # # publish on github
