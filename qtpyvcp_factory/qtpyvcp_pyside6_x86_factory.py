@@ -127,10 +127,10 @@ factory_qtpyvcp_pyside6_x86.addStep(
     steps.FileUpload(
         name="upload files to apt server",
         workersrc=util.Interpolate(
-            "/home/bb/work/qtpyvcp-pyside6-x86/python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.amd64.deb"
+            "/home/bb/work/qtpyvcp-pyside6-x86/python3-qtpyvcp_%(prop:tag)s.amd64.deb"
         ),
         masterdest=util.Interpolate(
-            "/home/buildbot/debian/apt/pool/main/trixie/python3-qtpyvcp_%(prop:tag)s-%(prop:minor_version)s.amd64.deb"
+            "/home/buildbot/debian/apt/pool/main/trixie/python3-qtpyvcp_%(prop:tag)s.amd64.deb"
         ),
     )
 )
