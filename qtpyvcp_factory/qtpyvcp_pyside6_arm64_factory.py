@@ -14,7 +14,7 @@ factory_qtpyvcp_pyside6_arm64.addStep(
     steps.GitHub(
         name="download sources",
         repourl="git@github.com:kcjengr/qtpyvcp.git",
-        branch="main",
+        branch="pyside6",
         mode="full",
         submodules=False,
         workdir="sources/",
@@ -33,7 +33,7 @@ factory_qtpyvcp_pyside6_arm64.addStep(
 factory_qtpyvcp_pyside6_arm64.addStep(
     steps.ShellCommand(
         name="git pull",
-        command=["/bin/sh", "-c", "git pull origin main"],
+        command=["/bin/sh", "-c", "git pull --no-rebase origin pyside6"],
         workdir="sources/",
     )
 )
@@ -59,17 +59,33 @@ factory_qtpyvcp_pyside6_arm64.addStep(
 
 # not needed by release
 # # get git commit count since last tag
-# factory_qtpyvcp_pi4.addStep(steps.SetPropertyFromCommand(
-#     name="get git commit count since last tag",
-#     command=["git", "rev-list", "--count", "--branches", util.Interpolate("^refs/tags/%(prop:tag)s")],
-#     property="minor_version",
-#     workdir="sources/"))
+# factory_qtpyvcp_pyside6_arm64.addStep(
+#     steps.SetPropertyFromCommand(
+#         name="get git commit count since last tag",
+#         command=[
+#             "git",
+#             "rev-list",
+#             "--count",
+#             "--branches",
+#             util.Interpolate("^refs/tags/%(prop:tag)s"),
+#         ],
+#         property="minor_version",
+#         workdir="sources/",
+#     )
+# )
 
 # store version file
-# factory_qtpyvcp_pyside6_arm64.addStep(steps.ShellCommand(
-#     name="store version file",
-#     command=["/bin/sh", "-c", util.Interpolate('echo %(prop:tag)s > qtpyvcp_version.txt')],
-#     workdir="/home/buildbot/versions/"))
+factory_qtpyvcp_pyside6_arm64.addStep(
+    steps.ShellCommand(
+        name="store version file",
+        command=[
+            "/bin/sh",
+            "-c",
+            util.Interpolate("echo %(prop:tag)s > qtpyvcp_version.txt"),
+        ],
+        workdir="/home/buildbot/versions/",
+    )
+)
 
 # create changelog
 factory_qtpyvcp_pyside6_arm64.addStep(
@@ -80,12 +96,12 @@ factory_qtpyvcp_pyside6_arm64.addStep(
             "dch",
             "--create",
             "--distribution",
-            "stable",
+            "trixie",
             "--package",
             "qtpyvcp",
             "--newversion",
             util.Interpolate("%(prop:tag)s"),
-            "Stable version.",
+            "Trixie version.",
         ],
         workdir="sources/",
     )
@@ -101,30 +117,29 @@ factory_qtpyvcp_pyside6_arm64.addStep(
     )
 )
 
-# copy files to the http repo on .13 machine
+# upload files to http server
 factory_qtpyvcp_pyside6_arm64.addStep(
     steps.FileUpload(
-        name="copy files to the http repo",
+        name="upload files to http server",
         workersrc=util.Interpolate(
-            "/home/buildbot/workdir/qtpyvcp-pi4/python3-qtpyvcp_%(prop:tag)s_arm64.deb"
+            "/home/bb/work/qtpyvcp-pyside6-arm64/python3-qtpyvcp_%(prop:tag)s_arm64.deb"
         ),
         masterdest=util.Interpolate(
-            "/home/buildbot/repo/qtpyvcp/python3-qtpyvcp_%(prop:tag)s_arm64.deb"
+            "/home/buildbot/repo/qtpyvcp-pyside6-arm64/python3-qtpyvcp_%(prop:tag)s_arm64.deb"
         ),
         mode=0o644,
     )
 )
 
-
-# copy new files to the apt repo on .13 machine
+# upload files to apt server
 factory_qtpyvcp_pyside6_arm64.addStep(
     steps.FileUpload(
-        name="copy files to apt stable repo",
+        name="upload files to apt server",
         workersrc=util.Interpolate(
-            "/home/buildbot/workdir/qtpyvcp-pi4/python3-qtpyvcp_%(prop:tag)s_arm64.deb"
+            "/home/bb/work/qtpyvcp-pyside6-arm64/python3-qtpyvcp_%(prop:tag)s_arm64.deb"
         ),
         masterdest=util.Interpolate(
-            "/home/buildbot/debian/apt/pool/main/stable/python3-qtpyvcp_%(prop:tag)s_arm64.deb"
+            "/home/buildbot/debian/apt/pool/main/trixie/python3-qtpyvcp_%(prop:tag)s_arm64.deb"
         ),
     )
 )
@@ -134,6 +149,7 @@ factory_qtpyvcp_pyside6_arm64.addStep(
 factory_qtpyvcp_pyside6_arm64.addStep(
     steps.MasterShellCommand(
         name="scan new packages in apt repository",
-        command="/home/buildbot/buildbot/master/scripts/do_apt_stable.sh",
+        command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_trixie.sh"],
+        workdir="/home/buildbot/debian/apt",
     )
 )
