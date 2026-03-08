@@ -122,6 +122,20 @@ factory_qtpyvcp_pyside6_x86_dev.addStep(
 # build debs
 factory_qtpyvcp_pyside6_x86_dev.addStep(
     steps.ShellCommand(
+        name="clean stale native artifacts",
+        command=[
+            "/bin/sh",
+            "-c",
+            "find src/qtpyvcp/native -type f \\( "
+            "-name '*aarch64-linux-gnu.so' -o -name '*arm64*.so' \\) -delete",
+        ],
+        workdir="sources/",
+    )
+)
+
+# build debs
+factory_qtpyvcp_pyside6_x86_dev.addStep(
+    steps.ShellCommand(
         name="build debs",
         env={"DEB_BUILD_OPTIONS": "nocheck"},
         command=["dpkg-buildpackage", "-b", "-uc"],

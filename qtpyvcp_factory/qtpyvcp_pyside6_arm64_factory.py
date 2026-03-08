@@ -110,6 +110,20 @@ factory_qtpyvcp_pyside6_arm64.addStep(
 # build debs
 factory_qtpyvcp_pyside6_arm64.addStep(
     steps.ShellCommand(
+        name="clean stale native artifacts",
+        command=[
+            "/bin/sh",
+            "-c",
+            "find src/qtpyvcp/native -type f \\\\(" 
+            " -name '*x86_64-linux-gnu.so' -o -name '*amd64*.so' \\\\) -delete",
+        ],
+        workdir="sources/",
+    )
+)
+
+# build debs
+factory_qtpyvcp_pyside6_arm64.addStep(
+    steps.ShellCommand(
         name="build debs",
         env={"DEB_BUILD_OPTIONS": "nocheck"},
         command=["dpkg-buildpackage", "-b", "-uc"],
@@ -122,10 +136,10 @@ factory_qtpyvcp_pyside6_arm64.addStep(
     steps.FileUpload(
         name="upload files to http server",
         workersrc=util.Interpolate(
-            "/home/bb/work/qtpyvcp-pyside6-arm64/python3-qtpyvcp_%(prop:tag)s_arm64.deb"
+            "/home/bb/work/qtpyvcp-pyside6-arm64/python3-qtpyvcp_%(prop:tag)s-1_arm64.deb"
         ),
         masterdest=util.Interpolate(
-            "/home/buildbot/repo/qtpyvcp-pyside6-arm64/python3-qtpyvcp_%(prop:tag)s_arm64.deb"
+            "/home/buildbot/repo/qtpyvcp-pyside6-arm64/python3-qtpyvcp_%(prop:tag)s-1_arm64.deb"
         ),
         mode=0o644,
     )
@@ -136,10 +150,10 @@ factory_qtpyvcp_pyside6_arm64.addStep(
     steps.FileUpload(
         name="upload files to apt server",
         workersrc=util.Interpolate(
-            "/home/bb/work/qtpyvcp-pyside6-arm64/python3-qtpyvcp_%(prop:tag)s_arm64.deb"
+            "/home/bb/work/qtpyvcp-pyside6-arm64/python3-qtpyvcp_%(prop:tag)s-1_arm64.deb"
         ),
         masterdest=util.Interpolate(
-            "/home/buildbot/debian/apt/pool/main/trixie/python3-qtpyvcp_%(prop:tag)s_arm64.deb"
+            "/home/buildbot/debian/apt/pool/main/trixie/python3-qtpyvcp_%(prop:tag)s-1_arm64.deb"
         ),
     )
 )
