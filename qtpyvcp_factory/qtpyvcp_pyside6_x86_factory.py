@@ -76,17 +76,17 @@ factory_qtpyvcp_pyside6_x86.addStep(
 # )
 
 # store version file
-# factory_qtpyvcp_pyside6_x86.addStep(
-#     steps.ShellCommand(
-#         name="store version file",
-#         command=[
-#             "/bin/sh",
-#             "-c",
-#             util.Interpolate("echo %(prop:tag)s > qtpyvcp_version.txt"),
-#         ],
-#         workdir="/home/buildbot/versions/",
-#     )
-# )
+factory_qtpyvcp_pyside6_x86.addStep(
+    steps.ShellCommand(
+        name="store version file",
+        command=[
+            "/bin/sh",
+            "-c",
+            util.Interpolate("echo %(prop:tag)s > qtpyvcp_version.txt"),
+        ],
+        workdir="/home/bb/versions/",
+    )
+)
 
 # create changelog
 factory_qtpyvcp_pyside6_x86.addStep(
