@@ -85,7 +85,7 @@ factory_qtpyvcp_pyside6_x86_dev.addStep(
                 "echo %(prop:tag)s-%(prop:minor_version)s > qtpyvcp_dev_version.txt"
             ),
         ],
-        workdir="/home/buildbot/versions/",
+        workdir="/home/bb/versions/",
     )
 )
 

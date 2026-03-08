@@ -83,7 +83,7 @@ factory_qtpyvcp_pyside6_arm64.addStep(
             "-c",
             util.Interpolate("echo %(prop:tag)s > qtpyvcp_version.txt"),
         ],
-        workdir="/home/buildbot/versions/",
+        workdir="/home/bb/versions/",
     )
 )
 
