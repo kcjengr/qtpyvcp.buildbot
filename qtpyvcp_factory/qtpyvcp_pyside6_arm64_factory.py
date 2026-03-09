@@ -57,6 +57,15 @@ factory_qtpyvcp_pyside6_arm64.addStep(
     )
 )
 
+# update venv
+factory_qtpyvcp_pyside6_arm64.addStep(
+    steps.ShellCommand(
+        name="update venv",
+        command=["/home/bb/.venv/bin/python", "-m", "pip", "install", "-U", "-e", "."],
+        workdir="sources/",
+    )
+)
+
 # not needed by release
 # # get git commit count since last tag
 # factory_qtpyvcp_pyside6_arm64.addStep(
@@ -136,10 +145,10 @@ factory_qtpyvcp_pyside6_arm64.addStep(
     steps.FileUpload(
         name="upload files to http server",
         workersrc=util.Interpolate(
-            "/home/bb/work/qtpyvcp-pyside6-arm64/python3-qtpyvcp_%(prop:tag)s-1_arm64.deb"
+            "/home/bb/work/qtpyvcp-pyside6-arm64/python3-qtpyvcp_%(prop:tag)s_arm64.deb"
         ),
         masterdest=util.Interpolate(
-            "/home/buildbot/repo/qtpyvcp-pyside6-arm64/python3-qtpyvcp_%(prop:tag)s-1_arm64.deb"
+            "/home/buildbot/repo/qtpyvcp-pyside6-arm64/python3-qtpyvcp_%(prop:tag)s_arm64.deb"
         ),
         mode=0o644,
     )
@@ -150,10 +159,10 @@ factory_qtpyvcp_pyside6_arm64.addStep(
     steps.FileUpload(
         name="upload files to apt server",
         workersrc=util.Interpolate(
-            "/home/bb/work/qtpyvcp-pyside6-arm64/python3-qtpyvcp_%(prop:tag)s-1_arm64.deb"
+            "/home/bb/work/qtpyvcp-pyside6-arm64/python3-qtpyvcp_%(prop:tag)s_arm64.deb"
         ),
         masterdest=util.Interpolate(
-            "/home/buildbot/debian/apt/pool/main/trixie/python3-qtpyvcp_%(prop:tag)s-1_arm64.deb"
+            "/home/buildbot/debian/apt/pool/main/trixie/python3-qtpyvcp_%(prop:tag)s_arm64.deb"
         ),
     )
 )
