@@ -146,77 +146,38 @@ factory_tnc_pyside6_arm64.addStep(
         workdir="sources/",
     )
 )
+# upload files to http server
+factory_tnc_pyside6_arm64.addStep(
+    steps.FileUpload(
+        name="upload files to http server",
+        workersrc=util.Interpolate(
+            "/home/bb/work/turbonc-pyside6-arm64/python3-turbonc_%(prop:tag)s.arm64.deb"
+        ),
+        masterdest=util.Interpolate(
+            "/home/buildbot/repo/tnc-pyside6-arm64/python3-turbonc_%(prop:tag)s.arm64.deb"
+        ),
+        mode=0o644,
+    )
+)
 
-# copy files to the http repo
-# factory_tnc_pi4.addStep(steps.FileUpload(
-#     name="copy files to the http repo",
-#     workersrc=util.Interpolate("/home/buildbot/workdir/turbonc-pi4/python3-turbonc_%(prop:tag)s_arm64.deb"),
-#      masterdest=util.Interpolate("/home/buildbot/repo/turbonc/python3-turbonc_%(prop:tag)s_arm64.deb"),
-#     mode=0o644)
-# )
+# upload files to apt server
+factory_tnc_pyside6_arm64.addStep(
+    steps.FileUpload(
+        name="upload files to apt server",
+        workersrc=util.Interpolate(
+            "/home/bb/work/turbonc-pyside6-arm64/python3-turbonc_%(prop:tag)s.arm64.deb"
+        ),
+        masterdest=util.Interpolate(
+            "/home/buildbot/debian/apt/pool/main/trixie/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb"
+        ),
+    )
+)
 
-
-# delete old files from apt directory
-# factory_tnc_pi4.addStep(steps.ShellCommand(
-#     name="delete files from apt directory",
-#     command=["sh",
-#              "/home/buildbot/buildbot/master/scripts/clean_apt_develop.sh",
-#              util.Interpolate("python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb")
-#             ],
-#     workdir="sources/"))
-
-# move new files to the apt repo
-# factory_tnc_pyside6_arm64.addStep(steps.FileUpload(
-#     name="move new files to the apt repo",
-#     workersrc=util.Interpolate("/home/bb/work/turbonc-pi4/python3-turbonc_%(prop:tag)s_arm64.deb"),
-#     masterdest=util.Interpolate("/home/bb/debian/apt/pool/main/stable/python3-turbonc_%(prop:tag)s_arm64.deb")
-#     )
-# )
-
-# delete files from build directory
-# factory_tnc_pi4.addStep(steps.ShellCommand(
-#     name="delete files from build directory",
-#     command=["rm", util.Interpolate("/home/buildbot/buildbot/worker/monokrom-dev/python3-monokrom_%(prop:tag)s-%(prop:minor_version)s.dev_all.deb")],
-#     workdir="sources/"))
 
 # scan new packages in apt repository
-# factory_tnc_pyside6_arm64.addStep(steps.MasterShellCommand(
-#     name="scan new packages in apt repository",
-#     command="/home/bb/buildbot/master/scripts/do_apt_stable.sh"
-#     )
-# )
-
-
-# factory_tnc_pi4.addStep(steps.GitHub(name="downlaod static docs",
-#                                              repourl='git@github.com:kcjengr/probe_basic.git',
-#                                              origin="origin",
-#                                              branch="gh-pages",
-#                                              mode='full',
-#                                              workdir="docs/"))
-#
-# factory_tnc_pi4.addStep(steps.ShellCommand(name="reset gh-pages",
-#                                                    command=["git", "symbolic-ref", "HEAD", "refs/heads/gh-pages"],
-#                                                    workdir="docs/"))
-#
-# factory_tnc_pi4.addStep(steps.ShellCommand(name="delete git index",
-#                                                    command=["rm", ".git/index"],
-#                                                    workdir="docs/"))
-#
-# factory_tnc_pi4.addStep(steps.ShellCommand(name="clean gh-pages",
-#                                                    command=["git", "clean", "-fdx"],
-#                                                    workdir="docs/"))
-#
-# factory_tnc_pi4.addStep(
-#     steps.Sphinx(
-#         name="compile sphinx docs",
-#         haltOnFailure=True,
-#         sphinx="/home/buildbot/venv/bin/sphinx-build",
-#         sphinx_builddir="/home/buildbot/buildbot/worker/probe_basic-dev/docs/",
-#         sphinx_sourcedir="/home/buildbot/buildbot/worker/probe_basic-dev/sources/docs_src/source/",
-#         strict_warnings=False,
-#         env={"LANG": "en_EN.UTF-8"},
-#         workdir="docs/"))
-#
-# factory_monokrom_pi4_dev.addStep(steps.ShellCommand(name="add doc files", command=["git", "add", "."], workdir="docs/"))
-# factory_monokrom_pi4_dev.addStep(steps.ShellCommand(name="commit doc files", command=["git", "commit", "-a", "-m", "deploy gh-pages"], workdir="docs/"))
-# factory_monokrom_pi4_dev.addStep(steps.ShellCommand(name="push docs", command=["git", "push", "--force", "origin", "gh-pages"], workdir="docs/"))
+factory_tnc_pyside6_arm64.addStep(
+    steps.MasterShellCommand(
+        name="scan new packages in apt repository",
+        command="/home/buildbot/buildbot/master/scripts/do_apt_trixie.sh",
+    )
+)
