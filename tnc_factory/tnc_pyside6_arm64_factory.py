@@ -168,7 +168,7 @@ factory_tnc_pyside6_arm64.addStep(
             "/home/bb/work/turbonc-pyside6-arm64/python3-turbonc_%(prop:tag)s.arm64.deb"
         ),
         masterdest=util.Interpolate(
-            "/home/buildbot/debian/apt/pool/main/trixie/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb"
+            "/home/buildbot/debian/apt/pool/main/trixie/python3-turbonc_%(prop:tag)s.arm64.deb"
         ),
     )
 )
