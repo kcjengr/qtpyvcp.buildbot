@@ -114,7 +114,7 @@ factory_tnc_pyside6_arm64_dev.addStep(
             "dch",
             "--create",
             "--distribution",
-            "unstable",
+            "trixie-dev",
             "--package",
             "turbonc",
             "--newversion",
