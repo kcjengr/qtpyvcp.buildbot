@@ -121,12 +121,10 @@ factory_tnc_pyside6_x86.addStep(
     steps.FileUpload(
         name="upload files to http server",
         workersrc=util.Interpolate(
-            "/home/bb/work/turbonc-pyside6-x86/"
-            "python3-turbonc_%(prop:tag)s_amd64.deb"
+            "/home/bb/work/turbonc-pyside6-x86/python3-turbonc_%(prop:tag)s_amd64.deb"
         ),
-        masterdest=util.Interpolate(
-            "/home/buildbot/repo/tnc-pyside6-x86/"
-            "python3-turbonc_%(prop:tag)s_amd64.deb"
+            masterdest=util.Interpolate(
+                "/home/buildbot/repo/turbonc-pyside6-x86/python3-turbonc_%(prop:tag)s_amd64.deb"
         ),
         mode=0o644,
     )
@@ -137,12 +135,10 @@ factory_tnc_pyside6_x86.addStep(
     steps.FileUpload(
         name="upload files to apt server",
         workersrc=util.Interpolate(
-            "/home/bb/work/turbonc-pyside6-x86/"
-            "python3-turbonc_%(prop:tag)s_amd64.deb"
+            "/home/bb/work/turbonc-pyside6-x86/python3-turbonc_%(prop:tag)s_amd64.deb"
         ),
         masterdest=util.Interpolate(
-            "/home/buildbot/debian/apt/pool/main/trixie/"
-            "python3-turbonc_%(prop:tag)s_amd64.deb"
+            "/home/buildbot/debian/apt/pool/main/trixie/python3-turbonc_%(prop:tag)s_amd64.deb"
         ),
     )
 )

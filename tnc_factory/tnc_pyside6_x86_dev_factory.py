@@ -144,7 +144,7 @@ factory_tnc_pyside6_x86_dev.addStep(
             "python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb"
         ),
         masterdest=util.Interpolate(
-            "/home/buildbot/repo/tnc-pyside6-x86-dev/"
+            "/home/buildbot/repo/turbonc-pyside6-x86-dev/"
             "python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_amd64.deb"
         ),
         mode=0o644,

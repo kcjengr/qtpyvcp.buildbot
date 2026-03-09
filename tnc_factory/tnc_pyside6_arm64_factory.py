@@ -125,7 +125,7 @@ factory_tnc_pyside6_arm64.addStep(
             "python3-turbonc_%(prop:tag)s_arm64.deb"
         ),
         masterdest=util.Interpolate(
-            "/home/buildbot/repo/tnc-pyside6-arm64/"
+            "/home/buildbot/repo/turbonc-pyside6-arm64/"
             "python3-turbonc_%(prop:tag)s_arm64.deb"
         ),
         mode=0o644,
