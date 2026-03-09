@@ -7,19 +7,36 @@ from buildbot.plugins import steps, util
 
 factory_tnc_pyside6_arm64 = util.BuildFactory()
 
-
 # download sources
 factory_tnc_pyside6_arm64.addStep(
-    steps.Git(
+    steps.GitHub(
         name="download sources",
         repourl="git@github.com:kcjengr/turbonc.git",
+        branch="pyside6",
         mode="full",
-        method="clean",
-        tags=True,
         submodules=False,
         workdir="sources/",
     )
 )
+
+# git fetch
+factory_tnc_pyside6_arm64.addStep(
+    steps.ShellCommand(
+        name="git fetch",
+        command=["/bin/sh", "-c", "git fetch --all"],
+        workdir="sources/",
+    )
+)
+
+# git pull
+factory_tnc_pyside6_arm64.addStep(
+    steps.ShellCommand(
+        name="git pull",
+        command=["/bin/sh", "-c", "git pull --no-rebase origin pyside6"],
+        workdir="sources/",
+    )
+)
+
 # get git tag
 factory_tnc_pyside6_arm64.addStep(
     steps.SetPropertyFromCommand(
@@ -30,8 +47,16 @@ factory_tnc_pyside6_arm64.addStep(
     )
 )
 
+# checkout the tag
+factory_tnc_pyside6_arm64.addStep(
+    steps.ShellCommand(
+        name="checkout tag",
+        command=["git", "checkout", util.Interpolate("%(prop:tag)s")],
+        workdir="sources/",
+    )
+)
+
 # update venv
-#
 factory_tnc_pyside6_arm64.addStep(
     steps.ShellCommand(
         name="update venv",
@@ -47,55 +72,17 @@ factory_tnc_pyside6_arm64.addStep(
         workdir="sources/",
     )
 )
-# checkout the tag
+
+# store version file
 factory_tnc_pyside6_arm64.addStep(
     steps.ShellCommand(
-        name="checkout tag",
-        command=["git", "checkout", util.Interpolate("%(prop:tag)s")],
-        workdir="sources/",
-    )
-)
-
-# get git commit count since last tag
-factory_tnc_pyside6_arm64.addStep(
-    steps.SetPropertyFromCommand(
-        name="get git commit count since last tag",
+        name="store version file",
         command=[
-            "git",
-            "rev-list",
-            "--count",
-            "--branches",
-            util.Interpolate("^refs/tags/%(prop:tag)s"),
+            "/bin/sh",
+            "-c",
+            util.Interpolate("echo %(prop:tag)s > tnc_stable_version.txt"),
         ],
-        property="minor_version",
-        workdir="sources/",
-    )
-)
-
-# get git tag
-factory_tnc_pyside6_arm64.addStep(
-    steps.SetPropertyFromCommand(
-        name="get git tag",
-        command=["git", "describe", "--abbrev=0", "--tags"],
-        property="tag",
-        workdir="sources/",
-    )
-)
-
-# compile resources
-factory_tnc_pyside6_arm64.addStep(
-    steps.ShellCommand(
-        name="compile resources", command=["qcompile", "."], workdir="sources/"
-    )
-)
-
-# delete previous changelog
-factory_tnc_pyside6_arm64.addStep(
-    steps.ShellCommand(
-        name="Delete previous changelog",
-        env={},
-        command=["rm", "-rf", "debian/changelog"],
-        workdir="sources/",
+        workdir="/home/bb/versions/",
     )
 )
 
@@ -108,34 +95,16 @@ factory_tnc_pyside6_arm64.addStep(
             "dch",
             "--create",
             "--distribution",
-            "stable",
+            "trixie",
             "--package",
             "turbonc",
             "--newversion",
             util.Interpolate("%(prop:tag)s"),
-            "Stable version.",
+            "Trixie version.",
         ],
         workdir="sources/",
     )
 )
-
-# ~ # set poetry version number for wheel build
-# ~ factory_tnc_pi4.addStep(steps.ShellCommand(
-# ~ name="set poetry ver number",
-# ~ command=["python3", "-m", "poetry", "config", "version", util.Interpolate("%(prop:tag)s")],
-# ~ workdir="sources/"))
-
-# ~ # build pypi
-# ~ factory_tnc_pi4.addStep(steps.ShellCommand(
-# ~ name="build tar.gz and wheel",
-# ~ command=["python3", "-m", "poetry", "build"],
-# ~ workdir="sources/"))
-
-# ~ # upload them to pypi.org
-# ~ factory_tnc_pi4.addStep(steps.ShellCommand(
-# ~ name="upload tar.gz to pypi",
-# ~ command=["twine", "upload", "--repository", "pypi", util.Interpolate("dist/turbonc-%(prop:tag)s-py3-none-any.whl"), util.Interpolate("dist/turbonc-%(prop:tag)s.tar.gz")],
-# ~ workdir="sources/"))
 
 # build debs
 factory_tnc_pyside6_arm64.addStep(
@@ -146,15 +115,18 @@ factory_tnc_pyside6_arm64.addStep(
         workdir="sources/",
     )
 )
+
 # upload files to http server
 factory_tnc_pyside6_arm64.addStep(
     steps.FileUpload(
         name="upload files to http server",
         workersrc=util.Interpolate(
-            "/home/bb/work/turbonc-pyside6-arm64/python3-turbonc_%(prop:tag)s_arm64.deb"
+            "/home/bb/work/turbonc-pyside6-arm64/"
+            "python3-turbonc_%(prop:tag)s_arm64.deb"
         ),
         masterdest=util.Interpolate(
-            "/home/buildbot/repo/tnc-pyside6-arm64/python3-turbonc_%(prop:tag)s_arm64.deb"
+            "/home/buildbot/repo/tnc-pyside6-arm64/"
+            "python3-turbonc_%(prop:tag)s_arm64.deb"
         ),
         mode=0o644,
     )
@@ -165,19 +137,21 @@ factory_tnc_pyside6_arm64.addStep(
     steps.FileUpload(
         name="upload files to apt server",
         workersrc=util.Interpolate(
-            "/home/bb/work/turbonc-pyside6-arm64/python3-turbonc_%(prop:tag)s_arm64.deb"
+            "/home/bb/work/turbonc-pyside6-arm64/"
+            "python3-turbonc_%(prop:tag)s_arm64.deb"
         ),
         masterdest=util.Interpolate(
-            "/home/buildbot/debian/apt/pool/main/trixie/python3-turbonc_%(prop:tag)s_arm64.deb"
+            "/home/buildbot/debian/apt/pool/main/trixie/"
+            "python3-turbonc_%(prop:tag)s_arm64.deb"
         ),
     )
 )
-
 
 # scan new packages in apt repository
 factory_tnc_pyside6_arm64.addStep(
     steps.MasterShellCommand(
         name="scan new packages in apt repository",
-        command="/home/buildbot/buildbot/master/scripts/do_apt_trixie.sh",
+        command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_trixie.sh"],
+        workdir="/home/buildbot/debian/apt",
     )
 )

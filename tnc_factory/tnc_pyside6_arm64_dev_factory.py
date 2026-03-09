@@ -12,24 +12,32 @@ factory_tnc_pyside6_arm64_dev.addStep(
     steps.GitHub(
         name="download sources",
         repourl="git@github.com:kcjengr/turbonc.git",
+        branch="pyside6",
         mode="full",
-        method="clean",
-        tags=True,
         submodules=False,
         workdir="sources/",
     )
 )
-# get git tag
+
+# git fetch
 factory_tnc_pyside6_arm64_dev.addStep(
-    steps.SetPropertyFromCommand(
-        name="get git tag",
-        command=["git", "describe", "--abbrev=0", "--tags"],
-        property="tag",
+    steps.ShellCommand(
+        name="git fetch",
+        command=["/bin/sh", "-c", "git fetch --all"],
         workdir="sources/",
     )
 )
+
+# git pull
+factory_tnc_pyside6_arm64_dev.addStep(
+    steps.ShellCommand(
+        name="git pull",
+        command=["/bin/sh", "-c", "git pull origin pyside6"],
+        workdir="sources/",
+    )
+)
+
 # update venv
-#
 factory_tnc_pyside6_arm64_dev.addStep(
     steps.ShellCommand(
         name="update venv",
@@ -42,6 +50,16 @@ factory_tnc_pyside6_arm64_dev.addStep(
             "-e",
             ".",
         ],
+        workdir="sources/",
+    )
+)
+
+# get git tag
+factory_tnc_pyside6_arm64_dev.addStep(
+    steps.SetPropertyFromCommand(
+        name="get git tag",
+        command=["git", "describe", "--abbrev=0", "--tags"],
+        property="tag",
         workdir="sources/",
     )
 )
@@ -59,6 +77,21 @@ factory_tnc_pyside6_arm64_dev.addStep(
         ],
         property="minor_version",
         workdir="sources/",
+    )
+)
+
+# store version file
+factory_tnc_pyside6_arm64_dev.addStep(
+    steps.ShellCommand(
+        name="store version file",
+        command=[
+            "/bin/sh",
+            "-c",
+            util.Interpolate(
+                "echo %(prop:tag)s-%(prop:minor_version)s > tnc_dev_version.txt"
+            ),
+        ],
+        workdir="/home/bb/versions/",
     )
 )
 
@@ -86,7 +119,7 @@ factory_tnc_pyside6_arm64_dev.addStep(
             "turbonc",
             "--newversion",
             util.Interpolate("%(prop:tag)s-%(prop:minor_version)s.dev"),
-            "Unstable Release version.",
+            "Development version.",
         ],
         workdir="sources/",
     )
@@ -102,16 +135,17 @@ factory_tnc_pyside6_arm64_dev.addStep(
     )
 )
 
-
 # upload files to http server
 factory_tnc_pyside6_arm64_dev.addStep(
     steps.FileUpload(
         name="upload files to http server",
         workersrc=util.Interpolate(
-            "/home/bb/work/turbonc-pyside6-arm64-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb"
+            "/home/bb/work/turbonc-pyside6-arm64-dev/"
+            "python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb"
         ),
         masterdest=util.Interpolate(
-            "/home/buildbot/repo/tnc-pyside6-arm64-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb"
+            "/home/buildbot/repo/tnc-pyside6-arm64-dev/"
+            "python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb"
         ),
         mode=0o644,
     )
@@ -122,54 +156,21 @@ factory_tnc_pyside6_arm64_dev.addStep(
     steps.FileUpload(
         name="upload files to apt server",
         workersrc=util.Interpolate(
-            "/home/bb/work/turbonc-pyside6-arm64-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb"
+            "/home/bb/work/turbonc-pyside6-arm64-dev/"
+            "python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb"
         ),
         masterdest=util.Interpolate(
-            "/home/buildbot/debian/apt/pool/main/trixie-dev/python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb"
+            "/home/buildbot/debian/apt/pool/main/trixie-dev/"
+            "python3-turbonc_%(prop:tag)s-%(prop:minor_version)s.dev_arm64.deb"
         ),
     )
 )
-
 
 # scan new packages in apt repository
 factory_tnc_pyside6_arm64_dev.addStep(
     steps.MasterShellCommand(
         name="scan new packages in apt repository",
-        command="/home/buildbot/buildbot/master/scripts/do_apt_trixie_dev.sh",
+        command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_trixie_dev.sh"],
+        workdir="/home/buildbot/debian/apt",
     )
 )
-
-
-# factory_tnc_arm64.addStep(steps.GitHub(name="downlaod static docs",
-#                                              repourl='git@github.com:kcjengr/probe_basic.git',
-#                                              origin="origin",
-#                                              branch="gh-pages",
-#                                              mode='full',
-#                                              workdir="docs/"))
-#
-# factory_tnc_arm64.addStep(steps.ShellCommand(name="reset gh-pages",
-#                                                    command=["git", "symbolic-ref", "HEAD", "refs/heads/gh-pages"],
-#                                                    workdir="docs/"))
-#
-# factory_tnc_arm64.addStep(steps.ShellCommand(name="delete git index",
-#                                                    command=["rm", ".git/index"],
-#                                                    workdir="docs/"))
-#
-# factory_tnc_arm64.addStep(steps.ShellCommand(name="clean gh-pages",
-#                                                    command=["git", "clean", "-fdx"],
-#                                                    workdir="docs/"))
-#
-# factory_tnc_arm64.addStep(
-#     steps.Sphinx(
-#         name="compile sphinx docs",
-#         haltOnFailure=True,
-#         sphinx="/home/buildbot/venv/bin/sphinx-build",
-#         sphinx_builddir="/home/buildbot/buildbot/worker/tnc-arm-dev/docs/",
-#         sphinx_sourcedir="/home/buildbot/buildbot/worker/tnc-arm-dev/sources/docs_src/source/",
-#         strict_warnings=False,
-#         env={"LANG": "en_EN.UTF-8"},
-#         workdir="docs/"))
-#
-# factory_tnc_arm64.addStep(steps.ShellCommand(name="add doc files", command=["git", "add", "."], workdir="docs/"))
-# factory_tnc_arm64.addStep(steps.ShellCommand(name="commit doc files", command=["git", "commit", "-a", "-m", "deploy gh-pages"], workdir="docs/"))
-# factory_tnc_arm64.addStep(steps.ShellCommand(name="push docs", command=["git", "push", "--force", "origin", "gh-pages"], workdir="docs/"))
