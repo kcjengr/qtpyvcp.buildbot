@@ -43,7 +43,15 @@ factory_qtpyvcp_pyside6_arm64_dev.addStep(
 factory_qtpyvcp_pyside6_arm64_dev.addStep(
     steps.ShellCommand(
         name="update venv",
-        command=["/home/bb/.venv/bin/python", "-m", "pip", "install", "-U", "-e", "."],
+        command=[
+            "/home/bb/.venv_dev/bin/python",
+            "-m",
+            "pip",
+            "install",
+            "-U",
+            "-e",
+            ".",
+        ],
         workdir="sources/",
     )
 )
