@@ -126,8 +126,8 @@ factory_qtpyvcp_pyside6_arm64_dev.addStep(
         command=[
             "/bin/sh",
             "-c",
-            "find src/qtpyvcp/native -type f \\\\(" 
-            " -name '*x86_64-linux-gnu.so' -o -name '*amd64*.so' \\\\) -delete",
+            "find src/qtpyvcp/native -type f \\( "
+            "-name '*x86_64-linux-gnu.so' -o -name '*amd64*.so' \\) -delete",
         ],
         workdir="sources/",
     )
