@@ -30,6 +30,24 @@ factory_probe_basic_pyside6_arm64_dev.addStep(
     )
 )
 
+# git pull
+factory_probe_basic_pyside6_arm64_dev.addStep(
+    steps.ShellCommand(
+        name="git pull",
+        command=["/bin/sh", "-c", "git pull origin pyside6"],
+        workdir="sources/",
+    )
+)
+
+# update venv
+factory_probe_basic_pyside6_arm64_dev.addStep(
+    steps.ShellCommand(
+        name="update venv",
+        command=["/home/bb/.venv/bin/python", "-m", "pip", "install", "-U", "-e", "."],
+        workdir="sources/",
+    )
+)
+
 # get git tag
 factory_probe_basic_pyside6_arm64_dev.addStep(
     steps.SetPropertyFromCommand(
