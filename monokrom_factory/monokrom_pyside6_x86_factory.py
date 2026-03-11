@@ -57,15 +57,15 @@ factory_monokrom_pyside6_x86.addStep(steps.ShellCommand(
 # upload files to http server
 factory_monokrom_pyside6_x86.addStep(steps.FileUpload(
     name="upload files to http server",
-    workersrc=util.Interpolate("/home/bb/work/monokrom-pyside6-x86/python3-monokrom_%(prop:tag)s.amd64.deb"),
-    masterdest=util.Interpolate("/home/buildbot/repo/monokrom-pyside6-x86-dev/python3-monokrom_%(prop:tag)s.amd64.deb"),
+    workersrc=util.Interpolate("/home/bb/work/monokrom-pyside6-x86/python3-monokrom_%(prop:tag)s_amd64.deb"),
+    masterdest=util.Interpolate("/home/buildbot/repo/monokrom-pyside6-x86-dev/python3-monokrom_%(prop:tag)s_amd64.deb"),
     mode=0o644))
 
 # upload files to apt server
 factory_monokrom_pyside6_x86.addStep(steps.FileUpload(
     name="upload files to apt server",
-    workersrc=util.Interpolate("/home/bb/work/monokrom-pyside6-x86/python3-monokrom_%(prop:tag)s.amd64.deb"),
-    masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/trixie/python3-monokrom_%(prop:tag)s.amd64.deb")))
+    workersrc=util.Interpolate("/home/bb/work/monokrom-pyside6-x86/python3-monokrom_%(prop:tag)s_amd64.deb"),
+    masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/trixie/python3-monokrom_%(prop:tag)s_amd64.deb")))
 
 
 # scan new packages in apt repository

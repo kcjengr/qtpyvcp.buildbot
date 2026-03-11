@@ -57,14 +57,14 @@ factory_monokrom_pyside6_arm64.addStep(steps.ShellCommand(
 # upload files to http server
 factory_monokrom_pyside6_arm64.addStep(steps.FileUpload(
     name="upload files to http server",
-    workersrc=util.Interpolate("/home/bb/work/monokrom-pyside-arm64/python3-monokrom_%(prop:tag)s.arm64.deb"),
-    masterdest=util.Interpolate("/home/buildbot/repo/monokrom-pyside-arm64/python3-qtpyvcp.monokrom_%(prop:tag)s.arm64.deb"),
+    workersrc=util.Interpolate("/home/bb/work/monokrom-pyside-arm64/python3-monokrom_%(prop:tag)s_arm64.deb"),
+    masterdest=util.Interpolate("/home/buildbot/repo/monokrom-pyside-arm64/python3-monokrom_%(prop:tag)s_arm64.deb"),
     mode=0o644))
 
 # upload files to apt server
 factory_monokrom_pyside6_arm64.addStep(steps.FileUpload(
     name="upload files to apt server",
-    workersrc=util.Interpolate("/home/bb/work/monokrom-pyside6-arm64/python3-monokrom_%(prop:tag)s.arm64.deb"),
+    workersrc=util.Interpolate("/home/bb/work/monokrom-pyside6-arm64/python3-monokrom_%(prop:tag)s.arm64_deb"),
     masterdest=util.Interpolate("/home/buildbot/debian/apt/pool/main/trixie/python3-monokrom_%(prop:tag)s.arm64.deb")))
 
 
