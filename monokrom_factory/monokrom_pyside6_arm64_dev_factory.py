@@ -58,7 +58,7 @@ factory_monokrom_pyside6_arm64_dev.addStep(steps.ShellCommand(
 factory_monokrom_pyside6_arm64_dev.addStep(steps.ShellCommand(
     name="build debs",
     env={'DEB_BUILD_OPTIONS': "nocheck"},
-    command=["dpkg-buildpackage", "-aamd64", "-b", "-uc"],
+    command=["dpkg-buildpackage", "-b", "-uc"],
     workdir="sources/"))
 
 
