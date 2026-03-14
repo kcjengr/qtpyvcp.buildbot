@@ -10,6 +10,37 @@ from buildbot.reporters.message import MessageFormatterFunction
 from buildbot.reporters.base import ReporterBase
 from buildbot.reporters.utils import merge_reports_prop, merge_reports_prop_take_first
 
+log = logging.getLogger(__name__)
+
+
+def get_build_url(build):
+    """Generate URL for a build"""
+    # Your buildbot base URL
+    base_url = "https://repository.qtpyvcp.com/buildbot/"
+    
+    # Build the URL to the specific build
+    # Format typically: #/builders/{builder_id}/builds/{build_number}
+    builder_id = build.get('builder', {}).get('builderid')
+    build_number = build.get('number')
+    
+    if builder_id and build_number:
+        return f"{base_url}#/builders/{builder_id}/builds/{build_number}"
+    return None
+
+
+def get_log_url(build, step_name, log_name="stdio"):
+    """Generate URL for a specific log"""
+    base_url = "https://repository.qtpyvcp.com/buildbot/"
+    builder_id = build.get('builder', {}).get('builderid')
+    build_number = build.get('number')
+    
+    if builder_id and build_number:
+        # Note: This URL format might need adjustment based on your Buildbot setup
+        # You may need to URL encode the step_name if it contains special characters
+        return f"{base_url}#/builders/{builder_id}/builds/{build_number}/steps/{step_name}/logs/{log_name}"
+    return None
+
+
 class BuildStartGenerator:
     """Custom generator for build start notifications"""
     
@@ -35,14 +66,12 @@ class BuildStartGenerator:
                 body = msgdict.get('body', '')
                 subject = msgdict.get('subject', '')
                 log.info(f"Start message formatted: {body or subject}")
-                return [{'body': body, 'subject': subject, 'type': 'plain', 'results': None, 'builds': [build], 'users': [], 'patches': [], 'logs': []}]
+                return [{'body': body, 'subject': subject, 'type': 'html', 'results': None, 'builds': [build], 'users': [], 'patches': [], 'logs': []}]
             except Exception as e:
                 log.error(f"Error generating start message: {e}", exc_info=True)
         else:
             log.info(f"Ignoring non-started event: {key[2]}")
         return []
-
-log = logging.getLogger(__name__)
 
 
 class MatrixReporter(ReporterBase):
@@ -81,14 +110,22 @@ class MatrixReporter(ReporterBase):
     def _create_default_generators(self):
         """Create default message generators for build start and finish"""
         log.info("MatrixReporter: Creating default generators")
+        
         # Formatter for build start
         def format_start_message(context):
             build = context.get('build', {})
             builder_name = build.get('builder', {}).get('name', 'Unknown')
             build_number = build.get('number', '?')
-            return f"🔄 BUILD STARTED: {builder_name} #{build_number}"
+            
+            # Get build URL
+            build_url = get_build_url(build)
+            
+            if build_url:
+                return f"🔄 BUILD STARTED: <a href='{build_url}'>{builder_name} #{build_number}</a>"
+            else:
+                return f"🔄 BUILD STARTED: {builder_name} #{build_number}"
         
-        start_formatter = MessageFormatterFunction(format_start_message, 'plain')
+        start_formatter = MessageFormatterFunction(format_start_message, 'html')
         
         # Formatter for build finish with details
         def format_message(context):
@@ -99,6 +136,9 @@ class MatrixReporter(ReporterBase):
             results = build.get('results', -1)
             changes = build.get('changes', [])
             steps = build.get('steps', [])
+
+            # Get build URL
+            build_url = get_build_url(build)
 
             # Calculate duration
             started_at = build.get('started_at')
@@ -127,6 +167,12 @@ class MatrixReporter(ReporterBase):
             }
             status = status_map.get(results, "❓ UNKNOWN")
             
+            # Create build link
+            if build_url:
+                build_link = f"<a href='{build_url}'>{builder_name} #{build_number}</a>"
+            else:
+                build_link = f"{builder_name} #{build_number}"
+            
             # Failure details
             failure_info = ""
             if results in (2, 4):  # FAILURE or EXCEPTION
@@ -134,6 +180,11 @@ class MatrixReporter(ReporterBase):
                     if step.get('results') not in (0, 1, 3):  # Not success, warnings, skipped
                         step_name = step.get('name', 'Unknown')
                         failure_info = f" at step '{step_name}'"
+                        
+                        # Get log URL
+                        log_url = get_log_url(build, step_name)
+                        if log_url:
+                            failure_info += f" - <a href='{log_url}'>View log</a>"
                         
                         # Get error snippet from stdio log
                         logs = step.get('logs', [])
@@ -146,15 +197,15 @@ class MatrixReporter(ReporterBase):
                                         # Take last 200 chars, remove newlines
                                         snippet = content[-200:].replace('\n', ' ').replace('\r', ' ').strip()
                                         if snippet:
-                                            failure_info += f" - Error: {snippet}"
+                                            failure_info += f"<br/>Error snippet: {snippet}"
                                     except Exception:
                                         pass  # Ignore decoding errors
                                 break
                         break
             
-            return f"{status}: {builder_name} #{build_number} - {state_string}{duration_str}{failure_info}"
+            return f"{status}: {build_link} - {state_string}{duration_str}{failure_info}"
         
-        finish_formatter = MessageFormatterFunction(format_message, 'plain')
+        finish_formatter = MessageFormatterFunction(format_message, 'html')
         
         generators = [
             BuildStartGenerator(message_formatter=start_formatter),
@@ -172,11 +223,19 @@ class MatrixReporter(ReporterBase):
         subject = merge_reports_prop_take_first(reports, 'subject')
         build_results = merge_reports_prop_take_first(reports, 'results')
         builds = merge_reports_prop(reports, 'builds')
-
-        # Use body (formatted by our function) as the message
+        
+        # Check if any report has type 'html' to determine message format
+        msgtype = "m.text"  # default
         message = body if body else subject if subject else "Build status update"
+        
+        # Check if we should use HTML formatting
+        use_html = False
+        for report in reports:
+            if report.get('type') == 'html':
+                use_html = True
+                break
 
-        log.info(f"MatrixReporter sendMessage called: results={build_results}, message='{message}'")
+        log.info(f"MatrixReporter sendMessage called: results={build_results}, message='{message[:50]}...'")
 
         if self.debug:
             log.debug("=" * 50)
@@ -184,15 +243,16 @@ class MatrixReporter(ReporterBase):
             log.debug(f"Body: {body}")
             log.debug(f"Results: {build_results}")
             log.debug(f"Builds: {builds}")
+            log.debug(f"Use HTML: {use_html}")
             log.debug("=" * 50)
 
         # Send to Matrix using thread pool to avoid blocking Twisted reactor
         try:
-            yield threads.deferToThread(self._send_to_matrix, message)
+            yield threads.deferToThread(self._send_to_matrix, message, use_html)
         except Exception as e:
             log.error(f"Failed to send Matrix message: {e}")
 
-    def _send_to_matrix(self, message):
+    def _send_to_matrix(self, message, use_html=False):
         """Send message to Matrix room (runs in thread pool)"""
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
@@ -204,18 +264,33 @@ class MatrixReporter(ReporterBase):
             client.user_id = self.user_name
             client.device_id = "buildbot"
             
+            # Prepare message content
+            content = {
+                "msgtype": "m.text",
+                "body": message
+            }
+            
+            # If using HTML and message contains HTML tags, also set formatted_body
+            if use_html and ("<a " in message or "<br/>" in message):
+                content["format"] = "org.matrix.custom.html"
+                content["formatted_body"] = message
+                # Also set a plain text version without HTML for clients that don't support HTML
+                import re
+                plain_text = re.sub('<[^<]+?>', '', message)  # Simple HTML tag removal
+                content["body"] = plain_text
+            
             result = loop.run_until_complete(
                 client.room_send(
                     room_id=self.room_id,
                     message_type="m.room.message",
-                    content={"msgtype": "m.text", "body": str(message)}
+                    content=content
                 )
             )
             
             if self.debug:
                 log.debug(f"Matrix send result: {result}")
             else:
-                log.info(f"Matrix message sent: {message[:50]}...")
+                log.info(f"Matrix message sent")
                 
             return result
         except Exception as e:
