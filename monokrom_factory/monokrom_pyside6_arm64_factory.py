@@ -51,7 +51,7 @@ factory_monokrom_pyside6_arm64.addStep(steps.ShellCommand(
 factory_monokrom_pyside6_arm64.addStep(steps.ShellCommand(
     name="build debs",
     env={'DEB_BUILD_OPTIONS': "nocheck"},
-    command=["dpkg-buildpackage", "-b", "-uc"],
+    command=["dpkg-buildpackage", "-aarm64", "-b", "-uc"],
     workdir="sources/"))
 
 # upload files to http server
