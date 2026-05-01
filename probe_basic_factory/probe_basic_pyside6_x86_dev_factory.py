@@ -157,7 +157,7 @@ factory_probe_basic_pyside6_x86_dev.addStep(steps.Sphinx(
     sphinx_builddir="/home/bb/work/probe_basic-pyside6-x86-dev/docs_src",
     sphinx_sourcedir="/home/bb/work/probe_basic-pyside6-x86-dev/sources/docs_src/source",
     strict_warnings=False,
-    env={"LANG": "en_US.UTF-8"},
+    env={"LANG": "C.UTF-8", "LC_ALL": "C.UTF-8"},
     workdir="/home/bb/work/probe_basic-pyside6-x86-dev/sources/docs_src/source",
     )
 )
