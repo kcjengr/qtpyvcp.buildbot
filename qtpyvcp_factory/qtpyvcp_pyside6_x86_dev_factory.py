@@ -209,7 +209,8 @@ factory_qtpyvcp_pyside6_x86_dev.addStep(
         command=[
             "bash",
             "-c",
-            "make clean && make html-preview && "
+            "make clean && "
+            "make SPHINXBUILD=/home/bb/.venv_dev/bin/sphinx-build html-preview && "
             "mkdir -p /home/bb/work/qtpyvcp-pyside6-x86-dev/docs && "
             "cp -a build/html-preview/. /home/bb/work/qtpyvcp-pyside6-x86-dev/docs/",
         ],
