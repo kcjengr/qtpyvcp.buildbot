@@ -204,15 +204,22 @@ factory_qtpyvcp_pyside6_x86_dev.addStep(
 )
 
 factory_qtpyvcp_pyside6_x86_dev.addStep(
-    steps.Sphinx(
+    steps.ShellCommand(
         name="compile sphinx docs",
-        haltOnFailure=True,
-        sphinx="/home/bb/.venv_dev/bin/sphinx-build",
-        sphinx_builddir="/home/bb/work/qtpyvcp-pyside6-x86-dev/docs",
-        sphinx_sourcedir="/home/bb/work/qtpyvcp-pyside6-x86-dev/sources/docs/source/",
-        strict_warnings=False,
-        env={"LANG": "C.UTF-8", "LC_ALL": "C.UTF-8"},
-        workdir="/home/bb/work/qtpyvcp-pyside6-x86-dev/sources/docs/source",
+        command=[
+            "bash",
+            "-c",
+            "make clean && make html-preview && "
+            "mkdir -p /home/bb/work/qtpyvcp-pyside6-x86-dev/docs && "
+            "cp -a build/html-preview/. /home/bb/work/qtpyvcp-pyside6-x86-dev/docs/",
+        ],
+        env={
+            "LANG": "C.UTF-8",
+            "LC_ALL": "C.UTF-8",
+            "QT_QPA_PLATFORM": "offscreen",
+            "QT_API": "pyside6",
+        },
+        workdir="/home/bb/work/qtpyvcp-pyside6-x86-dev/sources/docs",
     )
 )
 
