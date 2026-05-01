@@ -48,6 +48,25 @@ factory_qtpyvcp_pyside6_x86_dev.addStep(
     )
 )
 
+# install docs requirements
+factory_qtpyvcp_pyside6_x86_dev.addStep(
+    steps.ShellCommand(
+        name="install docs requirements",
+        command=[
+            "/home/bb/.venv_dev/bin/python",
+            "-m",
+            "pip",
+            "install",
+            "-U",
+            "sphinx",
+            "sphinx-rtd-theme",
+            "sphinx-notfound-page",
+            "sphinx-gitstamp",
+        ],
+        workdir="sources/",
+    )
+)
+
 # get git tag
 factory_qtpyvcp_pyside6_x86_dev.addStep(
     steps.SetPropertyFromCommand(
