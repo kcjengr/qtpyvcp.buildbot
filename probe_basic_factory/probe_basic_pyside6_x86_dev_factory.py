@@ -44,6 +44,14 @@ factory_probe_basic_pyside6_x86_dev.addStep(steps.ShellCommand(
     )
 )
 
+# install docs requirements
+factory_probe_basic_pyside6_x86_dev.addStep(steps.ShellCommand(
+    name="install docs requirements",
+    command=["/home/bb/.venv_dev/bin/python", "-m", "pip", "install", "-r", "docs_requirements.txt"],
+    workdir="sources/",
+    )
+)
+
 # get git tag
 factory_probe_basic_pyside6_x86_dev.addStep(steps.SetPropertyFromCommand(
     name="get git tag",
@@ -145,7 +153,7 @@ factory_probe_basic_pyside6_x86_dev.addStep(steps.RemoveDirectory(
 factory_probe_basic_pyside6_x86_dev.addStep(steps.Sphinx(
     name="compile sphinx docs",
     haltOnFailure=True,
-    sphinx="/home/bb/.venv/bin/sphinx-build",
+    sphinx="/home/bb/.venv_dev/bin/sphinx-build",
     sphinx_builddir="/home/bb/work/probe_basic-pyside6-x86-dev/docs_src",
     sphinx_sourcedir="/home/bb/work/probe_basic-pyside6-x86-dev/sources/docs_src/source",
     strict_warnings=False,
