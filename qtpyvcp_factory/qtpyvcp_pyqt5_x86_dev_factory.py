@@ -164,7 +164,7 @@ factory_qtpyvcp_pyqt5_x86_dev.addStep(
         command=[
             "/bin/sh",
             "-c",
-            "rm -f ../python3-qtpyvcp_*.deb ../python3-qtpyvcp_*.changes ../python3-qtpyvcp_*.buildinfo",
+            "rm -f ../python3-qtpyvcp_*.deb ../qtpyvcp_*.changes ../qtpyvcp_*.buildinfo",
         ],
         workdir="sources/",
         doStepIf=lambda step: step.getProperty("clean_after_upload", True),
