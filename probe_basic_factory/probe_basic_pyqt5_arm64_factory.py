@@ -77,6 +77,22 @@ factory_probe_basic_pyqt5_arm64.addStep(steps.MasterShellCommand(
     command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_bookworm.sh"],
     workdir="/home/buildbot/debian/apt"))
 
+# clean up build artifacts (optional, controlled by clean_after_upload property)
+# Removes .deb, .changes, .buildinfo files left by dpkg-buildpackage after they've been uploaded.
+# Set clean_after_upload=False on the builder to skip cleanup.
+factory_probe_basic_pyqt5_arm64.addStep(
+    steps.ShellCommand(
+        name="clean build artifacts",
+        command=[
+            "/bin/sh",
+            "-c",
+            "rm -f ../python3-probe-basic_*.deb ../probe-basic_*.changes ../probe-basic_*.buildinfo",
+        ],
+        workdir="sources/",
+        doStepIf=lambda step: step.getProperty("clean_after_upload", True),
+        haltOnFailure=False,
+    )
+)
 
 
 # factory_probe_basic_pi4.addStep(steps.GitHub(name="downlaod static docs",

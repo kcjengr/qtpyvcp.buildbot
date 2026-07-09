@@ -107,6 +107,22 @@ factory_tnc_pyqt5_arm64_dev.addStep(steps.MasterShellCommand(
     command=["sh", "/home/buildbot/buildbot/master/scripts/do_apt_bookworm_dev.sh"],
     workdir="/home/buildbot/debian/apt"))
 
+# clean up build artifacts (optional, controlled by clean_after_upload property)
+# Removes .deb, .changes, .buildinfo files left by dpkg-buildpackage after they've been uploaded.
+# Set clean_after_upload=False on the builder to skip cleanup.
+factory_tnc_pyqt5_arm64_dev.addStep(
+    steps.ShellCommand(
+        name="clean build artifacts",
+        command=[
+            "/bin/sh",
+            "-c",
+            "rm -f ../python3-turbonc_*.deb ../turbonc_*.changes ../turbonc_*.buildinfo",
+        ],
+        workdir="sources/",
+        doStepIf=lambda step: step.getProperty("clean_after_upload", True),
+        haltOnFailure=False,
+    )
+)
 
 
 # # delete docs directory
