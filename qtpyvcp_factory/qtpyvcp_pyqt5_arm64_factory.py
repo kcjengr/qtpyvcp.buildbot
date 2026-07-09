@@ -128,3 +128,20 @@ factory_qtpyvcp_pyqt5_arm64.addStep(
         workdir="/home/buildbot/debian/apt",
     )
 )
+
+# clean up build artifacts (optional, controlled by clean_after_upload property)
+# Removes .deb, .changes, .buildinfo files left by dpkg-buildpackage after they've been uploaded.
+# Set clean_after_upload=False on the builder to skip cleanup.
+factory_qtpyvcp_pyqt5_arm64.addStep(
+    steps.ShellCommand(
+        name="clean build artifacts",
+        command=[
+            "/bin/sh",
+            "-c",
+            "rm -f ../python3-qtpyvcp_*.deb ../qtpyvcp_*.changes ../qtpyvcp_*.buildinfo",
+                    ],
+        workdir="sources/",
+        doStepIf=lambda step: step.getProperty("clean_after_upload", True),
+        haltOnFailure=False,
+    )
+)
