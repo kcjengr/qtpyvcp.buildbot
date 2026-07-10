@@ -84,7 +84,7 @@ factory_tnc_pyqt5_arm64_dev.addStep(steps.ShellCommand(
         'DEB_BUILD_OPTIONS': "nocheck",
         'PYTHONPATH': "/home/bb/.venv"
     },
-    command=["debuild", "-b", "-uc", "-us"],
+    command=["dpkg-buildpackage", "-b", "-uc"],
     workdir="sources/"))
 
 # upload files to http server
@@ -116,7 +116,7 @@ factory_tnc_pyqt5_arm64_dev.addStep(
         command=[
             "/bin/sh",
             "-c",
-            "rm -f ../python3-turbonc_*.deb ../turbonc_*.changes ../turbonc_*.buildinfo",
+            "rm -f ../python3-turbonc_*.deb ../turbonc_*.changes ../turbonc_*.buildinfo"
         ],
         workdir="sources/",
         doStepIf=lambda step: step.getProperty("clean_after_upload", True),
